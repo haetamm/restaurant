@@ -47,6 +47,12 @@ const password = z
   .max(8, 'Password maksimal 8 karakter')
   .regex(/^[a-zA-Z0-9]+$/, 'Password hanya boleh berisi huruf dan angka');
 
+const passwordConfirmation = z
+  .string()
+  .trim()
+  .min(4, 'Minimum 4 characters')
+  .max(8, 'Maximum 8 characters');
+
 export const registerSchema = z.object({
   name,
   phone,
@@ -56,3 +62,21 @@ export const registerSchema = z.object({
 });
 
 export type RegisterFormType = z.infer<typeof registerSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email,
+});
+
+export type ForgotPasswordFormType = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+  .object({
+    password,
+    passwordConfirmation,
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "Passwords don't match",
+    path: ['passwordConfirmation'],
+  });
+
+export type ResetPasswordFormType = z.infer<typeof resetPasswordSchema>;

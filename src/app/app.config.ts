@@ -21,16 +21,16 @@ export const appConfig: ApplicationConfig = {
       style: {
         padding: '16px',
         color: '#fff',
-        background: 'rgb(34, 197, 94)', // Tailwind bg-green-500
+        background: '#00aaff',
         opacity: '5',
-        border: '1px solid rgb(22, 163, 74)', // Tailwind border-green-600
+        border: '1px solid #00aaff',
       },
       error: {
         style: {
           color: 'white',
           opacity: '5',
-          background: 'rgb(239, 68, 68)', // Tailwind bg-red-500
-          border: '1px solid rgb(220, 38, 38)', // Tailwind border-red-600
+          background: 'rgb(239, 68, 68)',
+          border: '1px solid rgb(220, 38, 38)',
         },
       },
     }),

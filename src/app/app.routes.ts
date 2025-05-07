@@ -3,8 +3,40 @@ import { GuestLayoutComponent } from './layouts/guest-layout/guest-layout.compon
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { NotfoundPageComponent } from './pages/notfound-page/notfound-page.component';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
+import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
+import { ActivationPageComponent } from './pages/activation-page/activation-page.component';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        path: 'home',
+        component: HomePageComponent,
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordPageComponent,
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordPageComponent,
+      },
+      {
+        path: 'confirm',
+        component: ActivationPageComponent,
+      },
+    ],
+  },
   {
     path: 'guest',
     component: GuestLayoutComponent,

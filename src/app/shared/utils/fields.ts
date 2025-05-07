@@ -61,3 +61,25 @@ export const registerFields: Array<{
     label: 'Password',
   },
 ];
+
+export interface ResetPasswordFormControls {
+  password: FormControl<string | null>;
+  passwordConfirmation: FormControl<string | null>;
+}
+
+export const resetPasswordFields: Array<{
+  name: keyof ResetPasswordFormControls;
+  type: string;
+  label: string;
+}> = [
+  {
+    name: 'password',
+    type: 'password',
+    label: 'New Password',
+  },
+  {
+    name: 'passwordConfirmation',
+    type: 'password',
+    label: 'Password Confirmation',
+  },
+];

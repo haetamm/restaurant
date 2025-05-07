@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 import { createAxiosInstance } from './axios-config';
 
 const axiosInstance = createAxiosInstance();
-console.log('authApi initialized, axiosInstance:', axiosInstance);
 
 export const authApi = {
   putAccessToken: (token: string) => {
@@ -69,6 +68,49 @@ export const authApi = {
         username,
         password,
       });
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      authApi.errorHandle(error);
+    }
+  },
+
+  forgotPassword: async ({ email }: { email: string }) => {
+    try {
+      const response = await axiosInstance.post('/auth/forgot-password', {
+        email,
+      });
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      authApi.errorHandle(error);
+    }
+  },
+
+  resetPassword: async ({
+    password,
+    token,
+  }: {
+    password: string;
+    token: string;
+  }) => {
+    try {
+      const response = await axiosInstance.post(
+        `/auth/reset-password?token=${token}`,
+        {
+          password,
+        },
+      );
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      authApi.errorHandle(error);
+    }
+  },
+
+  activation: async ({ token }: { token: string }) => {
+    try {
+      const response = await axiosInstance.get(`/auth/confirm?token=${token}`);
       const { data } = response.data;
       return data;
     } catch (error: any) {

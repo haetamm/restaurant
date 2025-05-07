@@ -1,0 +1,134 @@
+// Colors
+$greenSeaweed: rgba(2, 128, 144, 1);
+$blueQueen: rgba(69, 105, 144, 1);
+$redFire: rgba(244, 91, 105, 1);
+
+// Fonts
+$fontAsap: "Asap", sans-serif;
+
+.forgot-password {
+  overflow: hidden;
+  background-color: white;
+  padding: 40px 30px 30px 30px;
+  border-radius: 10px;
+  width: 300px; // Default untuk layar kecil
+  position: absolute; // Posisi absolut untuk tengah layar
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); // Pusatkan secara vertikal dan horizontal
+  box-sizing: border-box; // Pastikan padding tidak menambah lebar
+
+  > input {
+    font-family: $fontAsap;
+    display: block;
+    border-radius: 5px;
+    font-size: 16px;
+    background: white;
+    width: 100%;
+    border: 0;
+    padding: 10px 10px;
+    margin: 15px -10px;
+    border: 1px solid black;
+
+    &:focus {
+      outline: none;
+      border-color: blue;
+    }
+  }
+
+  > button {
+    font-family: $fontAsap;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+    width: 100%;
+    border: 0;
+    padding: 10px 0;
+    margin-top: 10px;
+    margin-left: -10px;
+    border-radius: 5px;
+    background-color: $redFire;
+    transition: background-color 300ms;
+
+    &:hover {
+      background-color: darken($redFire, 5%);
+    }
+
+    &:disabled {
+      background-color: rgb(240, 143, 126);
+      cursor: not-allowed;
+    }
+  }
+
+  @media (min-width: 330px) {
+    width: 350px;
+  }
+
+  // Styling penuh untuk layar >= 500px
+  @media (min-width: 500px) {
+    width: 500px; // Lebar penuh
+    transition:
+      transform 300ms,
+      box-shadow 300ms;
+    box-shadow: 5px 10px 10px rgba($greenSeaweed, 0.2);
+
+    input {
+      border: none;
+
+      &:focus {
+        outline: none;
+        border: 1px solid blue;
+      }
+    }
+
+    button {
+      width: 150px;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-top-left-radius: 40%;
+      border-top-right-radius: 45%;
+      border-bottom-left-radius: 35%;
+      border-bottom-right-radius: 40%;
+      z-index: -1;
+    }
+
+    &::before {
+      left: 40%;
+      bottom: -130%;
+      background-color: rgba($blueQueen, 0.15);
+      animation: wawes 6s infinite linear;
+    }
+
+    &::after {
+      left: 35%;
+      bottom: -125%;
+      background-color: rgba($greenSeaweed, 0.2);
+      animation: wawes 7s infinite;
+    }
+  }
+}
+
+@keyframes wawes {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+a {
+  text-decoration: none;
+  color: rgba(white, 0.6);
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 12px;
+}
