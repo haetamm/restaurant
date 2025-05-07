@@ -13,11 +13,17 @@ import { resetPasswordSchema } from '../../shared/utils/validation';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
+import { NotfoundPageComponent } from '../notfound-page/notfound-page.component';
 
 @Component({
   selector: 'app-reset-password-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    NotfoundPageComponent,
+  ],
   templateUrl: './reset-password-page.component.html',
   styleUrl: '../../layouts/default-layout/default-layout.component.scss',
 })
@@ -28,6 +34,9 @@ export class ResetPasswordPageComponent implements OnInit {
   });
   state$!: Observable<{ token: string | null; loading: boolean }>;
   resetPasswordFields = resetPasswordFields;
+  token: string | null = null;
+
+  isTokenChecked = false;
 
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
@@ -43,11 +52,17 @@ export class ResetPasswordPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService) {
-      this.state$ = this.authService.getState();
-    } else {
-      this.state$ = of({ token: null, loading: false });
-    }
+    this.route.queryParams.subscribe((params) => {
+      this.token = params['token'] || null;
+
+      if (this.token && this.authService) {
+        this.state$ = this.authService.getState();
+      } else {
+        this.state$ = of({ token: null, loading: false });
+      }
+
+      this.isTokenChecked = true;
+    });
   }
 
   onSubmit() {

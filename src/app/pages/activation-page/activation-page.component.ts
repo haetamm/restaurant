@@ -15,7 +15,7 @@ import { NotfoundPageComponent } from '../notfound-page/notfound-page.component'
 export class ActivationPageComponent implements OnInit {
   state$!: Observable<{ token: string | null; loading: boolean }>;
   token: string | null = null;
-  isTokenChecked = false; // Tambahkan variabel untuk melacak status pengecekan token
+  isTokenChecked = false;
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
 
@@ -23,14 +23,13 @@ export class ActivationPageComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.token = params['token'] || null;
 
-      // Inisialisasi state$ jika token ada
       if (this.token && this.authService) {
         this.state$ = this.authService.getState();
       } else {
         this.state$ = of({ token: null, loading: false });
       }
 
-      this.isTokenChecked = true; // Setelah token diperiksa, ubah status
+      this.isTokenChecked = true;
     });
   }
 
