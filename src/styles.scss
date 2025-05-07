@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@use "@ngxpert/hot-toast/src/styles/styles.scss";
+.custom-class {
+  background-color: blue;
+  color: white;
+  padding: 1rem;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

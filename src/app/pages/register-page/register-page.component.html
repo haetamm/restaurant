@@ -1,0 +1,67 @@
+<div class="w-full h-screen">
+  <h1 class="text-xl md:text-2xl font-bold leading-tight pt-10 md:pt-20">
+    Buat Akun Anda
+  </h1>
+
+  <form
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()"
+    class="mt-6 w-[290px] xl:w-[310px]"
+    novalidate
+  >
+    <div
+      *ngFor="let field of registerFields; let i = index"
+      [ngClass]="{ 'mt-4': i > 0 }"
+    >
+      <label class="block text-gray-700">{{ field.label }}</label>
+      <input
+        [type]="field.type"
+        [formControlName]="field.name"
+        [placeholder]="field.label"
+        class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+      />
+      <div
+        *ngIf="
+          registerForm.controls[field.name].touched &&
+          registerForm.controls[field.name].invalid
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        {{ registerForm.controls[field.name].getError("zod") }}
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="(state$ | async)?.loading || registerForm.invalid"
+      class="w-full block cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed bg-blue-500 hover:bg-blue-800 focus:bg-blue-400 text-white font-semibold rounded-lg px-4 py-3 mt-6"
+    >
+      {{ (state$ | async)?.loading ? "Loading..." : "Register" }}
+    </button>
+  </form>
+
+  <hr class="my-6 border-gray-300 w-full" />
+
+  <button
+    type="submit"
+    class="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300"
+  >
+    <div class="flex items-center justify-center">
+      <ng-icon name="bootstrapGoogle" />
+      <span class="ml-4">Masuk dengan Google</span>
+    </div>
+  </button>
+
+  <p class="mt-8">
+    Sudah punya akun?
+    <a
+      [routerLink]="urlPage.LOGIN"
+      class="text-blue-500 hover:text-blue-700 font-semibold"
+      >Login</a
+    >
+  </p>
+
+  <p class="text-sm text-gray-500 mt-12">
+    © 2020 Abstract UI - Hak Cipta Dilindungi.
+  </p>
+</div>
