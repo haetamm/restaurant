@@ -32,7 +32,7 @@ export class ResetPasswordPageComponent implements OnInit {
     password: new FormControl<string>('', [Validators.required]),
     passwordConfirmation: new FormControl<string>('', [Validators.required]),
   });
-  state$!: Observable<{ token: string | null; loading: boolean }>;
+  state$!: Observable<{ loading: boolean }>;
   resetPasswordFields = resetPasswordFields;
   token: string | null = null;
 

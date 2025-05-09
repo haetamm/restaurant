@@ -31,10 +31,7 @@ export class LoginPageComponent {
   });
   urlPage = urlPage;
   loginFields = loginFields;
-  state$: Observable<{
-    token: string | null;
-    loading: boolean;
-  }>;
+  state$: Observable<{ loading: boolean }>;
 
   constructor(private authService: AuthService) {
     this.state$ = this.authService.getState();

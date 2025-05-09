@@ -24,7 +24,7 @@ export class ForgotPasswordPageComponent implements OnInit {
   forgotPasswordForm = new FormGroup({
     email: new FormControl<string>('', [Validators.required]),
   });
-  state$!: Observable<{ token: string | null; loading: boolean }>;
+  state$!: Observable<{ loading: boolean }>;
 
   private authService = inject(AuthService);
 

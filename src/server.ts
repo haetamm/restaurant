@@ -5,6 +5,7 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -14,21 +15,10 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+// parse cookie
+app.use(cookieParser());
 
-/**
- * Serve static files from /browser
- */
+// Serve static files dari /browser
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -37,10 +27,18 @@ app.use(
   }),
 );
 
-/**
- * Handle all other requests by rendering the Angular application.
- */
+// Handle semua rute
 app.use('/**', (req, res, next) => {
+  const token = req.cookies['token'];
+  const url = req.originalUrl;
+
+  // jika terdapat token dan akses rute /guest, redirect ke /home
+  if (token && url.startsWith('/guest')) {
+    res.redirect(301, '/home');
+    return;
+  }
+
+  // Lanjutkan rendering Angular SSR
   angularApp
     .handle(req)
     .then((response) =>
@@ -49,10 +47,6 @@ app.use('/**', (req, res, next) => {
     .catch(next);
 });
 
-/**
- * Start the server if this module is the main entry point.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, () => {
@@ -60,7 +54,5 @@ if (isMainModule(import.meta.url)) {
   });
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
+// Request handler buat Angular CLI atau Firebase Cloud Functions
 export const reqHandler = createNodeRequestHandler(app);

@@ -10,14 +10,14 @@ npm install
 
 run the development server:
 
-````bash
+```bash
 npm run start
-
+```
 
 run the mode production server:
 
 ```bash
 npm run build
-````
+```
 
 Open [http://localhost:4200](http://localhost:4200/guest/login) with your browser to see the result.

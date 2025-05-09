@@ -13,7 +13,7 @@ import { NotfoundPageComponent } from '../notfound-page/notfound-page.component'
   styleUrl: './activation-page.component.scss',
 })
 export class ActivationPageComponent implements OnInit {
-  state$!: Observable<{ token: string | null; loading: boolean }>;
+  state$!: Observable<{ loading: boolean }>;
   token: string | null = null;
   isTokenChecked = false;
   private authService = inject(AuthService);

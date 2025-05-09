@@ -11,9 +11,10 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
 import { urlPage } from '../utils/constans';
 import { FormGroup } from '@angular/forms';
+import { ProfileService } from './profile.service';
 
+// Define the AuthState interface without token
 interface AuthState {
-  token: string | null;
   loading: boolean;
 }
 
@@ -21,116 +22,105 @@ interface AuthState {
   providedIn: 'root',
 })
 export class AuthService {
-  private state = new BehaviorSubject<AuthState>({
-    token: authApi.getAccessToken() || null,
-    loading: false,
-  });
-  state$ = this.state.asObservable();
-  private router = inject(Router);
+  // Initialize state with default values
+  private state = new BehaviorSubject<AuthState>({ loading: false });
+  state$: Observable<AuthState> = this.state.asObservable();
 
-  constructor(private toastService: HotToastService) {
-    if (!toastService) {
-      console.error('HotToastService is not injected');
+  // Use dependency injection with proper typing
+  private readonly router = inject(Router);
+  private readonly toastService = inject(HotToastService);
+  private readonly profileService = inject(ProfileService);
+
+  async register(data: RegisterFormType): Promise<void> {
+    this.updateState({ loading: true });
+    try {
+      const message = await authApi.register(data);
+      this.toastService.success(message);
+      await this.router.navigate([urlPage.LOGIN]);
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Registration failed');
+    } finally {
+      this.updateState({ loading: false });
     }
   }
 
-  register(data: RegisterFormType): void {
-    this.state.next({ ...this.state.getValue(), loading: true });
-    authApi
-      .register(data)
-      .then((data) => {
-        this.toastService.success(data);
-        this.state.next({ ...this.state.getValue(), loading: false });
-        this.router.navigate([urlPage.LOGIN]);
-      })
-      .catch((error) => {
-        this.toastService.error(error.message);
-        this.state.next({
-          ...this.state.getValue(),
-          loading: false,
-        });
-      });
-  }
-
-  login(data: LoginFormType): void {
-    this.state.next({ ...this.state.getValue(), loading: true });
-    authApi
-      .login(data)
-      .then((token) => {
-        authApi.putAccessToken(token);
-        this.state.next({ token, loading: false });
-        this.toastService.success(`selamat datang ${data.username}`);
-        this.router.navigate([urlPage.HOME]);
-      })
-      .catch((error) => {
-        this.toastService.error(error.message);
-        this.state.next({
-          ...this.state.getValue(),
-          loading: false,
-        });
-      });
+  async login(data: LoginFormType): Promise<void> {
+    this.updateState({ loading: true });
+    try {
+      const token = await authApi.login(data);
+      authApi.putAccessToken(token);
+      this.toastService.success(`Welcome, ${data.username}!`);
+      await this.profileService.setProfile();
+      await this.router.navigate([urlPage.HOME]);
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Login failed');
+    } finally {
+      this.updateState({ loading: false });
+    }
   }
 
   logout(): void {
     authApi.removeAccessToken();
-    this.state.next({ token: null, loading: false });
+    this.updateState({ loading: false });
+    this.router.navigate([urlPage.LOGIN]);
   }
 
   getState(): Observable<AuthState> {
     return this.state$;
   }
 
-  forgotPassword(data: ForgotPasswordFormType, form: FormGroup): void {
-    this.state.next({ ...this.state.getValue(), loading: true });
-    authApi
-      .forgotPassword(data)
-      .then((data) => {
-        this.toastService.success(data);
-        this.state.next({ ...this.state.getValue(), loading: false });
-        form.reset();
-      })
-      .catch((error) => {
-        this.toastService.error(error.message);
-        this.state.next({
-          ...this.state.getValue(),
-          loading: false,
-        });
-      });
+  async forgotPassword(
+    data: ForgotPasswordFormType,
+    form: FormGroup,
+  ): Promise<void> {
+    this.updateState({ loading: true });
+    try {
+      const message = await authApi.forgotPassword(data);
+      this.toastService.success(message);
+      form.reset();
+    } catch (error: any) {
+      this.toastService.error(
+        error.message || 'Forgot password request failed',
+      );
+    } finally {
+      this.updateState({ loading: false });
+    }
   }
 
-  resetPassword(data: ResetPasswordFormType, token: string): void {
-    this.state.next({ ...this.state.getValue(), loading: true });
-    authApi
-      .resetPassword({ password: data.password, token })
-      .then((data) => {
-        this.toastService.success(data);
-        this.state.next({ ...this.state.getValue(), loading: false });
-        this.router.navigate([urlPage.LOGIN]);
-      })
-      .catch((error) => {
-        this.toastService.error(error.message);
-        this.state.next({
-          ...this.state.getValue(),
-          loading: false,
-        });
+  async resetPassword(
+    data: ResetPasswordFormType,
+    token: string,
+  ): Promise<void> {
+    this.updateState({ loading: true });
+    try {
+      const message = await authApi.resetPassword({
+        password: data.password,
+        token,
       });
+      this.toastService.success(message);
+      await this.router.navigate([urlPage.LOGIN]);
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Password reset failed');
+    } finally {
+      this.updateState({ loading: false });
+    }
   }
 
-  activation(token: string): void {
-    this.state.next({ ...this.state.getValue(), loading: true });
-    authApi
-      .activation({ token })
-      .then((data) => {
-        this.toastService.success(data);
-        this.state.next({ ...this.state.getValue(), loading: false });
-        this.router.navigate([urlPage.LOGIN]);
-      })
-      .catch((error) => {
-        this.toastService.error(error.message);
-        this.state.next({
-          ...this.state.getValue(),
-          loading: false,
-        });
-      });
+  async activation(token: string): Promise<void> {
+    this.updateState({ loading: true });
+    try {
+      const message = await authApi.activation({ token });
+      this.toastService.success(message);
+      await this.router.navigate([urlPage.LOGIN]);
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Account activation failed');
+    } finally {
+      this.updateState({ loading: false });
+    }
+  }
+
+  // Helper method to update state
+  private updateState(newState: Partial<AuthState>): void {
+    this.state.next({ ...this.state.value, ...newState });
   }
 }

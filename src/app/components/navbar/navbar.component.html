@@ -1,0 +1,32 @@
+<div class="w-full flex justify-center fixed">
+  <div
+    class="w-full max-w-[1440px] h-[56px] bg-white flex justify-between items-center px-2 lg:px-6 xl:py-1 shadow-lg 2xl:shadow-none"
+  >
+    <a [routerLink]="urlPage.HOME">
+      <ng-icon name="bootstrapAlexa" class="w-10 h-10" />
+    </a>
+
+    <div class="flex items-center space-x-6">
+      <ng-container *ngIf="state$ | async as state">
+        <ng-container *ngIf="state.profile; else guestLinks">
+          <a
+            [routerLink]="urlPage.FORGOT_PASSWORD"
+            class="font-semibold text-blue-700"
+          >
+            {{ state.profile.username }}
+          </a>
+        </ng-container>
+
+        <ng-template #guestLinks>
+          <a [routerLink]="urlPage.REGISTER">Register</a>
+          <a
+            [routerLink]="urlPage.LOGIN"
+            class="bg-blue-600 px-6 py-1 rounded-md text-white"
+          >
+            Login
+          </a>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -35,7 +35,7 @@ export class RegisterPageComponent implements OnInit {
   });
   registerFields = registerFields;
   urlPage = urlPage;
-  state$!: Observable<{ token: string | null; loading: boolean }>;
+  state$!: Observable<{ loading: boolean }>;
 
   private authService = inject(AuthService);
 

@@ -8,6 +8,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
 import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
 import { ActivationPageComponent } from './pages/activation-page/activation-page.component';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
   {
     path: 'guest',
     component: GuestLayoutComponent,
+    canActivate: [guestGuard],
     children: [
       {
         path: '',

@@ -1,33 +1,10 @@
 import Cookies from 'js-cookie';
 import { createAxiosInstance } from './axios-config';
+import { errorHandle } from '../utils/helper';
 
 const axiosInstance = createAxiosInstance();
 
 export const authApi = {
-  putAccessToken: (token: string) => {
-    Cookies.set('token', token, { expires: 7 });
-  },
-
-  removeAccessToken: () => {
-    Cookies.remove('token');
-  },
-
-  getAccessToken: () => {
-    const token = Cookies.get('token');
-    return token;
-  },
-
-  errorHandle: (error: any) => {
-    const errorMessage = error.response?.data?.message;
-    if (Array.isArray(errorMessage)) {
-      const messages = errorMessage.map((e) => e.message).filter(Boolean);
-      throw new Error(
-        messages.length > 0 ? messages.join('\n') : 'Validation error',
-      );
-    }
-    throw new Error(errorMessage || error.message || 'Unknown error');
-  },
-
   login: async ({
     username,
     password,
@@ -43,7 +20,7 @@ export const authApi = {
       const { data } = response.data;
       return data.token;
     } catch (error: any) {
-      authApi.errorHandle(error);
+      errorHandle(error);
     }
   },
 
@@ -71,7 +48,7 @@ export const authApi = {
       const { data } = response.data;
       return data;
     } catch (error: any) {
-      authApi.errorHandle(error);
+      errorHandle(error);
     }
   },
 
@@ -83,7 +60,7 @@ export const authApi = {
       const { data } = response.data;
       return data;
     } catch (error: any) {
-      authApi.errorHandle(error);
+      errorHandle(error);
     }
   },
 
@@ -104,7 +81,7 @@ export const authApi = {
       const { data } = response.data;
       return data;
     } catch (error: any) {
-      authApi.errorHandle(error);
+      errorHandle(error);
     }
   },
 
@@ -114,7 +91,20 @@ export const authApi = {
       const { data } = response.data;
       return data;
     } catch (error: any) {
-      authApi.errorHandle(error);
+      errorHandle(error);
     }
+  },
+
+  putAccessToken: (token: string) => {
+    Cookies.set('token', token, { expires: 7 });
+  },
+
+  removeAccessToken: () => {
+    Cookies.remove('token');
+  },
+
+  getAccessToken: () => {
+    const token = Cookies.get('token');
+    return token;
   },
 };
