@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { forgotPasswordSchema } from '../../shared/utils/validation';
 import { AuthService } from '../../shared/services/auth.service';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-forgot-password-page',
@@ -24,7 +25,10 @@ export class ForgotPasswordPageComponent {
     email: new FormControl<string>('', [Validators.required]),
   });
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private seoService: SeoService,
+  ) {
     setupZodValidation(
       this.forgotPasswordForm.controls as unknown as Record<
         string,
@@ -32,6 +36,16 @@ export class ForgotPasswordPageComponent {
       >,
       forgotPasswordSchema,
     );
+  }
+
+  ngOnInit(): void {
+    this.seoService.setMetaTags({
+      title: 'Forgot Password | Restaurant',
+      description: 'Explore our awesome app!',
+      url: 'https://your-app.com/guest/forgot-password',
+      keywords: 'forgot password, app, angular',
+      image: 'https://your-app.com/assets/default-image.jpg',
+    });
   }
 
   get isLoading(): boolean {

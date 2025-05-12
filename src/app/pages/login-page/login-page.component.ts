@@ -15,6 +15,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { loginFields, LoginFormControls } from '../../shared/utils/fields';
 import { loginSchema } from '../../shared/utils/validation';
 import { urlPage } from '../../shared/utils/constans';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-login-page',
@@ -30,11 +31,24 @@ export class LoginPageComponent {
   urlPage = urlPage;
   loginFields = loginFields;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private seoService: SeoService,
+  ) {
     setupZodValidation(
       this.loginForm.controls as unknown as Record<string, AbstractControl>,
       loginSchema,
     );
+  }
+
+  ngOnInit(): void {
+    this.seoService.setMetaTags({
+      title: 'Login | Restaurant',
+      description: 'Explore our awesome app!',
+      url: 'https://your-app.com/guest/login',
+      keywords: 'login, app, angular',
+      image: 'https://your-app.com/assets/default-image.jpg',
+    });
   }
 
   get isLoading(): boolean {

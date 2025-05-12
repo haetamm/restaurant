@@ -59,7 +59,6 @@ export class ResetPasswordPageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Form submitted, token:', this.token); // Debugging
     if (this.resetPasswordForm.invalid) {
       this.resetPasswordForm.markAllAsTouched();
       return;
@@ -67,7 +66,6 @@ export class ResetPasswordPageComponent implements OnInit {
 
     const result = resetPasswordSchema.safeParse(this.resetPasswordForm.value);
     if (!result.success) {
-      console.log('Zod validation failed:', result.error); // Debugging
       return;
     }
 

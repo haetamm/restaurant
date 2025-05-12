@@ -15,6 +15,7 @@ import { registerSchema } from '../../shared/utils/validation';
 import { AuthService } from '../../shared/services/auth.service';
 import { registerFields } from '../../shared/utils/fields';
 import { urlPage } from '../../shared/utils/constans';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-register-page',
@@ -34,11 +35,24 @@ export class RegisterPageComponent {
   registerFields = registerFields;
   urlPage = urlPage;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private seoService: SeoService,
+  ) {
     setupZodValidation(
       this.registerForm.controls as unknown as Record<string, AbstractControl>,
       registerSchema,
     );
+  }
+
+  ngOnInit(): void {
+    this.seoService.setMetaTags({
+      title: 'Register | Restaurant',
+      description: 'Explore our awesome app!',
+      url: 'https://your-app.com/guest/register',
+      keywords: 'regiser, app, angular',
+      image: 'https://your-app.com/assets/default-image.jpg',
+    });
   }
 
   get isLoading(): boolean {
