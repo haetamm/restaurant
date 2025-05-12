@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { take } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { NotfoundPageComponent } from '../notfound-page/notfound-page.component';
 
@@ -13,24 +13,18 @@ import { NotfoundPageComponent } from '../notfound-page/notfound-page.component'
   styleUrl: './activation-page.component.scss',
 })
 export class ActivationPageComponent implements OnInit {
-  state$!: Observable<{ loading: boolean }>;
   token: string | null = null;
-  isTokenChecked = false;
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.token = params['token'] || null;
-
-      if (this.token && this.authService) {
-        this.state$ = this.authService.getState();
-      } else {
-        this.state$ = of({ token: null, loading: false });
-      }
-
-      this.isTokenChecked = true;
     });
+  }
+
+  get isLoading(): boolean {
+    return this.authService.getLoading();
   }
 
   onSubmit() {

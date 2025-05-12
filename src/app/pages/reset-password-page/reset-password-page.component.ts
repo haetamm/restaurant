@@ -1,4 +1,3 @@
-import { resetPasswordFields } from './../../shared/utils/fields';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -10,10 +9,11 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { resetPasswordSchema } from '../../shared/utils/validation';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
 import { NotfoundPageComponent } from '../notfound-page/notfound-page.component';
+import { resetPasswordFields } from '../../shared/utils/fields';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reset-password-page',
@@ -32,11 +32,8 @@ export class ResetPasswordPageComponent implements OnInit {
     password: new FormControl<string>('', [Validators.required]),
     passwordConfirmation: new FormControl<string>('', [Validators.required]),
   });
-  state$!: Observable<{ loading: boolean }>;
   resetPasswordFields = resetPasswordFields;
   token: string | null = null;
-
-  isTokenChecked = false;
 
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
@@ -52,32 +49,31 @@ export class ResetPasswordPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.token = params['token'] || null;
-
-      if (this.token && this.authService) {
-        this.state$ = this.authService.getState();
-      } else {
-        this.state$ = of({ token: null, loading: false });
-      }
-
-      this.isTokenChecked = true;
     });
   }
 
-  onSubmit() {
+  get isLoading(): boolean {
+    return this.authService.getLoading();
+  }
+
+  onSubmit(): void {
+    console.log('Form submitted, token:', this.token); // Debugging
     if (this.resetPasswordForm.invalid) {
       this.resetPasswordForm.markAllAsTouched();
       return;
     }
 
     const result = resetPasswordSchema.safeParse(this.resetPasswordForm.value);
-    if (!result.success) return;
+    if (!result.success) {
+      console.log('Zod validation failed:', result.error); // Debugging
+      return;
+    }
 
-    this.route.queryParams.subscribe((params) => {
-      const token = params['token'] || null;
-
+    const token = this.token;
+    if (token) {
       this.authService.resetPassword(result.data, token);
-    });
+    }
   }
 }

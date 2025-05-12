@@ -5,7 +5,6 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -15,10 +14,6 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-// parse cookie
-app.use(cookieParser());
-
-// Serve static files dari /browser
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -27,18 +22,7 @@ app.use(
   }),
 );
 
-// Handle semua rute
 app.use('/**', (req, res, next) => {
-  const token = req.cookies['token'];
-  const url = req.originalUrl;
-
-  // jika terdapat token dan akses rute /guest, redirect ke /home
-  if (token && url.startsWith('/guest')) {
-    res.redirect(301, '/home');
-    return;
-  }
-
-  // Lanjutkan rendering Angular SSR
   angularApp
     .handle(req)
     .then((response) =>

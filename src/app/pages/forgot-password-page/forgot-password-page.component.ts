@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { forgotPasswordSchema } from '../../shared/utils/validation';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
 
@@ -20,15 +19,12 @@ import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
   templateUrl: './forgot-password-page.component.html',
   styleUrl: '../../layouts/default-layout/default-layout.component.scss',
 })
-export class ForgotPasswordPageComponent implements OnInit {
+export class ForgotPasswordPageComponent {
   forgotPasswordForm = new FormGroup({
     email: new FormControl<string>('', [Validators.required]),
   });
-  state$!: Observable<{ loading: boolean }>;
 
-  private authService = inject(AuthService);
-
-  constructor() {
+  constructor(private authService: AuthService) {
     setupZodValidation(
       this.forgotPasswordForm.controls as unknown as Record<
         string,
@@ -38,15 +34,11 @@ export class ForgotPasswordPageComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    if (this.authService) {
-      this.state$ = this.authService.getState();
-    } else {
-      this.state$ = of({ token: null, loading: false });
-    }
+  get isLoading(): boolean {
+    return this.authService.getLoading();
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     if (this.forgotPasswordForm.invalid) {
       this.forgotPasswordForm.markAllAsTouched();
       return;
@@ -57,6 +49,6 @@ export class ForgotPasswordPageComponent implements OnInit {
     );
     if (!result.success) return;
 
-    this.authService.forgotPassword(result.data, this.forgotPasswordForm);
+    await this.authService.forgotPassword(result.data, this.forgotPasswordForm);
   }
 }

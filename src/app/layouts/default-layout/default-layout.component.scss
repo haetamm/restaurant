@@ -67,6 +67,7 @@ $fontAsap: "Asap", sans-serif;
 
   // Styling penuh untuk layar >= 500px
   @media (min-width: 500px) {
+    margin-top: 20px;
     width: 500px; // Lebar penuh
     transition:
       transform 300ms,
@@ -112,6 +113,10 @@ $fontAsap: "Asap", sans-serif;
       background-color: rgba($greenSeaweed, 0.2);
       animation: wawes 7s infinite;
     }
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 0px;
   }
 }
 

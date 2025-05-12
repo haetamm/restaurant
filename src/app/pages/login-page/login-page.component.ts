@@ -15,13 +15,11 @@ import { AuthService } from '../../shared/services/auth.service';
 import { loginFields, LoginFormControls } from '../../shared/utils/fields';
 import { loginSchema } from '../../shared/utils/validation';
 import { urlPage } from '../../shared/utils/constans';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
   imports: [NgIcon, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.scss',
   viewProviders: [provideIcons({ bootstrapGoogle })],
 })
 export class LoginPageComponent {
@@ -31,14 +29,16 @@ export class LoginPageComponent {
   });
   urlPage = urlPage;
   loginFields = loginFields;
-  state$: Observable<{ loading: boolean }>;
 
   constructor(private authService: AuthService) {
-    this.state$ = this.authService.getState();
     setupZodValidation(
       this.loginForm.controls as unknown as Record<string, AbstractControl>,
       loginSchema,
     );
+  }
+
+  get isLoading(): boolean {
+    return this.authService.getLoading();
   }
 
   onSubmit() {
@@ -49,7 +49,6 @@ export class LoginPageComponent {
 
     const result = loginSchema.safeParse(this.loginForm.value);
     if (!result.success) return;
-
     this.authService.login(result.data);
   }
 }

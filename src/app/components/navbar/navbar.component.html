@@ -7,26 +7,28 @@
     </a>
 
     <div class="flex items-center space-x-6">
-      <ng-container *ngIf="state$ | async as state">
-        <ng-container *ngIf="state.profile; else guestLinks">
-          <a
-            [routerLink]="urlPage.FORGOT_PASSWORD"
-            class="font-semibold text-blue-700"
-          >
-            {{ state.profile.username }}
-          </a>
-        </ng-container>
-
-        <ng-template #guestLinks>
-          <a [routerLink]="urlPage.REGISTER">Register</a>
-          <a
-            [routerLink]="urlPage.LOGIN"
-            class="bg-blue-600 px-6 py-1 rounded-md text-white"
-          >
-            Login
-          </a>
-        </ng-template>
-      </ng-container>
+      @if (profile) {
+        <a
+          [routerLink]="urlPage.FORGOT_PASSWORD"
+          class="font-semibold text-blue-700"
+        >
+          {{ profile.username }}
+        </a>
+        <button
+          (click)="handleLogout()"
+          class="bg-blue-600 px-6 py-1 rounded-md text-white cursor-pointer"
+        >
+          Logout
+        </button>
+      } @else {
+        <a [routerLink]="urlPage.REGISTER">Register</a>
+        <a
+          [routerLink]="urlPage.LOGIN"
+          class="bg-blue-600 px-6 py-1 rounded-md text-white"
+        >
+          Login
+        </a>
+      }
     </div>
   </div>
 </div>

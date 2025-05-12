@@ -1,27 +1,18 @@
-<!-- Tampilkan konten hanya setelah token selesai diperiksa -->
-<div *ngIf="isTokenChecked">
-  <div *ngIf="token; else notFound">
-    <div class="container">
-      <div class="content">
-        <img src="/img/happy-birthday.gif" alt="Party Popper" class="icon" />
-        <h1>Welcome to Restaurant!</h1>
-        <p>
-          Hi. A new account has been created for you on
-          <a href="#">Restaurant</a>. Please click the link below to activate
-          your account.
-        </p>
-        <button
-          [disabled]="(state$ | async)?.loading"
-          (click)="onSubmit()"
-          class="btn"
-        >
-          {{ (state$ | async)?.loading ? "Loading..." : "Activate Account" }}
-        </button>
-      </div>
+@if (token) {
+  <div class="container">
+    <div class="content">
+      <img src="/img/happy-birthday.gif" alt="Party Popper" class="icon" />
+      <h1>Welcome to Restaurant!</h1>
+      <p>
+        Hi. A new account has been created for you on
+        <a href="#">Restaurant</a>. Please click the link below to activate your
+        account.
+      </p>
+      <button [disabled]="isLoading" (click)="onSubmit()" class="btn">
+        {{ isLoading ? "Loading..." : "Activate Account" }}
+      </button>
     </div>
   </div>
-
-  <ng-template #notFound>
-    <app-notfound-page></app-notfound-page>
-  </ng-template>
-</div>
+} @else {
+  <app-notfound-page></app-notfound-page>
+}

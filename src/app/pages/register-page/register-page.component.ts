@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapGoogle } from '@ng-icons/bootstrap-icons';
 import { CommonModule } from '@angular/common';
@@ -9,10 +9,9 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
 import { registerSchema } from '../../shared/utils/validation';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { registerFields } from '../../shared/utils/fields';
 import { urlPage } from '../../shared/utils/constans';
@@ -22,10 +21,9 @@ import { urlPage } from '../../shared/utils/constans';
   standalone: true,
   imports: [NgIcon, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './register-page.component.html',
-  styleUrl: './register-page.component.scss',
   viewProviders: [provideIcons({ bootstrapGoogle })],
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent {
   registerForm = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),
     username: new FormControl<string>('', [Validators.required]),
@@ -35,23 +33,16 @@ export class RegisterPageComponent implements OnInit {
   });
   registerFields = registerFields;
   urlPage = urlPage;
-  state$!: Observable<{ loading: boolean }>;
 
-  private authService = inject(AuthService);
-
-  constructor(private router: Router) {
+  constructor(private authService: AuthService) {
     setupZodValidation(
       this.registerForm.controls as unknown as Record<string, AbstractControl>,
       registerSchema,
     );
   }
 
-  ngOnInit() {
-    if (this.authService) {
-      this.state$ = this.authService.getState();
-    } else {
-      this.state$ = of({ token: null, loading: false });
-    }
+  get isLoading(): boolean {
+    return this.authService.getLoading();
   }
 
   onSubmit() {
