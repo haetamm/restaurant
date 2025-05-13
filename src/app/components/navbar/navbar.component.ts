@@ -2,14 +2,14 @@ import { urlPage } from './../../shared/utils/constans';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { bootstrapAlexa } from '@ng-icons/bootstrap-icons';
-import { NgIcon, provideIcons } from '@ng-icons/core';
+import { provideIcons } from '@ng-icons/core';
 import { Profile, ProfileService } from '../../shared/services/profile.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [NgIcon, RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './navbar.component.html',
   viewProviders: [provideIcons({ bootstrapAlexa })],
 })

@@ -1,18 +1,9 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { HotToastService } from '@ngxpert/hot-toast';
 import { authApi } from '../api/auth.api';
-import { TransferState, makeStateKey } from '@angular/core';
-import { isPlatformServer, isPlatformBrowser } from '@angular/common';
-import { UserApi } from '../api/user.api';
-
-export interface ProfileResponse {
-  code: number;
-  status: string;
-  data: Profile;
-  paginationResponse: any | null;
-}
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import { userApi } from '../api/user.api';
 
 export interface Profile {
   email: string;
@@ -21,11 +12,9 @@ export interface Profile {
 }
 
 interface ProfilState {
+  loading: boolean;
   profile: Profile | null;
 }
-
-const PROFILE = makeStateKey<Profile | null>('profile');
-const PROFILE_ERROR = makeStateKey<string | null>('profile_error');
 
 @Injectable({
   providedIn: 'root',
@@ -33,58 +22,39 @@ const PROFILE_ERROR = makeStateKey<string | null>('profile_error');
 export class ProfileService {
   private state = new BehaviorSubject<ProfilState>({
     profile: null,
+    loading: false,
   });
   state$: Observable<ProfilState> = this.state.asObservable();
 
+  loading$: Observable<boolean> = this.state.pipe(
+    map((state) => state.loading),
+  );
+
+  private readonly toastService = inject(HotToastService);
   private readonly cookieService = inject(SsrCookieService);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly transferState = inject(TransferState);
-  private readonly api = authApi(this.cookieService, this.platformId);
-  private readonly userApi = inject(UserApi);
 
-  constructor() {}
+  private readonly apiAuth = authApi(this.cookieService, this.platformId);
+  private readonly apiUser = userApi(this.cookieService, this.platformId);
 
-  fetchProfile(): Observable<Profile | null> {
-    // Check if profile data exists in TransferState
-    if (this.transferState.hasKey(PROFILE)) {
-      const profile = this.transferState.get(PROFILE, null);
-      this.updateState({ profile });
+  getLoading(): boolean {
+    return this.state.value.loading;
+  }
 
-      // Check for server-side error in browser
-      const errorMessage = this.transferState.get(PROFILE_ERROR, null);
-      if (isPlatformBrowser(this.platformId) && errorMessage) {
-        return throwError(() => new Error(errorMessage));
+  async fetchProfile(): Promise<void> {
+    this.updateState({ loading: true });
+    try {
+      const token = this.apiAuth.getAccessToken();
+      if (!token) {
+        this.updateState({ profile: null, loading: false });
+        return;
       }
-      return of(profile);
+      const data = await this.apiUser.getOwnProfile();
+      this.updateState({ profile: data, loading: false });
+    } catch (error: any) {
+      this.updateState({ profile: null, loading: false });
+      this.toastService.error(error.message || 'Failed to load profile');
     }
-
-    // Server-side: Fetch profile and store in TransferState
-    if (isPlatformServer(this.platformId)) {
-      const token = this.api.getAccessToken();
-      if (token) {
-        return this.userApi.getOwnProfile().pipe(
-          tap((profile) => {
-            this.updateState({ profile });
-            this.transferState.set(PROFILE, profile);
-            this.transferState.set(PROFILE_ERROR, null);
-          }),
-          catchError((error) => {
-            console.error('Error fetching profile:', error); // Debugging
-            const errorMessage =
-              error.status === 0
-                ? 'The server is unreachable'
-                : error.message || 'Failed to load profile';
-            this.updateState({ profile: null });
-            this.transferState.set(PROFILE, null);
-            this.transferState.set(PROFILE_ERROR, errorMessage);
-            return throwError(() => new Error(errorMessage));
-          }),
-        );
-      }
-    }
-
-    // Client-side: Return empty observable if not in server
-    return of(null);
   }
 
   getState(): Observable<ProfilState> {

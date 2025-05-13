@@ -1,8 +1,21 @@
 $primary-color: #00aaff;
-$background-color: #f5f7fa;
+$background-color: #f9fafb;
 $text-color: #333;
 $link-color: #00aaff;
 $white: #fff;
+
+.wrap-container {
+  background-color: $background-color;
+  height: 100vh;
+
+  @media (min-width: 500px) {
+    height: calc(100vh + 56px);
+  }
+
+  @media (min-width: 768px) {
+    height: 100vh;
+  }
+}
 
 .container {
   max-width: 600px;
@@ -25,6 +38,14 @@ $white: #fff;
     width: 100px;
     height: 100px;
     margin: 0 auto;
+
+    @media (min-width: 500px) {
+      margin-top: 50px;
+    }
+
+    @media (min-width: 768px) {
+      margin-top: 0px;
+    }
   }
 
   h1 {

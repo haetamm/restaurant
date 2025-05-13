@@ -13,15 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   private profileService = inject(ProfileService);
-  private toastService = inject(HotToastService);
 
   ngOnInit(): void {
-    this.profileService.fetchProfile().subscribe({
-      next: (profile) => {},
-      error: (error) => {
-        console.error('Error in AppComponent:', error); // Debugging
-        this.toastService.error(error.message || 'Gagal memuat profil');
-      },
-    });
+    this.profileService.fetchProfile();
   }
 }

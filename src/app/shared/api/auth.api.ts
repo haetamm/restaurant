@@ -17,7 +17,7 @@ export const authApi = (
       password: string;
     }) => {
       try {
-        const response = await axiosInstance.post('/auth/login', {
+        const response = await axiosInstance.post('/api/auth/login', {
           username,
           password,
         });
@@ -42,7 +42,7 @@ export const authApi = (
       password: string;
     }) => {
       try {
-        const response = await axiosInstance.post('/auth/reg/user', {
+        const response = await axiosInstance.post('/api/auth/register', {
           name,
           phone,
           email,
@@ -58,7 +58,7 @@ export const authApi = (
 
     forgotPassword: async ({ email }: { email: string }) => {
       try {
-        const response = await axiosInstance.post('/auth/forgot-password', {
+        const response = await axiosInstance.post('/api/auth/forgot-password', {
           email,
         });
         const { data } = response.data;
@@ -76,12 +76,10 @@ export const authApi = (
       token: string;
     }) => {
       try {
-        const response = await axiosInstance.post(
-          `/auth/reset-password?token=${token}`,
-          {
-            password,
-          },
-        );
+        const response = await axiosInstance.post('/api/auth/reset-password', {
+          token,
+          password,
+        });
         const { data } = response.data;
         return data;
       } catch (error: any) {
@@ -91,9 +89,9 @@ export const authApi = (
 
     activation: async ({ token }: { token: string }) => {
       try {
-        const response = await axiosInstance.get(
-          `/auth/confirm?token=${token}`,
-        );
+        const response = await axiosInstance.post('/api/auth/confirm', {
+          token,
+        });
         const { data } = response.data;
         return data;
       } catch (error: any) {

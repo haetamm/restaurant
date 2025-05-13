@@ -62,7 +62,7 @@ export class AuthService {
       this.api.putAccessToken(token);
       this.toastService.success(`Welcome, ${data.username}!`);
       this.profileService.fetchProfile();
-      window.location.assign(urlPage.HOME);
+      await this.router.navigate([urlPage.HOME]);
     } catch (error: any) {
       this.toastService.error(error.message || 'Login failed');
     } finally {
@@ -70,7 +70,7 @@ export class AuthService {
     }
   }
 
-  logout(): void {
+  logout() {
     this.api.removeAccessToken();
     this.updateState({ loading: false });
     window.location.assign(urlPage.LOGIN);

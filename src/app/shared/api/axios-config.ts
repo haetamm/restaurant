@@ -1,15 +1,13 @@
 import axios, { AxiosInstance } from 'axios';
 import { isPlatformBrowser } from '@angular/common';
-import { BASE_URL, urlPage } from '../utils/constans';
+import { urlPage } from '../utils/constans';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 export const createAxiosInstance = (
   cookieService: SsrCookieService,
   platformId: Object,
 ): AxiosInstance => {
-  const axiosInstance = axios.create({
-    baseURL: BASE_URL,
-  });
+  const axiosInstance = axios.create();
 
   axiosInstance.interceptors.request.use(
     (config) => {
