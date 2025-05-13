@@ -50,8 +50,8 @@ const password = z
 const passwordConfirmation = z
   .string()
   .trim()
-  .min(4, 'Minimum 4 characters')
-  .max(8, 'Maximum 8 characters');
+  .min(4, 'Password minimal 4 karakter')
+  .max(8, 'Password maksimal 8 karakter');
 
 export const registerSchema = z.object({
   name,

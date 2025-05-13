@@ -14,6 +14,7 @@ import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
 import { NotfoundPageComponent } from '../notfound-page/notfound-page.component';
 import { resetPasswordFields } from '../../shared/utils/fields';
 import { take } from 'rxjs/operators';
+import { AuthFormComponent } from '../../components/auth-form/auth-form.component';
 
 @Component({
   selector: 'app-reset-password-page',
@@ -23,9 +24,9 @@ import { take } from 'rxjs/operators';
     CommonModule,
     RouterModule,
     NotfoundPageComponent,
+    AuthFormComponent,
   ],
   templateUrl: './reset-password-page.component.html',
-  styleUrl: '../../layouts/default-layout/default-layout.component.scss',
 })
 export class ResetPasswordPageComponent implements OnInit {
   resetPasswordForm = new FormGroup({

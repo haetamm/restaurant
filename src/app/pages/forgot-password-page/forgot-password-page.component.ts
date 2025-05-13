@@ -1,3 +1,4 @@
+import { forgotPasswordFields } from './../../shared/utils/fields';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -12,18 +13,19 @@ import { forgotPasswordSchema } from '../../shared/utils/validation';
 import { AuthService } from '../../shared/services/auth.service';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
 import { SeoService } from '../../shared/services/seo.service';
+import { AuthFormComponent } from '../../components/auth-form/auth-form.component';
 
 @Component({
   selector: 'app-forgot-password-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, AuthFormComponent],
   templateUrl: './forgot-password-page.component.html',
-  styleUrl: '../../layouts/default-layout/default-layout.component.scss',
 })
 export class ForgotPasswordPageComponent {
   forgotPasswordForm = new FormGroup({
     email: new FormControl<string>('', [Validators.required]),
   });
+  forgotPasswordFields = forgotPasswordFields;
 
   constructor(
     private authService: AuthService,

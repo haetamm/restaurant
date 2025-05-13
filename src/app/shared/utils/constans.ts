@@ -1,3 +1,5 @@
+import { environment } from '../../../environments/environment';
+
 export const urlPage = {
   HOME: '/home',
   LOGIN: '/guest/login',
@@ -6,3 +8,5 @@ export const urlPage = {
   RESET_PASSWORD: '/reset-password',
   CONFIRM: '/confirm',
 };
+
+export const BASE_URL = environment.baseUrl;

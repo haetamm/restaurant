@@ -1,7 +1,4 @@
 import { Routes } from '@angular/router';
-import { GuestLayoutComponent } from './layouts/guest-layout/guest-layout.component';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
-import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { NotfoundPageComponent } from './pages/notfound-page/notfound-page.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -40,7 +37,10 @@ export const routes: Routes = [
   },
   {
     path: 'guest',
-    component: GuestLayoutComponent,
+    loadComponent: () =>
+      import('./layouts/guest-layout/guest-layout.component').then(
+        (m) => m.GuestLayoutComponent,
+      ),
     canActivate: [guestGuard],
     children: [
       {
@@ -50,11 +50,17 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        component: LoginPageComponent,
+        loadComponent: () =>
+          import('./pages/login-page/login-page.component').then(
+            (m) => m.LoginPageComponent,
+          ),
       },
       {
         path: 'register',
-        component: RegisterPageComponent,
+        loadComponent: () =>
+          import('./pages/register-page/register-page.component').then(
+            (m) => m.RegisterPageComponent,
+          ),
       },
     ],
   },

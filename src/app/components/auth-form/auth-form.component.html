@@ -1,0 +1,67 @@
+<div
+  class="bg-gray-50 flex pt-[55px] xs:items-center justify-center min-h-screen font-roboto w-full px-0 xs:px-6 md:px-12 lg:px-0"
+>
+  <div
+    class="bg-white pt-[40px] px-4 md:px-[36px] pb-[36px] md:rounded-2xl shadow-sm w-full lg:w-[840px] xl:w-[940px]"
+  >
+    <div class="flex justify-start mb-6">
+      <img src="/img/logo.jpg" alt="Logo" class="h-13" />
+    </div>
+
+    <div class="lg:flex justify-between items-start gap-2">
+      <div class="w-full lg:w-1/2 lg:pr-4">
+        <h1 class="text-4xl mb-2">{{ title }}</h1>
+        <p class="text-gray-600 text-[1rem] mt-[16px] leading-tight">
+          {{ description }}
+        </p>
+      </div>
+
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        class="w-full lg:w-1/2 lg:pl-4 mt-10 lg:mt-0"
+      >
+        <div *ngFor="let field of fields" class="mb-4">
+          <div class="relative mb-1">
+            <input
+              [id]="field.name"
+              [type]="field.type"
+              [formControlName]="field.name"
+              placeholder=""
+              required
+              class="peer w-full p-3 h-[54px] border border-gray-300 rounded-md text-[16px] focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <label
+              [for]="field.name"
+              class="absolute left-3 top-3 text-gray-500 text-[16px] transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-[16px] peer-focus:top-[-10px] peer-focus:text-[14px] peer-valid:top-[-10px] peer-valid:text-[14px] peer-focus:text-blue-500 bg-white px-1"
+            >
+              {{ field.label }}
+            </label>
+          </div>
+
+          <small
+            *ngIf="
+              formGroup.controls[field.name].touched &&
+              formGroup.controls[field.name].invalid
+            "
+            class="text-red-500"
+          >
+            {{
+              formGroup.controls[field.name].getError("zod") || "Invalid field"
+            }}
+          </small>
+        </div>
+
+        <div class="flex justify-end items-center mt-6">
+          <button
+            [disabled]="isLoading || formGroup.invalid"
+            class="disabled:bg-blue-400 disabled:cursor-not-allowed bg-blue-600 h-[40px] text-white px-6 py-2 rounded-full text-[0.785rem] font-medium hover:bg-blue-700 cursor-pointer"
+          >
+            {{ isLoading ? "Loading" : buttonLabel }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

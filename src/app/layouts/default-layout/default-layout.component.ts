@@ -6,6 +6,5 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
   selector: 'app-default-layout',
   imports: [RouterOutlet, NavbarComponent],
   templateUrl: './default-layout.component.html',
-  styleUrl: './default-layout.component.scss',
 })
 export class DefaultLayoutComponent {}
