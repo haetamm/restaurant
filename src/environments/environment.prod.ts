@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:8081/api',
+  baseUrl: 'PLACEHOLDER_BASE_URL',
 };
