@@ -3,10 +3,16 @@ import { SeoService } from '../../shared/services/seo.service';
 import { CommonModule } from '@angular/common';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { CategorybarComponent } from '../../components/categorybar/categorybar.component';
+import { ListMenuComponent } from '../../components/list-menu/list-menu.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CommonModule, SearchbarComponent, CategorybarComponent],
+  imports: [
+    CommonModule,
+    SearchbarComponent,
+    CategorybarComponent,
+    ListMenuComponent,
+  ],
   templateUrl: './home-page.component.html',
 })
 export class HomePageComponent {

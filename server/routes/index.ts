@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import authRoutes from './auth.routes';
 import userRoutes from './user.routes';
+import menuRoutes from './menu.routes';
 
 const router = Router();
 
 // Daftarkan grup route dengan prefiks
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
+router.use('/menu', menuRoutes);
 
 // Grup route lain bisa ditambahkan di sini
 // Contoh: router.use('/user', userRoutes);
