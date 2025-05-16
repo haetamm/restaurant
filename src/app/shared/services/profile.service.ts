@@ -2,7 +2,6 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { authApi } from '../api/auth.api';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { userApi } from '../api/user.api';
 
 export interface Profile {
@@ -31,11 +30,6 @@ export class ProfileService {
   );
 
   private readonly toastService = inject(HotToastService);
-  private readonly cookieService = inject(SsrCookieService);
-  private readonly platformId = inject(PLATFORM_ID);
-
-  private readonly apiAuth = authApi(this.cookieService, this.platformId);
-  private readonly apiUser = userApi(this.cookieService, this.platformId);
 
   getLoading(): boolean {
     return this.state.value.loading;
@@ -44,12 +38,12 @@ export class ProfileService {
   async fetchProfile(): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const token = this.apiAuth.getAccessToken();
+      const token = authApi.getAccessToken();
       if (!token) {
         this.updateState({ profile: null, loading: false });
         return;
       }
-      const data = await this.apiUser.getOwnProfile();
+      const data = await userApi.getOwnProfile();
       this.updateState({ profile: data, loading: false });
     } catch (error: any) {
       this.updateState({ profile: null, loading: false });

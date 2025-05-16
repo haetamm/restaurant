@@ -1,7 +1,6 @@
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { authApi } from '../api/auth.api';
 import {
   ForgotPasswordFormType,
   LoginFormType,
@@ -13,7 +12,7 @@ import { Router } from '@angular/router';
 import { urlPage } from '../utils/constans';
 import { FormGroup } from '@angular/forms';
 import { ProfileService } from './profile.service';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import { authApi } from '../api/auth.api';
 
 interface AuthState {
   loading: boolean;
@@ -33,10 +32,6 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly toastService = inject(HotToastService);
   private readonly profileService = inject(ProfileService);
-  private readonly cookieService = inject(SsrCookieService);
-  private readonly platformId = inject(PLATFORM_ID);
-
-  private readonly api = authApi(this.cookieService, this.platformId);
 
   getLoading(): boolean {
     return this.state.value.loading;
@@ -45,7 +40,7 @@ export class AuthService {
   async register(data: RegisterFormType): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const message = await this.api.register(data);
+      const message = await authApi.register(data);
       this.toastService.success(message);
       await this.router.navigate([urlPage.LOGIN]);
     } catch (error: any) {
@@ -58,10 +53,9 @@ export class AuthService {
   async login(data: LoginFormType): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const token = await this.api.login(data);
-      this.api.putAccessToken(token);
+      const token = await authApi.login(data);
+      authApi.putAccessToken(token);
       this.toastService.success(`Welcome, ${data.username}!`);
-      this.profileService.fetchProfile();
       await this.router.navigate([urlPage.HOME]);
     } catch (error: any) {
       this.toastService.error(error.message || 'Login failed');
@@ -71,9 +65,9 @@ export class AuthService {
   }
 
   logout() {
-    this.api.removeAccessToken();
+    authApi.removeAccessToken();
     this.updateState({ loading: false });
-    window.location.assign(urlPage.LOGIN);
+    window.location.assign(urlPage.WELCOME);
   }
 
   getState(): Observable<AuthState> {
@@ -86,7 +80,7 @@ export class AuthService {
   ): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const message = await this.api.forgotPassword(data);
+      const message = await authApi.forgotPassword(data);
       form.reset();
       this.toastService.success(message);
     } catch (error: any) {
@@ -104,7 +98,7 @@ export class AuthService {
   ): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const message = await this.api.resetPassword({
+      const message = await authApi.resetPassword({
         password: data.password,
         token,
       });
@@ -120,7 +114,7 @@ export class AuthService {
   async activation(token: string): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const message = await this.api.activation({ token });
+      const message = await authApi.activation({ token });
       await this.router.navigate([urlPage.LOGIN]);
       this.toastService.success(message);
     } catch (error: any) {

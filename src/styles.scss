@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 @use "@ngxpert/hot-toast/src/styles/styles.scss";
 .custom-class {
   background-color: blue;
@@ -17,4 +18,5 @@
 
 body {
   margin: 0;
+  font-family: "Sharp Sans";
 }

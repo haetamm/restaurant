@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
 import { NotfoundPageComponent } from './pages/notfound-page/notfound-page.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
-import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
 import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
 import { ActivationPageComponent } from './pages/activation-page/activation-page.component';
 import { guestGuard } from './guards/guest.guard';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { authGuard } from './guards/auth.guard';
+import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { CustomerPageComponent } from './pages/customer-page/customer-page.component';
 
 export const routes: Routes = [
   {
@@ -14,12 +18,12 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'welcome',
         pathMatch: 'full',
       },
       {
-        path: 'home',
-        component: HomePageComponent,
+        path: 'welcome',
+        component: WelcomePageComponent,
       },
       {
         path: 'forgot-password',
@@ -32,6 +36,26 @@ export const routes: Routes = [
       {
         path: 'confirm',
         component: ActivationPageComponent,
+      },
+    ],
+  },
+  {
+    path: 'on',
+    component: AuthLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        path: 'home',
+        component: HomePageComponent,
+      },
+      {
+        path: 'customers',
+        component: CustomerPageComponent,
       },
     ],
   },

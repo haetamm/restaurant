@@ -1,0 +1,28 @@
+<div class="pt-4 md:px-4 flex justify-between items-center lg:inline-block">
+  <p class="font-bold text-2xl my-2 w-full">Kategori</p>
+  <select
+    id="countries"
+    class="lg:hidden border border-gray-300 text-gray-900 rounded-lg block w-full px-2.5 py-2 text-sm focus:outline-none"
+  >
+    <option selected>Categories Menu</option>
+    <ng-container *ngFor="let category of categoriesMenu">
+      <option [value]="category.value">{{ category.label }}</option>
+    </ng-container>
+  </select>
+  <div class="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 items-center gap-3">
+    <ng-container *ngFor="let category of categoriesMenu">
+      <button
+        class="shadow-sm rounded-4xl flex items-center cursor-pointer px-2 py-1 w-full"
+        [ngClass]="category.active ? 'bg-[#04A033] text-white' : ''"
+      >
+        <img
+          [src]="category.link"
+          alt="food-img"
+          class="w-8 h-8 mr-1.5 rounded-full p-0.5"
+          [ngClass]="category.active ? 'bg-white text-black' : 'bg-[#FFE5D1]'"
+        />
+        <p>{{ category.label }}</p>
+      </button>
+    </ng-container>
+  </div>
+</div>

@@ -1,25 +1,31 @@
-import { authApi } from './../shared/api/auth.api';
-import { inject, PLATFORM_ID } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { ProfileService } from '../shared/services/profile.service';
 import { urlPage } from '../shared/utils/constans';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import { authApi } from '../shared/api/auth.api';
 
 export const guestGuard: CanActivateFn = async (): Promise<
   boolean | UrlTree
 > => {
   const profileService = inject(ProfileService);
   const router = inject(Router);
-  const cookieService = inject(SsrCookieService);
-  const platformId = inject(PLATFORM_ID);
 
-  const api = authApi(cookieService, platformId);
-  const token = api.getAccessToken();
+  const token = authApi.getAccessToken();
 
-  if (!profileService.getProfile()) {
-    profileService.fetchProfile();
+  if (!token) {
+    return true;
   }
 
-  const profile = profileService.getProfile();
-  return profile || token ? router.createUrlTree([urlPage.HOME]) : true;
+  let profile = profileService.getProfile();
+  if (!profile) {
+    try {
+      await profileService.fetchProfile();
+      profile = profileService.getProfile();
+    } catch (error) {
+      console.error('Gagal ambil profil:', error);
+      return true;
+    }
+  }
+
+  return profile ? router.createUrlTree([urlPage.WELCOME]) : true;
 };

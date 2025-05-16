@@ -1,0 +1,11 @@
+<div class="w-full">
+  <div
+    class="w-full mx-auto xl:max-w-[1440px] grid grid-cols-1 md:grid-cols-[170px_minmax(0,13fr)_minmax(0,7fr)] lg:grid-cols-[200px_minmax(0,7fr)_minmax(0,3fr)]"
+  >
+    <app-sidebar />
+    <div class="h-screen overflow-auto md:border-x-[1px] no-scrollbar">
+      <router-outlet />
+    </div>
+    <div class="h-screen hidden md:block 2xl:bg-blue-200"></div>
+  </div>
+</div>

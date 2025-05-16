@@ -1,0 +1,10 @@
+<div class="w-full flex justify-center">
+  <div class="pt-[70px] w-full max-w-[1440px] px-2 md:px-6">
+    <p>home-page works!</p>
+    @if (profile) {
+      <h2 class="font-bold">{{ profile.email }}</h2>
+      <p>ID: {{ profile.username }}</p>
+      <p>Body: {{ profile.roles.join(", ") }}</p>
+    }
+  </div>
+</div>

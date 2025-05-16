@@ -1,12 +1,14 @@
 import { environment } from '../../../environments/environment';
 
 export const urlPage = {
-  HOME: '/home',
+  WELCOME: '/welcome',
   LOGIN: '/guest/login',
   REGISTER: '/guest/register',
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',
   CONFIRM: '/confirm',
+  HOME: '/on/home',
+  CUSTOMER: '/on/customers',
 };
 
 export const BASE_URL = environment.baseUrl;

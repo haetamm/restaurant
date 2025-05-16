@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LoadingComponent } from '../../components/loading/loading.component';
+import { usePreload } from '../../shared/utils/use-preload';
 
 @Component({
   selector: 'app-guest-layout',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CommonModule, LoadingComponent],
   templateUrl: './guest-layout.component.html',
 })
-export class GuestLayoutComponent {}
+export class GuestLayoutComponent implements OnInit {
+  preload = usePreload(false);
+
+  async ngOnInit(): Promise<void> {
+    await this.preload.initialize();
+  }
+}

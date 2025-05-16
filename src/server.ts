@@ -8,6 +8,8 @@ import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import apiRoutes from '../server/routes';
+import { urlPage } from './app/shared/utils/constans';
+import cookieParser from 'cookie-parser';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -17,6 +19,8 @@ const angularApp = new AngularNodeAppEngine();
 
 // Middleware untuk parsing JSON body
 app.use(express.json());
+
+app.use(cookieParser());
 
 // Static assets
 app.use(
@@ -32,6 +36,19 @@ app.use('/api', apiRoutes);
 
 // Route untuk SSR
 app.use('/**', (req, res, next) => {
+  const token = req.cookies['token'];
+  const url = req.originalUrl;
+
+  if (!token && url.startsWith('/on')) {
+    res.redirect(301, urlPage.LOGIN);
+    return;
+  }
+
+  if (token && url.startsWith('/guest')) {
+    res.redirect(301, urlPage.WELCOME);
+    return;
+  }
+
   // Tentukan baseUrl berdasarkan VERCEL_URL atau fallback ke localhost
   const baseUrl = process.env['VERCEL_URL']
     ? `https://${process.env['VERCEL_URL']}`

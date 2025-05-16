@@ -1,18 +1,15 @@
 <div class="w-full flex justify-center fixed shadow bg-white z-100">
   <div
-    class="w-full max-w-[1440px] h-[56px] flex justify-between items-center px-2 lg:px-6 xl:py-1"
+    class="w-full max-w-[1440px] h-[56px] flex justify-end md:justify-between items-center px-2 lg:px-6 xl:py-1"
   >
-    <a [routerLink]="urlPage.HOME">
+    <a [routerLink]="urlPage.HOME" class="hidden md:block">
       <img src="/img/logo.jpg" class="w-10 h-10" />
     </a>
 
     <div class="flex items-center space-x-6">
       @if (profile) {
-        <a
-          [routerLink]="urlPage.FORGOT_PASSWORD"
-          class="font-semibold text-blue-700"
-        >
-          {{ profile.username }}
+        <a [routerLink]="urlPage.HOME" class="font-semibold text-blue-700">
+          Masuk
         </a>
         <button
           (click)="handleLogout()"

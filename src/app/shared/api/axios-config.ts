@@ -1,40 +1,42 @@
 import axios, { AxiosInstance } from 'axios';
-import { isPlatformBrowser } from '@angular/common';
 import { urlPage } from '../utils/constans';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import Cookies from 'js-cookie';
 
-export const createAxiosInstance = (
-  cookieService: SsrCookieService,
-  platformId: Object,
-): AxiosInstance => {
-  const axiosInstance = axios.create();
+export const createAxiosInstance = (): AxiosInstance => {
+  try {
+    const axiosInstance = axios.create();
 
-  axiosInstance.interceptors.request.use(
-    (config) => {
-      const token = cookieService.get('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => Promise.reject(error),
-  );
+    axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = Cookies.get('token');
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      },
+    );
 
-  axiosInstance.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      const { response } = error;
-      if (
-        response &&
-        response.status === 401 &&
-        isPlatformBrowser(platformId)
-      ) {
-        cookieService.delete('token');
-        window.location.assign(`${urlPage.LOGIN}`);
-      }
-      return Promise.reject(error);
-    },
-  );
+    axiosInstance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        const { response } = error;
+        if (response && response.status === 401) {
+          const token = Cookies.get('token');
+          if (token) {
+            window.location.assign(`/${urlPage.LOGIN}`);
+          }
+          Cookies.remove('token');
+        }
+        return Promise.reject(error);
+      },
+    );
 
-  return axiosInstance;
+    return axiosInstance;
+  } catch (error) {
+    console.error('Error creating axios instance:', error);
+    throw error;
+  }
 };

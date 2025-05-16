@@ -1,0 +1,19 @@
+<div class="px-4 py-3 flex flex-col items-center border-y border-gray-200">
+  <div
+    class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center"
+  >
+    <img
+      [src]="
+        'https://ui-avatars.com/api/?name=' +
+        (profile ? profile.username : 'User') +
+        '&background=random'
+      "
+      alt="User Avatar"
+      class="rounded-full"
+    />
+  </div>
+  <h3 class="mt-2 text-lg font-semibold text-center">
+    {{ profile ? profile.username : "Hallo" }}
+  </h3>
+  <p class="text-sm text-gray-500 text-center">{{ greeting }} 😁</p>
+</div>
