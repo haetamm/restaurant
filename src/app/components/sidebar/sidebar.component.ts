@@ -13,7 +13,8 @@ import {
   bootstrapBoxArrowLeft,
 } from '@ng-icons/bootstrap-icons';
 import { heroUsers } from '@ng-icons/heroicons/outline';
-import { AuthService } from '../../shared/services/auth.service';
+import { ProfileService } from '../../shared/services/profile.service';
+import { SidebarService } from '../../shared/services/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -46,9 +47,16 @@ export class SidebarComponent {
     { label: 'Settings', icon: 'bootstrapGear', link: '#' },
   ];
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private profileService: ProfileService,
+    private sidebarService: SidebarService,
+  ) {}
 
   handleLogout() {
-    this.authService.logout();
+    this.profileService.logout();
+  }
+
+  closeSidebar() {
+    this.sidebarService.hideSidebar();
   }
 }

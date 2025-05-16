@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Menu, MenuService } from '../../shared/services/menu.service';
 import { CommonModule } from '@angular/common';
-import { NgIf, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { CardMenuComponent } from '../card-menu/card-menu.component';
 import { take } from 'rxjs/operators';
 
@@ -29,7 +29,6 @@ export class ListMenuComponent {
 
     // tetap subscribe untuk update UI (menus dan loading)
     this.menuService.getState().subscribe((state) => {
-      console.log(state.menus);
       this.menus = state.menus;
       this.loading = state.loading;
     });

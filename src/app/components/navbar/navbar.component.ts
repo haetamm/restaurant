@@ -5,7 +5,6 @@ import { bootstrapAlexa } from '@ng-icons/bootstrap-icons';
 import { provideIcons } from '@ng-icons/core';
 import { Profile, ProfileService } from '../../shared/services/profile.service';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,10 +16,7 @@ export class NavbarComponent implements OnInit {
   urlPage = urlPage;
   profile: Profile | null = null;
 
-  constructor(
-    private profileService: ProfileService,
-    private authService: AuthService,
-  ) {}
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
     this.profileService.getState().subscribe((state) => {
@@ -29,6 +25,6 @@ export class NavbarComponent implements OnInit {
   }
 
   handleLogout() {
-    this.authService.logout();
+    this.profileService.logout();
   }
 }

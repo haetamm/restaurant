@@ -64,12 +64,6 @@ export class AuthService {
     }
   }
 
-  logout() {
-    authApi.removeAccessToken();
-    this.updateState({ loading: false });
-    window.location.assign(urlPage.WELCOME);
-  }
-
   getState(): Observable<AuthState> {
     return this.state$;
   }

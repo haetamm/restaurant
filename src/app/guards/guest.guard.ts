@@ -27,5 +27,5 @@ export const guestGuard: CanActivateFn = async (): Promise<
     }
   }
 
-  return profile ? router.createUrlTree([urlPage.WELCOME]) : true;
+  return profile ? router.navigate([urlPage.WELCOME]) : true;
 };

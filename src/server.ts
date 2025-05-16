@@ -39,13 +39,13 @@ app.use('/**', (req, res, next) => {
   const token = req.cookies['token'];
   const url = req.originalUrl;
 
-  if (!token && url.startsWith('/on')) {
-    res.redirect(301, urlPage.LOGIN);
+  if (token && url.startsWith('/guest')) {
+    res.redirect(301, '/welcome');
     return;
   }
 
-  if (token && url.startsWith('/guest')) {
-    res.redirect(301, urlPage.WELCOME);
+  if (!token && url.startsWith('/on')) {
+    res.redirect(301, urlPage.LOGIN);
     return;
   }
 

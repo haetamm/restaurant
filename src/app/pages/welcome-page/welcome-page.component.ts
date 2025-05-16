@@ -18,7 +18,7 @@ export class WelcomePageComponent {
 
   ngOnInit(): void {
     this.seoService.setMetaTags({
-      title: 'Home | Restaurant',
+      title: 'Restaurant',
       description: 'Explore our awesome app!',
       url: 'https://your-app.com/home',
       keywords: 'home, app, angular',

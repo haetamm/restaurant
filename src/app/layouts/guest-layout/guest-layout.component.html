@@ -1,15 +1,15 @@
 <app-loading [isLoading]="(preload.isLoading$ | async) ?? false" />
 <section class="flex flex-col md:flex-row h-screen items-center">
-  <div class="bg-blue-600 hidden lg:block w-full md:w-1/2 lg:w-2/3 h-screen">
+  <div class="bg-[#FFFFFF] hidden lg:block w-full md:w-1/2 lg:w-2/3 h-screen">
     <img
-      src="https://images.unsplash.com/photo-1444313431167-e7921088a9d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1441&q=100"
+      src="/img/hero-guest.jpg"
       alt=""
-      class="w-full h-full object-cover"
+      class="w-full h-full object-contain"
     />
   </div>
 
   <div
-    class="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 lg:w-1/3 h-screen overflow-auto no-scrollbar lg:px-16 flex items-center justify-center"
+    class="bg-[#FFFFFF] w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 lg:w-1/3 h-screen overflow-auto no-scrollbar lg:px-16 flex items-center justify-center"
   >
     <router-outlet />
   </div>

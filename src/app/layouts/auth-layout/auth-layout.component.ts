@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { SidebarService } from '../../shared/services/sidebar.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-auth-layout',
@@ -18,4 +20,11 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 })
 export class AuthLayoutComponent {
   urlPage = urlPage;
+  sidebarVisible$!: Observable<boolean>;
+
+  constructor(private sidebarService: SidebarService) {}
+
+  ngOnInit(): void {
+    this.sidebarVisible$ = this.sidebarService.getSidebarState();
+  }
 }

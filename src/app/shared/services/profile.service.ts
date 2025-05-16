@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { authApi } from '../api/auth.api';
 import { userApi } from '../api/user.api';
+import { urlPage } from '../utils/constans';
 
 export interface Profile {
   email: string;
@@ -61,5 +62,11 @@ export class ProfileService {
 
   private updateState(newState: Partial<ProfilState>): void {
     this.state.next({ ...this.state.value, ...newState });
+  }
+
+  logout() {
+    authApi.removeAccessToken();
+    this.updateState({ profile: null, loading: false });
+    window.location.assign(urlPage.LOGIN);
   }
 }

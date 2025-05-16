@@ -1,5 +1,5 @@
 <div
-  class="h-screen w-64 md:w-[170px] lg:w-[200px] bg-white shadow-md md:flex flex-col hidden"
+  class="h-screen w-64 md:w-[170px] lg:w-[200px] bg-white shadow-md md:flex flex-col"
 >
   <!-- Logo -->
   <div class="p-2 lg:p-4 flex items-center">
@@ -27,6 +27,7 @@
         <ul class="space-y-2">
           <li *ngFor="let item of navItems">
             <a
+              (click)="closeSidebar()"
               [routerLink]="item.link"
               routerLinkActive="bg-gray-100 text-orange-500"
               [routerLinkActiveOptions]="{ exact: true }"
