@@ -1,22 +1,34 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SeoService } from '../../shared/services/seo.service';
 import { CommonModule } from '@angular/common';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { CategorybarComponent } from '../../components/categorybar/categorybar.component';
 import { ListMenuComponent } from '../../components/list-menu/list-menu.component';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MenuService } from '../../shared/services/menu.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-page',
+  standalone: true,
   imports: [
     CommonModule,
     SearchbarComponent,
     CategorybarComponent,
     ListMenuComponent,
+    RouterModule,
   ],
   templateUrl: './home-page.component.html',
 })
-export class HomePageComponent {
-  private seoService = inject(SeoService, { optional: true });
+export class HomePageComponent implements OnInit {
+  initialSearch: string = '';
+
+  constructor(
+    private seoService: SeoService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private menuService: MenuService,
+  ) {}
 
   ngOnInit(): void {
     if (this.seoService) {
@@ -28,5 +40,49 @@ export class HomePageComponent {
         image: 'https://your-app.com/assets/default-image.jpg',
       });
     }
+
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      if (Object.keys(params).length === 0) {
+        const defaultParams = {
+          name: 'all',
+          minPrice: 0,
+          maxPrice: 100000000,
+          sortBy: 'price',
+          direction: 'asc',
+          page: 1,
+          size: 10,
+        };
+
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: defaultParams,
+        });
+      } else {
+        this.menuService.fetchMenus(params);
+      }
+    });
+  }
+
+  onSearch(searchTerm: string) {
+    const trimmedSearch = searchTerm.trim();
+    const queryParams = {
+      ...this.route.snapshot.queryParams, // Pertahankan parameter lain
+      name: trimmedSearch || 'all',
+      page: 1, // Reset ke halaman 1
+    };
+
+    // Navigasi ke URL dengan query parameter baru
+    this.router
+      .navigate([], {
+        relativeTo: this.route,
+        queryParams,
+        queryParamsHandling: 'merge', // Gabungkan dengan parameter lain
+      })
+      .then(() => {
+        this.menuService.fetchMenus(queryParams);
+      })
+      .catch((error) => {
+        console.error('Navigation error:', error);
+      });
   }
 }

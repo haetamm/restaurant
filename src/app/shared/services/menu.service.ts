@@ -3,6 +3,16 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { menuApi } from '../api/menu.api';
 
+export interface MenuQueryParams {
+  name?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: string;
+  direction?: 'asc' | 'desc';
+  page?: number;
+  size?: number;
+}
+
 export interface Menu {
   id: string;
   name: string;
@@ -35,10 +45,18 @@ export class MenuService {
     return this.state.value.loading;
   }
 
-  async fetchMenus(): Promise<void> {
+  async fetchMenus(params?: {
+    name?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    direction?: 'asc' | 'desc';
+    sortBy?: string;
+    page?: number;
+    size?: number;
+  }): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const data = await menuApi.getMenus();
+      const data = await menuApi.getMenus(params);
       this.updateState({ menus: data, loading: false });
     } catch (error: any) {
       this.updateState({ menus: [], loading: false });

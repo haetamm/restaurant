@@ -10,8 +10,10 @@
         <ng-icon name="bootstrapSearch" class="w-5 h-5 mr-2" />
       </div>
       <input
-        type="text"
+        type="search"
         id="table-search"
+        [formControl]="searchControl"
+        (keydown.enter)="onEnter()"
         class="w-full shadow-sm text-gray-900 text-sm rounded-full block pl-10 px-2.5 py-2 focus:outline-none placeholder:text-slate-300"
         placeholder="Search your food"
       />

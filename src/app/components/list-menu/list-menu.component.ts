@@ -3,7 +3,6 @@ import { Menu, MenuService } from '../../shared/services/menu.service';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { CardMenuComponent } from '../card-menu/card-menu.component';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-menu',
@@ -17,17 +16,7 @@ export class ListMenuComponent {
 
   constructor(private menuService: MenuService) {}
 
-  ngOnInit(): void {
-    this.menuService
-      .getState()
-      .pipe(take(1))
-      .subscribe((state) => {
-        if (!state.loading && state.menus.length === 0) {
-          this.menuService.fetchMenus();
-        }
-      });
-
-    // tetap subscribe untuk update UI (menus dan loading)
+  ngOnInit() {
     this.menuService.getState().subscribe((state) => {
       this.menus = state.menus;
       this.loading = state.loading;

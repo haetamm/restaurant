@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   bootstrapSearch,
   bootstrapFilterRight,
@@ -9,10 +9,12 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroAdjustmentsHorizontal } from '@ng-icons/heroicons/outline';
 import { SidebarService } from '../../shared/services/sidebar.service';
 import { Observable } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-searchbar',
-  imports: [NgIcon, CommonModule],
+  standalone: true,
+  imports: [NgIcon, CommonModule, ReactiveFormsModule],
   templateUrl: './searchbar.component.html',
   viewProviders: [
     provideIcons({
@@ -23,15 +25,30 @@ import { Observable } from 'rxjs';
     }),
   ],
 })
-export class SearchbarComponent {
-  constructor(private sidebarService: SidebarService) {}
+export class SearchbarComponent implements OnInit {
+  @Input() initialSearch: string = '';
+  @Output() searchChange = new EventEmitter<string>();
+  searchControl = new FormControl('');
   sidebarVisible$!: Observable<boolean>;
+
+  constructor(private sidebarService: SidebarService) {}
+
+  ngOnInit(): void {
+    // Inisialisasi nilai input dari @Input
+    this.searchControl.setValue(this.initialSearch, { emitEvent: false });
+
+    // Ambil status sidebar
+    this.sidebarVisible$ = this.sidebarService.getSidebarState();
+  }
+
+  // Handle Enter key press
+  onEnter() {
+    const value = this.searchControl.value || '';
+    const trimmedValue = value.trim();
+    this.searchChange.emit(trimmedValue);
+  }
 
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
-  }
-
-  ngOnInit(): void {
-    this.sidebarVisible$ = this.sidebarService.getSidebarState();
   }
 }

@@ -1,14 +1,21 @@
 <div class="py-6 md:px-4">
   <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
     <!-- Loading Skeletons -->
-    <ng-container *ngIf="loading || menus.length === 0">
+    <ng-container *ngIf="loading">
       <ng-container *ngFor="let i of [1, 2, 3]">
         <app-card-menu [menu]="{ id: '', name: '', price: '', image: '' }" />
       </ng-container>
     </ng-container>
 
+    <!-- Not Found -->
+    <ng-container *ngIf="!loading && menus.length === 0">
+      <div class="col-span-full text-center py-10">
+        <p class="text-gray-500 text-lg">No menus found.</p>
+      </div>
+    </ng-container>
+
     <!-- Real Data -->
-    <ng-container *ngIf="!loading">
+    <ng-container *ngIf="!loading && menus.length > 0">
       <ng-container *ngFor="let menu of menus">
         <app-card-menu [menu]="menu" />
       </ng-container>

@@ -1,5 +1,8 @@
 <div class="px-2 xs:px-4 md:px-0">
-  <app-searchbar />
+  <app-searchbar
+    [initialSearch]="initialSearch"
+    (searchChange)="onSearch($event)"
+  />
   <div class="pt-2 md:px-4">
     <img
       src="/img/banner.png"

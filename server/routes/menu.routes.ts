@@ -6,11 +6,11 @@ const router = Router();
 router.post('/all', async (req, res) => {
   try {
     const axiosInstance = createServerAxiosInstance(req);
-    const response = await axiosInstance.get(`/menus`);
+    const response = await axiosInstance.get('/menus', { params: req.body });
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Failed to load profile',
+      message: error.response?.data?.message || 'Failed to load menus',
     });
   }
 });
