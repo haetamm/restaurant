@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+
 export const errorHandle = (error: any) => {
   const errorMessage = error.response?.data?.message;
   if (Array.isArray(errorMessage)) {
@@ -40,3 +42,12 @@ export const categoriesMenu = [
   },
   { label: 'Minuman', link: '/img/drink.png', active: false, value: 'drink' },
 ];
+
+export const isActiveRoute = (
+  router: Router,
+  prefix: string,
+  exact: boolean = false,
+): boolean => {
+  const currentUrl = router.url.split('?')[0];
+  return exact ? currentUrl === prefix : currentUrl.startsWith(prefix);
+};

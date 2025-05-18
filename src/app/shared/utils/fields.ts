@@ -99,3 +99,22 @@ export const resetPasswordFields: Array<{
     label: 'Password Confirmation',
   },
 ];
+
+export const filterFields = [
+  {
+    name: 'price',
+    label: 'Harga',
+    inputs: [
+      { controlName: 'minPrice', placeholder: 'Terendah' },
+      { controlName: 'maxPrice', placeholder: 'Tertinggi' },
+    ],
+  },
+  {
+    name: 'sortBy',
+    label: 'Urutkan',
+    options: [
+      { id: 'name', label: 'Nama', value: 'name' },
+      { id: 'price', label: 'Harga', value: 'price' },
+    ],
+  },
+];

@@ -9,7 +9,6 @@
     />
     <a
       [routerLink]="[urlPage.WELCOME]"
-      routerLinkActive="router-link-active"
       class="ml-2 text-xl font-semibold text-orange-500"
       >Restaurant</a
     >
@@ -29,8 +28,10 @@
             <a
               (click)="closeSidebar()"
               [routerLink]="item.link"
-              routerLinkActive="bg-gray-100 text-orange-500"
-              [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{
+                'bg-gray-100 text-orange-500': isRouteActive(item.link),
+                'text-gray-600': !isRouteActive(item.link),
+              }"
               class="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-100"
             >
               <ng-icon [name]="item.icon" class="w-5 h-5 mr-2" />

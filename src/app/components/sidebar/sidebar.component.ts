@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { urlPage } from '../../shared/utils/constans';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { AvatarComponent } from '../avatar/avatar.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   bootstrapShopWindow,
@@ -15,6 +15,7 @@ import {
 import { heroUsers } from '@ng-icons/heroicons/outline';
 import { ProfileService } from '../../shared/services/profile.service';
 import { SidebarService } from '../../shared/services/sidebar.service';
+import { isActiveRoute } from '../../shared/utils/helper';
 
 @Component({
   selector: 'app-sidebar',
@@ -50,7 +51,12 @@ export class SidebarComponent {
   constructor(
     private profileService: ProfileService,
     private sidebarService: SidebarService,
+    public router: Router,
   ) {}
+
+  isRouteActive(path: string, exact: boolean = false): boolean {
+    return isActiveRoute(this.router, path, exact);
+  }
 
   handleLogout() {
     this.profileService.logout();

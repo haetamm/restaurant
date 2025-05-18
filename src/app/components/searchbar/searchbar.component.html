@@ -20,19 +20,18 @@
     </div>
   </div>
   <button
-    class="shadow-sm rounded-full flex justify-center items-center h-9 w-10 cursor-pointer"
-  >
-    <ng-icon name="heroAdjustmentsHorizontal" class="w-8 h-8" />
-  </button>
-  <button
-    (click)="toggleSidebar()"
-    class="md:hidden shadow-sm rounded-full flex justify-center items-center h-9 w-10 cursor-pointer"
+    (click)="toggleFilter()"
+    class="shadow-sm mr-[42px] md:mr-0 rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
   >
     <ng-icon
-      [name]="
-        (sidebarVisible$ | async) ? 'bootstrapXLg' : 'bootstrapFilterRight'
-      "
+      [name]="isFilterVisible ? 'bootstrapXLg' : 'heroAdjustmentsHorizontal'"
       class="w-8 h-8"
     />
   </button>
+  <div
+    *ngIf="isFilterVisible"
+    class="absolute w-full md:w-[350px] top-14 md:top-18 bg-white shadow-2xl rounded-lg md:right-4"
+  >
+    <app-filter-form (close)="closeFilter()" />
+  </div>
 </div>

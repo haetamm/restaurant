@@ -5,6 +5,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SidebarService } from '../../shared/services/sidebar.service';
 import { Observable } from 'rxjs';
+import { ToggleSidebarComponent } from '../../components/toggle-sidebar/toggle-sidebar.component';
 
 @Component({
   selector: 'app-auth-layout',
@@ -15,6 +16,7 @@ import { Observable } from 'rxjs';
     RouterModule,
     SidebarComponent,
     SidebarComponent,
+    ToggleSidebarComponent,
   ],
   templateUrl: './auth-layout.component.html',
 })

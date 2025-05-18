@@ -6,8 +6,8 @@
         <h1>Welcome to Restaurant!</h1>
         <p>
           Hi. A new account has been created for you on
-          <a href="#">Restaurant</a>. Please click the link below to activate
-          your account.
+          <a [routerLink]="urlPage.WELCOME">Restaurant</a>. Please click the
+          link below to activate your account.
         </p>
         <button [disabled]="isLoading" (click)="onSubmit()" class="btn">
           {{ isLoading ? "Loading" : "Activate Account" }}

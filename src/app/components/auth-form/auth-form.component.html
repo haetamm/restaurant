@@ -30,7 +30,7 @@
               [formControlName]="field.name"
               placeholder=""
               required
-              class="peer w-full p-3 h-[54px] border border-gray-300 rounded-md text-[16px] focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              class="peer w-full p-3 h-[54px] border border-gray-300 rounded-md text-[16px] focus:outline-none focus:ring-1 focus:ring-[#F86901] focus:border-[#F86901]"
             />
             <label
               [for]="field.name"
@@ -56,7 +56,7 @@
         <div class="flex justify-end items-center mt-6">
           <button
             [disabled]="isLoading || formGroup.invalid"
-            class="disabled:bg-blue-400 disabled:cursor-not-allowed bg-blue-600 h-[40px] text-white px-6 py-2 rounded-full text-[0.785rem] font-medium hover:bg-blue-700 cursor-pointer"
+            class="bg-[#F86901] disabled:bg-[#f7b281] disabled:cursor-not-allowed h-[40px] text-white px-6 py-2 rounded-full text-[0.785rem] font-medium cursor-pointer"
           >
             {{ isLoading ? "Loading" : buttonLabel }}
           </button>

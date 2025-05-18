@@ -1,3 +1,4 @@
+import { urlPage } from './../../shared/utils/constans';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -13,6 +14,7 @@ import { NotfoundPageComponent } from '../notfound-page/notfound-page.component'
   styleUrl: './activation-page.component.scss',
 })
 export class ActivationPageComponent implements OnInit {
+  urlPage = urlPage;
   token: string | null = null;
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);

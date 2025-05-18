@@ -1,0 +1,33 @@
+<div *ngIf="pagination" class="flex justify-center items-center py-4">
+  <button
+    (click)="previousPage()"
+    [disabled]="!pagination.hasPrevious"
+    class="h-10 w-10 cursor-pointer mx-1 bg-gray-200 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    <<
+  </button>
+
+  <div class="flex space-x-1">
+    <button
+      *ngFor="let page of pages"
+      (click)="changePage(page)"
+      [class.bg-[#F86901]]="page === pagination.page"
+      [class.text-white]="page === pagination.page"
+      class="h-9 w-9 mx-1 rounded-full cursor-pointer disabled:cursor-not-allowed"
+      [ngClass]="{
+        'bg-gray-200': page !== pagination.page,
+        'hover:bg-gray-300': page !== pagination.page,
+      }"
+    >
+      {{ page }}
+    </button>
+  </div>
+
+  <button
+    (click)="nextPage()"
+    [disabled]="!pagination.hasNext"
+    class="h-10 w-10 cursor-pointer mx-1 bg-gray-200 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    >>
+  </button>
+</div>

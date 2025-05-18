@@ -7,6 +7,7 @@ import { ListMenuComponent } from '../../components/list-menu/list-menu.componen
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MenuService } from '../../shared/services/menu.service';
 import { take } from 'rxjs/operators';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-home-page',
@@ -17,6 +18,7 @@ import { take } from 'rxjs/operators';
     CategorybarComponent,
     ListMenuComponent,
     RouterModule,
+    PaginationComponent,
   ],
   templateUrl: './home-page.component.html',
 })
@@ -42,6 +44,9 @@ export class HomePageComponent implements OnInit {
     }
 
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      const nameParam = params['name'];
+      this.initialSearch = nameParam && nameParam !== 'all' ? nameParam : '';
+
       if (Object.keys(params).length === 0) {
         const defaultParams = {
           name: 'all',
@@ -57,7 +62,9 @@ export class HomePageComponent implements OnInit {
           relativeTo: this.route,
           queryParams: defaultParams,
         });
-      } else {
+      }
+      const menus = this.menuService.getMenus();
+      if (!menus || menus.length === 0) {
         this.menuService.fetchMenus(params);
       }
     });

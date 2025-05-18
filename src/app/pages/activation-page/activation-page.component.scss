@@ -1,4 +1,4 @@
-$primary-color: #00aaff;
+$primary-color: #f86901;
 $background-color: #f9fafb;
 $text-color: #333;
 $link-color: #00aaff;
@@ -87,7 +87,7 @@ $white: #fff;
     }
 
     &:disabled {
-      background-color: rgb(151, 160, 242);
+      background-color: #f7b281;
       cursor: not-allowed;
     }
   }

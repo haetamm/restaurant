@@ -7,7 +7,7 @@ export const menuApi = {
   getMenus: async (body = {}) => {
     try {
       const response = await axiosInstance.post('/api/menu/all', body);
-      const { data } = response.data;
+      const data = response.data;
       return data;
     } catch (error: any) {
       errorHandle(error);
