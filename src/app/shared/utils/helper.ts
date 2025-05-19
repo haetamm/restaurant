@@ -25,14 +25,14 @@ export const setGreeting = (): string => {
   }
 };
 
-export const categoriesMenu = [
+export const categoriesMeta = [
   { label: 'Semua', link: '/img/all.png', active: true, value: 'all' },
   { label: 'Utama', link: '/img/main.png', active: false, value: 'main' },
   {
     label: 'Gorengan',
     link: '/img/fryer.png',
     active: false,
-    value: 'fryer',
+    value: 'fried',
   },
   {
     label: 'Sup',

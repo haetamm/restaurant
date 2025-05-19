@@ -13,6 +13,7 @@ export interface PaginationResponse {
 }
 
 export interface MenuQueryParams {
+  category?: string;
   name?: string;
   minPrice?: number;
   maxPrice?: number;
@@ -26,7 +27,7 @@ export interface Menu {
   id: string;
   name: string;
   price: string;
-  image?: string;
+  image?: any;
 }
 
 interface MenusState {
@@ -61,6 +62,7 @@ export class MenuService {
   }
 
   async fetchMenus(params?: {
+    category?: string;
     name?: string;
     minPrice?: number;
     maxPrice?: number;

@@ -21,6 +21,7 @@ import { isActiveRoute } from '../../shared/utils/helper';
   selector: 'app-sidebar',
   imports: [NgIcon, AvatarComponent, RouterModule, CommonModule],
   templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.scss',
   viewProviders: [
     provideIcons({
       bootstrapShopWindow,

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import authRoutes from './auth.routes';
 import userRoutes from './user.routes';
 import menuRoutes from './menu.routes';
+import categoryRoutes from './category.routes';
 
 const router = Router();
 
@@ -9,6 +10,7 @@ const router = Router();
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
 router.use('/menu', menuRoutes);
+router.use('/category', categoryRoutes);
 
 // Grup route lain bisa ditambahkan di sini
 // Contoh: router.use('/user', userRoutes);

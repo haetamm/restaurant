@@ -1,9 +1,9 @@
 <div class="flex justify-center">
   <div class="shadow-sm rounded-xl w-[300px] xs:w-[250px]">
     <img
-      [ngClass]="menu.id ? '' : 'blur-sm'"
-      [src]="menu.image || '/img/notfound-menu.jpg'"
-      alt=""
+      [ngClass]="{ 'blur-sm': isBlur }"
+      [src]="imageUrl"
+      [alt]="menu.name"
       class="object-contain mx-auto h-[300px] xs:h-[230px] md:h-[150px] xl:h-[200px] w-[300px] xs:w-[250px] bg-amber-100 rounded-xl"
     />
     <div class="p-3">

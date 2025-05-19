@@ -49,10 +49,11 @@ export class HomePageComponent implements OnInit {
 
       if (Object.keys(params).length === 0) {
         const defaultParams = {
+          category: 'all',
           name: 'all',
           minPrice: 0,
           maxPrice: 100000000,
-          sortBy: 'price',
+          sortBy: 'name',
           direction: 'asc',
           page: 1,
           size: 10,
