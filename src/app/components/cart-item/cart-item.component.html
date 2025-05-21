@@ -1,0 +1,40 @@
+<div class="flex items-center gap-y-4 gap-x-3 mb-4 p-3 shadow-md rounded-lg">
+  <!-- Placeholder untuk gambar -->
+  <div
+    *ngIf="!item.id; else imageTemplate"
+    class="h-10 w-10 lg:h-20 lg:w-20 bg-gray-300 rounded animate-pulse"
+  ></div>
+  <ng-template #imageTemplate>
+    <img
+      [src]="imageUrl"
+      [alt]="item.name || 'Item'"
+      class="h-10 w-10 lg:h-20 lg:w-20 object-cover rounded"
+    />
+  </ng-template>
+
+  <div class="flex-1" *ngIf="item.id; else loadingPrice">
+    <p class="font-medium text-sm line-clamp-1 xl:text-md">
+      {{ item.name }}
+    </p>
+    <div class="flex justify-between">
+      <p class="text-sm xl:tex-lg font-bold">Rp. {{ item.price }}</p>
+      <p class="text-sm text-gray-600 font-semibold">x {{ item.qty }}</p>
+    </div>
+  </div>
+
+  <ng-template #loadingPrice>
+    <div class="flex-1 flex flex-col gap-1">
+      <span
+        class="inline-block h-5 w-3/4 bg-gray-300 rounded animate-pulse"
+      ></span>
+      <div class="flex justify-between">
+        <span
+          class="inline-block h-5 w-16 bg-gray-300 rounded animate-pulse"
+        ></span>
+        <span
+          class="inline-block h-5 w-8 bg-gray-300 rounded animate-pulse"
+        ></span>
+      </div>
+    </div>
+  </ng-template>
+</div>

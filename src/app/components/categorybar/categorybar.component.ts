@@ -46,7 +46,7 @@ export class CategorybarComponent implements OnDestroy {
         const match = categoriesMeta.find((meta) => meta.value === cat.name);
         return {
           label: match?.label || cat.name,
-          link: match?.link || '/img/default.png',
+          link: match?.link || '/img/default-food.png',
           value: cat.name,
           active: false,
         };

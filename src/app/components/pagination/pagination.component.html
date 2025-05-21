@@ -2,7 +2,7 @@
   <button
     (click)="previousPage()"
     [disabled]="!pagination.hasPrevious"
-    class="h-10 w-10 cursor-pointer mx-1 bg-gray-200 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+    class="h-10 w-10 cursor-pointer mx-1 bg-white shadow-md rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
   >
     <<
   </button>
@@ -15,7 +15,7 @@
       [class.text-white]="page === pagination.page"
       class="h-9 w-9 mx-1 rounded-full cursor-pointer disabled:cursor-not-allowed"
       [ngClass]="{
-        'bg-gray-200': page !== pagination.page,
+        'bg-white shadow-md': page !== pagination.page,
         'hover:bg-gray-300': page !== pagination.page,
       }"
     >
@@ -26,7 +26,7 @@
   <button
     (click)="nextPage()"
     [disabled]="!pagination.hasNext"
-    class="h-10 w-10 cursor-pointer mx-1 bg-gray-200 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+    class="h-10 w-10 cursor-pointer mx-1 bg-white shadow-md rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
   >
     >>
   </button>

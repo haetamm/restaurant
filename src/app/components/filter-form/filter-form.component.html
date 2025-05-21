@@ -8,7 +8,7 @@
           @if (field.inputs) {
             <!-- field Inputs -->
             @for (input of field.inputs; track input.controlName) {
-              <div class="relative mb-1.5">
+              <div class="relative mb-1.5 w-full">
                 <input
                   [id]="input.controlName"
                   [formControlName]="input.controlName"

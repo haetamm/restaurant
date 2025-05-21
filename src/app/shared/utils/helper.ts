@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { BASE_URL } from './constans';
 
 export const errorHandle = (error: any) => {
   const errorMessage = error.response?.data?.message;
@@ -50,4 +51,8 @@ export const isActiveRoute = (
 ): boolean => {
   const currentUrl = router.url.split('?')[0];
   return exact ? currentUrl === prefix : currentUrl.startsWith(prefix);
+};
+
+export const createImgUrl = (id: string): string => {
+  return id ? BASE_URL + '/menus/' + id + '/images' : '/img/notfound-menu.jpg';
 };

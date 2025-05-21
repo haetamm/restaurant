@@ -1,26 +1,35 @@
 <div class="flex justify-center">
-  <div class="shadow-sm rounded-xl w-[300px] xs:w-[250px]">
+  <div class="shadow-sm rounded-xl w-[170px] xs:w-[250px]">
     <img
-      [ngClass]="{ 'blur-sm': isBlur }"
+      [ngClass]="{ 'blur-sm': isBlur() }"
       [src]="imageUrl"
       [alt]="menu.name"
-      class="object-contain mx-auto h-[300px] xs:h-[230px] md:h-[150px] xl:h-[200px] w-[300px] xs:w-[250px] bg-amber-100 rounded-xl"
+      class="object-contain mx-auto h-[150px] xs:h-[230px] md:h-[150px] xl:h-[200px] w-[170px] xs:w-[250px] bg-amber-100 rounded-xl"
     />
-    <div class="p-3">
-      <p class="my-1 text-sm line-clamp-1">{{ menu.name }}</p>
-      <p class="font-bold text-lg">
-        <span *ngIf="menu.id; else loadingPrice">Rp. {{ menu.price }}</span>
-        <ng-template #loadingPrice>
-          <div class="flex flex-col gap-1">
-            <span
-              class="inline-block h-5 w-full bg-gray-300 rounded animate-pulse"
-            ></span>
-            <span
-              class="inline-block h-6 w-24 bg-gray-300 rounded animate-pulse"
-            ></span>
-          </div>
-        </ng-template>
-      </p>
+    <div class="p-1.5 xs:p-3">
+      <p class="mt-1 text-sm font-semibold line-clamp-1">{{ menu.name }}</p>
+      <div class="grid grid-cols-[75%_25%] w-full items-center">
+        <p class="font-bold text-lg">
+          <span *ngIf="menu.id; else loadingPrice">Rp. {{ menu.price }}</span>
+          <ng-template #loadingPrice>
+            <div class="flex flex-col gap-1">
+              <span
+                class="inline-block h-5 w-full bg-gray-300 rounded animate-pulse"
+              ></span>
+              <span
+                class="inline-block h-6 w-24 bg-gray-300 rounded animate-pulse"
+              ></span>
+            </div>
+          </ng-template>
+        </p>
+        <button
+          *ngIf="menu.id"
+          (click)="onAddToCart()"
+          class="bg-[#04A033] text-white flex items-center justify-center h-8 w-8 xs:w-10 xs:h-10 cursor-pointer rounded-full"
+        >
+          <ng-icon name="bootstrapPlusLg" />
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -20,3 +20,11 @@ body {
   margin: 0;
   font-family: "Sharp Sans";
 }
+
+@media (min-width: 1024px) and (min-height: 1366px) {
+  .container-guest {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

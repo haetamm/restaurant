@@ -8,6 +8,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MenuService } from '../../shared/services/menu.service';
 import { take } from 'rxjs/operators';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { CartComponent } from '../../components/cart/cart.component';
+import { CartService } from '../../shared/services/cart.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,6 +21,7 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
     ListMenuComponent,
     RouterModule,
     PaginationComponent,
+    CartComponent,
   ],
   templateUrl: './home-page.component.html',
 })
@@ -30,6 +33,7 @@ export class HomePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private menuService: MenuService,
+    private cartService: CartService,
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +71,11 @@ export class HomePageComponent implements OnInit {
       const menus = this.menuService.getMenus();
       if (!menus || menus.length === 0) {
         this.menuService.fetchMenus(params);
+      }
+
+      const cart = this.cartService.getCart();
+      if (!cart || cart.length === 0) {
+        this.cartService.fetchCart();
       }
     });
   }
