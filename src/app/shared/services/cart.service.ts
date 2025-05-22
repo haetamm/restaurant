@@ -8,6 +8,10 @@ export interface CartRequest {
   menuRequest: { menuId: string; qty: number }[];
 }
 
+export interface CartItemRequest {
+  items: { menuId: string }[];
+}
+
 export interface Cart {
   id: string;
   menuId: string;
@@ -54,12 +58,7 @@ export class CartService {
       const data = await cartApi.fetchCart();
       this.updateState({
         carts: data,
-        totalMenu: data.length,
-        totalQty: data.reduce((sum: number, item: Cart) => sum + item.qty, 0),
-        totalPrice: data.reduce(
-          (sum: number, item: Cart) => sum + item.qty * item.price,
-          0,
-        ),
+        ...this.calculateTotals(data),
         loading: false,
       });
     } catch (error: any) {
@@ -101,19 +100,39 @@ export class CartService {
 
       this.updateState({
         carts: updatedCarts,
-        totalMenu: updatedCarts.length,
-        totalQty: updatedCarts.reduce((sum, item) => sum + item.qty, 0),
-        totalPrice: updatedCarts.reduce(
-          (sum, item) => sum + item.qty * item.price,
-          0,
-        ),
+        ...this.calculateTotals(updatedCarts),
         loading: false,
       });
-      this.toastService.success('Item berhasil ditambahkan ke keranjang!');
+      if (qty > 0) this.toastService.success('Item berhasil ditambahkan!');
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(
         error.message || 'Gagal menambahkan ke keranjang',
+      );
+    }
+  }
+
+  async deleteItemCart(menuId: string): Promise<void> {
+    try {
+      const payload: CartItemRequest = {
+        items: [{ menuId }],
+      };
+      await cartApi.deleteItemCart(payload);
+      const updatedCarts = this.state.value.carts.filter(
+        (item) => item.menuId !== menuId,
+      );
+
+      this.updateState({
+        carts: updatedCarts,
+        ...this.calculateTotals(updatedCarts),
+        loading: false,
+      });
+
+      this.toastService.success('Item berhasil dihapus!');
+    } catch (error: any) {
+      this.updateState({ loading: false });
+      this.toastService.error(
+        error.message || 'Gagal menghapus item dari keranjang',
       );
     }
   }
@@ -128,5 +147,13 @@ export class CartService {
 
   private updateState(newState: Partial<CartState>): void {
     this.state.next({ ...this.state.value, ...newState });
+  }
+
+  private calculateTotals(carts: Cart[]) {
+    return {
+      totalMenu: carts.length,
+      totalQty: carts.reduce((sum, item) => sum + item.qty, 0),
+      totalPrice: carts.reduce((sum, item) => sum + item.qty * item.price, 0),
+    };
   }
 }

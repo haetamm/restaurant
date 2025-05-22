@@ -10,11 +10,11 @@
     <img
       [src]="imageUrl"
       [alt]="item.name || 'Item'"
-      class="h-10 w-10 lg:h-20 lg:w-20 object-contain bg-amber-100 rounded-lg"
+      class="h-16 w-16 lg:h-20 lg:w-20 object-contain bg-amber-100 rounded-lg"
     />
   </ng-template>
 
-  <div class="flex-1" *ngIf="item.id; else loadingPrice">
+  <div class="flex-1 space-y-1" *ngIf="item.id; else loadingPrice">
     <p class="font-medium text-sm line-clamp-1 xl:text-md">
       {{ item.name }}
     </p>
@@ -23,6 +23,27 @@
       <p class="text-sm text-gray-600 font-semibold shrink-0">
         x {{ item.qty }}
       </p>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button
+        [disabled]="loading"
+        (click)="
+          item.qty === 1
+            ? onDeleteItemCart(item.menuId)
+            : onUpdateCart(item.menuId, -1)
+        "
+        [ngClass]="item.qty <= 1 ? 'bg-[#df0a0a]' : 'bg-[#fc9208]'"
+        class="text-white disabled:bg-slate-400 flex items-center justify-center h-6 w-6 xl:w-10 xl:h-6 cursor-pointer rounded-sm"
+      >
+        <ng-icon [name]="item.qty <= 1 ? 'bootstrapTrash3Fill' : 'heroMinus'" />
+      </button>
+      <button
+        [disabled]="loading"
+        (click)="onUpdateCart(item.menuId, 1)"
+        class="bg-[#04A033] disabled:bg-slate-400 text-white flex items-center justify-center h-6 w-6 xl:w-10 xl:h-6 cursor-pointer rounded-sm"
+      >
+        <ng-icon name="bootstrapPlusLg" />
+      </button>
     </div>
   </div>
 

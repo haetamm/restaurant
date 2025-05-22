@@ -17,12 +17,29 @@ router.post('/all', async (req, res) => {
   }
 });
 
-router.post('/create', async (req, res) => {
+router.put('/update', async (req, res) => {
   try {
     const axiosInstance = createServerAxiosInstance(req);
     const { menuRequest } = req.body;
     const response = await axiosInstance.post(`${BASE_URL}/carts`, {
       menuRequest,
+    });
+    res.json(response.data);
+  } catch (error: any) {
+    console.log(error);
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Login failed',
+    });
+  }
+});
+
+router.delete('/delete', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const { items } = req.body;
+    const payload = { items };
+    const response = await axiosInstance.delete(`${BASE_URL}/carts`, {
+      data: payload,
     });
     res.json(response.data);
   } catch (error: any) {

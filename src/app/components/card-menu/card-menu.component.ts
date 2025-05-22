@@ -14,6 +14,7 @@ import { bootstrapPlusLg } from '@ng-icons/bootstrap-icons';
 })
 export class CardMenuComponent {
   @Input() menu!: Menu;
+  @Input() loadingButton!: boolean;
   @Output() addToCart = new EventEmitter<string>();
 
   get imageUrl(): string {

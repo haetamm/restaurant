@@ -14,6 +14,7 @@ import { CartService } from '../../shared/services/cart.service';
 export class ListMenuComponent {
   menus: Menu[] = [];
   loading: boolean = false;
+  loadingMenuId: string | null = null;
 
   constructor(
     private menuService: MenuService,
@@ -28,6 +29,8 @@ export class ListMenuComponent {
   }
 
   async onAddToCart(menuId: string) {
+    this.loadingMenuId = menuId;
     await this.cartService.updateCart(menuId, 1);
+    this.loadingMenuId = null;
   }
 }
