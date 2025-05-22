@@ -7,7 +7,7 @@
     <app-searchbar
       [initialSearch]="initialSearch"
       (searchChange)="onSearch($event)"
-      class="sticky top-0 z-10 bg-white"
+      class="sticky top-0 z-10 bg-auth-layout"
     />
     <div class="px-1">
       <img
@@ -20,7 +20,9 @@
     <app-list-menu />
     <app-pagination class="mt-auto" />
   </div>
-  <div class="hidden md:block w-full sticky top-0 z-10 h-screen">
-    <app-cart />
+  <div class="hidden md:block w-full sticky top-0 z-10 h-screen bg-cart">
+    <ng-container *ngIf="isUser">
+      <app-cart />
+    </ng-container>
   </div>
 </div>

@@ -20,7 +20,6 @@ export const authApi = {
       const { data } = response.data;
       return data.token;
     } catch (error: any) {
-      console.log(error);
       errorHandle(error);
     }
   },

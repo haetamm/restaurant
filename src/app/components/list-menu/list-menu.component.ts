@@ -28,19 +28,6 @@ export class ListMenuComponent {
   }
 
   async onAddToCart(menuId: string) {
-    try {
-      // Prepare the payload according to CartRequest
-      const payload = {
-        menuRequest: [
-          {
-            menuId: menuId,
-            qty: 1, // Default quantity to 1; adjust as needed
-          },
-        ],
-      };
-      await this.cartService.addToCart(payload); // Call CartService to add item
-    } catch (error) {
-      console.error('Failed to add to cart:', error);
-    }
+    await this.cartService.updateCart(menuId, 1);
   }
 }

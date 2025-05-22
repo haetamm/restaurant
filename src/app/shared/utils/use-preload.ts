@@ -9,6 +9,36 @@ export function usePreload(initialLoadingState: boolean) {
   const platformId = inject(PLATFORM_ID);
   const isLoadingSubject = new BehaviorSubject<boolean>(initialLoadingState);
 
+  // role checker helpers
+  function getRoles(): string[] {
+    const profile = profileService.getProfile();
+    return profile?.roles ?? [];
+  }
+
+  function isUser(): boolean {
+    const roles = getRoles();
+    return roles.length === 1 && roles.includes('ROLE_USER');
+  }
+
+  function isAdmin(): boolean {
+    const roles = getRoles();
+    return (
+      roles.length === 2 &&
+      roles.includes('ROLE_USER') &&
+      roles.includes('ROLE_ADMIN')
+    );
+  }
+
+  function isSuperAdmin(): boolean {
+    const roles = getRoles();
+    return (
+      roles.length === 3 &&
+      roles.includes('ROLE_USER') &&
+      roles.includes('ROLE_ADMIN') &&
+      roles.includes('ROLE_SUPER_ADMIN')
+    );
+  }
+
   async function initialize(): Promise<void> {
     isLoadingSubject.next(initialLoadingState);
     if (isPlatformBrowser(platformId)) {
@@ -25,5 +55,8 @@ export function usePreload(initialLoadingState: boolean) {
   return {
     isLoading$: isLoadingSubject.asObservable(),
     initialize,
+    isUser,
+    isAdmin,
+    isSuperAdmin,
   };
 }

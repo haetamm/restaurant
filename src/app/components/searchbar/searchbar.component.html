@@ -1,5 +1,5 @@
 <div
-  class="py-2 md:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10 bg-white"
+  class="py-2 md:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10"
 >
   <div class="w-full">
     <label for="table-search" class="sr-only">Search</label>
@@ -14,14 +14,14 @@
         id="table-search"
         [formControl]="searchControl"
         (keydown.enter)="onEnter()"
-        class="w-full shadow-sm text-gray-900 text-sm rounded-full block pl-10 px-2.5 py-2 focus:outline-none placeholder:text-slate-300"
+        class="w-full shadow-sm bg-white text-gray-900 text-sm rounded-full block pl-10 px-2.5 py-2 focus:outline-none placeholder:text-slate-300"
         placeholder="Search your food"
       />
     </div>
   </div>
   <button
     (click)="toggleFilter()"
-    class="shadow-sm mr-[42px] md:mr-0 rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
+    class="shadow-sm bg-white mr-[42px] md:mr-0 rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
   >
     <ng-icon
       [name]="isFilterVisible ? 'bootstrapXLg' : 'heroAdjustmentsHorizontal'"

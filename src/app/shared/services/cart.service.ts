@@ -20,13 +20,22 @@ export interface Cart {
 interface CartState {
   loading: boolean;
   carts: Cart[];
+  totalMenu: number;
+  totalQty: number;
+  totalPrice: number;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private state = new BehaviorSubject<CartState>({ loading: false, carts: [] });
+  private state = new BehaviorSubject<CartState>({
+    loading: false,
+    carts: [],
+    totalMenu: 0,
+    totalPrice: 0,
+    totalQty: 0,
+  });
   state$: Observable<CartState> = this.state.asObservable();
 
   loading$: Observable<boolean> = this.state.pipe(
@@ -43,39 +52,63 @@ export class CartService {
     this.updateState({ loading: true });
     try {
       const data = await cartApi.fetchCart();
-      this.updateState({ carts: data, loading: false });
+      this.updateState({
+        carts: data,
+        totalMenu: data.length,
+        totalQty: data.reduce((sum: number, item: Cart) => sum + item.qty, 0),
+        totalPrice: data.reduce(
+          (sum: number, item: Cart) => sum + item.qty * item.price,
+          0,
+        ),
+        loading: false,
+      });
     } catch (error: any) {
-      this.updateState({ carts: [], loading: false });
+      this.updateState({
+        carts: [],
+        totalMenu: 0,
+        totalQty: 0,
+        totalPrice: 0,
+        loading: false,
+      });
       this.toastService.error(error.message || 'Failed to add to cart');
     }
   }
 
-  async addToCart(data: CartRequest): Promise<void> {
+  async updateCart(menuId: string, qty: number): Promise<void> {
     try {
-      const newCartItems = await cartApi.updateCart(data); // Mengembalikan Cart[]
+      const payload = {
+        menuRequest: [
+          {
+            menuId: menuId,
+            qty: qty,
+          },
+        ],
+      };
+      const newCartItems = await cartApi.updateCart(payload);
       const currentCarts = this.state.value.carts;
 
-      // Gabungkan item baru dengan state saat ini
       const updatedCarts = [...currentCarts];
       newCartItems.forEach((newItem: Cart) => {
         const existingIndex = updatedCarts.findIndex(
           (item) => item.menuId === newItem.menuId,
         );
         if (existingIndex !== -1) {
-          // Item sudah ada: update qty
-          updatedCarts[existingIndex] = {
-            ...updatedCarts[existingIndex],
-            qty: updatedCarts[existingIndex].qty + 1,
-          };
+          updatedCarts[existingIndex] = newItem;
         } else {
-          // Item baru: tambahkan
           updatedCarts.push(newItem);
         }
       });
 
-      console.log('CartService: Updated carts:', updatedCarts);
-      this.updateState({ carts: updatedCarts, loading: false });
-      console.log('CartService: State after update:', this.state.value);
+      this.updateState({
+        carts: updatedCarts,
+        totalMenu: updatedCarts.length,
+        totalQty: updatedCarts.reduce((sum, item) => sum + item.qty, 0),
+        totalPrice: updatedCarts.reduce(
+          (sum, item) => sum + item.qty * item.price,
+          0,
+        ),
+        loading: false,
+      });
       this.toastService.success('Item berhasil ditambahkan ke keranjang!');
     } catch (error: any) {
       this.updateState({ loading: false });

@@ -28,3 +28,21 @@ body {
     justify-content: center;
   }
 }
+
+.bg-cart {
+  background: #ffffff;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 49%,
+    rgba(253, 247, 242, 1) 100%
+  );
+}
+
+.bg-auth-layout {
+  background: #fdf5f1;
+  background: linear-gradient(
+    150deg,
+    rgba(253, 245, 241, 1) 21%,
+    rgba(252, 251, 252, 1) 37%
+  );
+}
