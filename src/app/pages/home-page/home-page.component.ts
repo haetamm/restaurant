@@ -9,9 +9,7 @@ import { MenuService } from '../../shared/services/menu.service';
 import { take } from 'rxjs/operators';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { CartComponent } from '../../components/cart/cart.component';
-import { CartService } from '../../shared/services/cart.service';
 import { usePreload } from '../../shared/utils/use-preload';
-import { ProfileService } from '../../shared/services/profile.service';
 
 @Component({
   selector: 'app-home-page',
@@ -36,8 +34,6 @@ export class HomePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private menuService: MenuService,
-    private cartService: CartService,
-    private profileService: ProfileService,
   ) {}
 
   ngOnInit(): void {
@@ -75,11 +71,6 @@ export class HomePageComponent implements OnInit {
       const menus = this.menuService.getMenus();
       if (!menus || menus.length === 0) {
         this.menuService.fetchMenus(params);
-      }
-
-      const cart = this.cartService.getCart();
-      if (!cart || (cart.length === 0 && this.preload.isUser())) {
-        this.cartService.fetchCart();
       }
     });
   }

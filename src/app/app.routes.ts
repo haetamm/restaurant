@@ -10,6 +10,8 @@ import { authGuard } from './guards/auth.guard';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CustomerPageComponent } from './pages/customer-page/customer-page.component';
+import { CartPageComponent } from './pages/cart-page/cart-page.component';
+import { userGuard } from './guards/user.guard';
 
 export const routes: Routes = [
   {
@@ -52,6 +54,11 @@ export const routes: Routes = [
       {
         path: 'home',
         component: HomePageComponent,
+      },
+      {
+        path: 'cart',
+        canActivate: [userGuard],
+        component: CartPageComponent,
       },
       {
         path: 'customers',

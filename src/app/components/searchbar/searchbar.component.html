@@ -1,5 +1,5 @@
 <div
-  class="py-2 md:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10"
+  class="py-2 px-2 lg:px-3 md:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10"
 >
   <div class="w-full">
     <label for="table-search" class="sr-only">Search</label>
@@ -21,16 +21,15 @@
   </div>
   <button
     (click)="toggleFilter()"
-    class="shadow-sm bg-white mr-[42px] md:mr-0 rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
+    class="shadow-sm shrink-0 bg-white mr-[85px] md:mr-0 rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
   >
     <ng-icon
       [name]="isFilterVisible ? 'bootstrapXLg' : 'heroAdjustmentsHorizontal'"
-      class="w-8 h-8"
     />
   </button>
   <div
     *ngIf="isFilterVisible"
-    class="absolute w-full md:w-[350px] top-14 md:top-18 bg-white shadow-2xl rounded-lg md:right-4"
+    class="absolute w-screen md:w-[350px] top-[52px] md:top-18 bg-white shadow-2xl md:rounded-lg right-[1px] md:right-4"
   >
     <app-filter-form (close)="closeFilter()" />
   </div>

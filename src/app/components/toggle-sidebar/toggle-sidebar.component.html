@@ -1,9 +1,25 @@
-<button
-  (click)="toggleSidebar()"
-  class="md:hidden bg-white absolute top-2 right-2 z-60 shadow-sm rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
->
-  <ng-icon
-    [name]="(sidebarVisible$ | async) ? 'bootstrapXLg' : 'bootstrapFilterRight'"
-    class="w-8 h-8"
-  />
-</button>
+<div class="flex items-center absolute top-2 right-2 z-60 space-x-1.5">
+  <a
+    [routerLink]="urlPage.CART"
+    class="md:hidden bg-white shadow-sm rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
+  >
+    <small
+      class="bg-red-600 text-white top-[-4px] rounded-full flex justify-center items-center h-6 w-6 right-[38px] absolute"
+      *ngIf="cartState$ | async as state"
+    >
+      {{ state.totalMenu }}
+    </small>
+    <ng-icon name="bootstrapHandbag" />
+  </a>
+  <button
+    (click)="toggleSidebar()"
+    class="md:hidden bg-white shadow-sm rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
+  >
+    <ng-icon
+      [name]="
+        (sidebarVisible$ | async) ? 'bootstrapXLg' : 'bootstrapFilterRight'
+      "
+      class="w-8 h-8"
+    />
+  </button>
+</div>

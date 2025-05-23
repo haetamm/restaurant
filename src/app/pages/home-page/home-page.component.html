@@ -1,23 +1,21 @@
 <div
   class="w-ful grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%]"
 >
-  <div
-    class="flex flex-col min-h-screen px-2 lg:px-3 border-r-[1px] border-slate-300"
-  >
+  <div class="flex flex-col min-h-screen border-r-[1px] border-slate-300">
     <app-searchbar
       [initialSearch]="initialSearch"
       (searchChange)="onSearch($event)"
       class="sticky top-0 z-10 bg-auth-layout"
     />
-    <div class="px-1">
+    <div class="px-2 lg:px-3">
       <img
         src="/img/banner.png"
         alt="banner"
         class="rounded-xl shadow-sm min-h-[131px] xs:min-h-[231px] md:min-h-[150px] lg:min-[206px]"
       />
+      <app-categorybar />
+      <app-list-menu />
     </div>
-    <app-categorybar />
-    <app-list-menu />
     <app-pagination class="mt-auto" />
   </div>
   <div class="hidden md:block w-full sticky top-0 z-10 h-screen bg-cart">
