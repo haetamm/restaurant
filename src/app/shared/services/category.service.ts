@@ -43,7 +43,9 @@ export class CategoryService {
       });
     } catch (error: any) {
       this.updateState({ menus: [], loading: false });
-      this.toastService.error(error.message || 'Failed to load menu');
+      this.toastService.error(
+        error.message || 'Failed to load menu categories',
+      );
     }
   }
 

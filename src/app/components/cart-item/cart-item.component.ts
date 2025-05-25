@@ -25,6 +25,7 @@ import { heroMinus } from '@ng-icons/heroicons/outline';
 })
 export class CartItemComponent {
   @Input() item!: Cart;
+  @Input() isShow!: boolean;
   loading = false;
 
   constructor(private cartService: CartService) {}

@@ -1,5 +1,5 @@
 <div
-  class="flex items-center gap-y-4 gap-x-3 mb-4 p-3 shadow-sm rounded-lg bg-white"
+  class="flex items-center gap-y-4 gap-x-3 mb-2 md:mb-3 p-3 shadow-sm rounded md:rounded-lg bg-white"
 >
   <!-- Placeholder untuk gambar -->
   <div
@@ -24,7 +24,7 @@
         x {{ item.qty }}
       </p>
     </div>
-    <div class="flex items-center space-x-4">
+    <div *ngIf="isShow" class="flex items-center space-x-4">
       <button
         [disabled]="loading"
         (click)="

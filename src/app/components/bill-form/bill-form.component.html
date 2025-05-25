@@ -1,0 +1,57 @@
+<form
+  [formGroup]="formGroup"
+  (ngSubmit)="onSubmit()"
+  class="w-full lg:w-[93%] pt-3 pb-0"
+  novalidate
+>
+  <div class="grid md:grid-cols-2 md:gap-x-3">
+    <ng-container *ngFor="let field of fields">
+      <div
+        class="relative z-0 w-full mb-4 group"
+        [ngClass]="{ 'md:col-span-2': field.type === 'textarea' }"
+      >
+        <!-- Input Field -->
+        <ng-container *ngIf="field.type !== 'textarea'; else textareaField">
+          <input
+            [type]="field.type"
+            [id]="field.name"
+            [formControlName]="field.name"
+            placeholder=" "
+            class="block py-2.5 px-0 w-full text-sm xl:text-[14px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#F86901] peer"
+            required
+          />
+        </ng-container>
+        <!-- Textarea Field -->
+        <ng-template #textareaField>
+          <textarea
+            [id]="field.name"
+            [formControlName]="field.name"
+            rows="3"
+            placeholder=" "
+            class="block py-1.5 px-0 w-full text-sm xl:text-[14px] text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#F86901] peer"
+            required
+          ></textarea>
+        </ng-template>
+        <label
+          [for]="field.name"
+          class="peer-focus:font-medium absolute text-sm xl:text-[14px] text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-[#F86901]"
+        >
+          {{ field.label }}
+        </label>
+
+        <!-- Error Message -->
+        <small
+          *ngIf="
+            formGroup.controls[field.name].touched &&
+            formGroup.controls[field.name].invalid
+          "
+          class="text-red-600 mt-1"
+        >
+          {{
+            formGroup.controls[field.name].getError("zod") || "Invalid field"
+          }}
+        </small>
+      </div>
+    </ng-container>
+  </div>
+</form>

@@ -4,6 +4,7 @@ import userRoutes from './user.routes';
 import menuRoutes from './menu.routes';
 import categoryRoutes from './category.routes';
 import cartRoutes from './cart.routes';
+import billRoutes from './bill.routes';
 
 const router = Router();
 
@@ -13,6 +14,7 @@ router.use('/user', userRoutes);
 router.use('/menu', menuRoutes);
 router.use('/category', categoryRoutes);
 router.use('/cart', cartRoutes);
+router.use('/bill', billRoutes);
 
 // Grup route lain bisa ditambahkan di sini
 // Contoh: router.use('/user', userRoutes);

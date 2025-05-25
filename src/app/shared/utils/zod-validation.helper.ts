@@ -1,3 +1,4 @@
+// shared/utils/zod-validation.helper.ts
 import { ZodSchema } from 'zod';
 import { AbstractControl } from '@angular/forms';
 
@@ -11,17 +12,23 @@ export function setupZodValidation<T extends Record<string, AbstractControl>>(
         Object.entries(controls).map(([k, c]) => [k, c.value]),
       );
 
+      control.updateValueAndValidity({ emitEvent: false });
+
       const result = schema.safeParse(rawValue);
 
       if (!result.success) {
         const message = result.error.flatten().fieldErrors[key]?.[0];
         if (message) {
-          control.setErrors({ zod: message });
+          control.setErrors({ ...control.errors, zod: message });
         } else {
-          control.setErrors(null);
+          const { zod, ...otherErrors } = control.errors || {};
+          control.setErrors(
+            Object.keys(otherErrors).length ? otherErrors : null,
+          );
         }
       } else {
-        control.setErrors(null);
+        const { zod, ...otherErrors } = control.errors || {};
+        control.setErrors(Object.keys(otherErrors).length ? otherErrors : null);
       }
     });
   });

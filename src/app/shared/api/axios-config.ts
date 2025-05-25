@@ -26,7 +26,7 @@ export const createAxiosInstance = (): AxiosInstance => {
         if (response && response.status === 401) {
           const token = Cookies.get('token');
           if (token) {
-            window.location.assign(`/${urlPage.LOGIN}`);
+            window.location.href = urlPage.LOGIN;
           }
           Cookies.remove('token');
         }

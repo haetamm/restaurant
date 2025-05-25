@@ -8,12 +8,13 @@ import { CartService, Cart } from '../../shared/services/cart.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CartItemComponent } from '../cart-item/cart-item.component';
+import { ListCartItemComponent } from '../list-cart-item/list-cart-item.component';
+import { CartSummaryComponent } from '../cart-summary/cart-summary.component';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NgIcon, CommonModule, CartItemComponent],
+  imports: [NgIcon, CommonModule, ListCartItemComponent, CartSummaryComponent],
   templateUrl: './cart.component.html',
   viewProviders: [
     provideIcons({

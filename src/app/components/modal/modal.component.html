@@ -1,0 +1,24 @@
+<div
+  *ngIf="modalVisible$ | async"
+  class="relative z-100"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="fixed inset-0 bg-gray-500/75 transition-opacity overflow-y-scroll"
+    aria-hidden="true"
+  ></div>
+
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div
+      class="w-full flex md:min-h-full lg:h-screen items-end justify-center p-3 sm:items-center md:p-0"
+    >
+      <div
+        class="transform overflow-hidden rounded-lg bg-auth-layout text-left shadow-xl transition-all w-full md:max-w-xl lg:max-w-2xl xl:max-w-[850px]"
+      >
+        <app-checkout-section />
+      </div>
+    </div>
+  </div>
+</div>

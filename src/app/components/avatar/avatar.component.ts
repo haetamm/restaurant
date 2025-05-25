@@ -20,4 +20,11 @@ export class AvatarComponent implements OnInit {
     });
     this.greeting = setGreeting();
   }
+
+  get displayName(): string {
+    if (this.profile) {
+      return this.profile.name || this.profile.username;
+    }
+    return 'Hello';
+  }
 }

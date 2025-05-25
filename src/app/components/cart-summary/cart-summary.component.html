@@ -1,0 +1,19 @@
+<div class="pt-2 lg:mt-6 pb-1.5 lg:mb-4 space-y-1 relative">
+  <div class="space-y-2 grid grid-cols-2 gap-1 text-sm xl:text-[16px]">
+    <span>Menu</span>
+    <span class="text-right font-semibold">{{ state.totalMenu }}</span>
+    <span>Porsi</span>
+    <span class="text-right font-semibold">{{ state.totalQty }}</span>
+    <hr class="col-span-2 border-t-2 border-dashed border-gray-300" />
+    <span>Total</span>
+    <span class="text-right font-semibold">Rp. {{ state.totalPrice }}</span>
+  </div>
+  <button
+    *ngIf="isShow"
+    (click)="showModal()"
+    [disabled]="state.totalPrice === 0"
+    class="w-full block cursor-pointer bg-[#F86901] disabled:bg-[#f7b281] disabled:cursor-not-allowed text-white font-semibold rounded-lg px-3 py-2 md:py-1.5 lg:py-[10px] mt-2 mb-2 md:mt-1 md:mb-0 lg:mt-2"
+  >
+    Checkout
+  </button>
+</div>

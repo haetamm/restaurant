@@ -141,7 +141,7 @@ export class CartService {
     return this.state$;
   }
 
-  getCart(): Cart[] | null {
+  getCart(): Cart[] | [] {
     return this.state.value.carts;
   }
 

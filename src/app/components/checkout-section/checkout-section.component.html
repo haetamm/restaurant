@@ -1,0 +1,58 @@
+<div class="px-4 lg:px-8">
+  <div class="mt-6 mb-6">
+    <div class="text-sm xl:text-[16px] grid grid-cols-1 lg:grid-cols-[60%_40%]">
+      <div
+        class="flex flex-col relative lg:max-h-[calc(100vh-200px)] overflow-auto lg:mr-6 small-scrollbar px-1"
+      >
+        <h3
+          class="text-center lg:text-start font-semibold text-lg"
+          id="modal-title"
+        >
+          Checkout
+        </h3>
+        <app-bill-form
+          [formGroup]="deliveryBillForm"
+          [fields]="deliveryBillFields"
+          (submitForm)="onSubmit($event)"
+        />
+
+        <button
+          (click)="toggleDropdown()"
+          type="button"
+          class="flex items-center justify-between w-full lg:w-[93%] py-2.5 mt-1 rtl:text-right gap-3 text-gray-500 cursor-pointer border-0 border-b-2 border-gray-300"
+          [ngClass]="isVisible ? 'mb-4' : 'mb-6'"
+        >
+          <span>Details</span>
+          <ng-icon
+            [name]="
+              isVisible
+                ? 'bootstrapChevronCompactUp'
+                : 'bootstrapChevronCompactDown'
+            "
+          />
+        </button>
+        <ng-container *ngIf="isVisible">
+          <div *ngIf="cartState$ | async as state" class="w-ful lg:w-[93%]">
+            <app-list-cart-item [state]="state" />
+          </div>
+        </ng-container>
+      </div>
+      <div *ngIf="cartState$ | async as state" class="px-1">
+        <app-cart-summary [state]="state" />
+        <button
+          (click)="onSubmit(deliveryBillForm.value)"
+          [disabled]="deliveryBillForm.invalid || state.totalPrice === 0"
+          class="w-full block cursor-pointer bg-[#F86901] disabled:bg-[#f7b281] lg:mt-[-15px] disabled:cursor-not-allowed text-white font-semibold rounded-lg px-3 py-2 md:py-1.5 lg:py-[10px] mb-4 md:mb-3"
+        >
+          Bayar
+        </button>
+        <button
+          (click)="closeModal()"
+          class="w-full block cursor-pointer border-[#F86901] border-[1px] font-semibold rounded-lg px-3 py-2 md:py-1.5 lg:py-[10px]"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

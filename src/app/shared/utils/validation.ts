@@ -53,6 +53,12 @@ const passwordConfirmation = z
   .min(4, 'Password minimal 4 karakter')
   .max(8, 'Password maksimal 8 karakter');
 
+const address = z
+  .string()
+  .trim()
+  .min(1, 'Alamat wajib diisi')
+  .max(225, 'Alamat maksimal 225 karakter');
+
 export const registerSchema = z.object({
   name,
   phone,
@@ -80,3 +86,11 @@ export const resetPasswordSchema = z
   });
 
 export type ResetPasswordFormType = z.infer<typeof resetPasswordSchema>;
+
+export const deliveryBillSchema = z.object({
+  recipientName: name,
+  phone,
+  deliveryAddress: address,
+});
+
+export type DeliveryBillFormType = z.infer<typeof deliveryBillSchema>;

@@ -6,6 +6,9 @@ import { userApi } from '../api/user.api';
 import { urlPage } from '../utils/constans';
 
 export interface Profile {
+  name: string;
+  phone: string;
+  address: string;
   email: string;
   username: string;
   roles: Array<string>;
@@ -67,6 +70,6 @@ export class ProfileService {
   logout() {
     authApi.removeAccessToken();
     this.updateState({ profile: null, loading: false });
-    window.location.assign(urlPage.LOGIN);
+    window.location.href = urlPage.LOGIN;
   }
 }

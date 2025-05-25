@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { ToggleSidebarComponent } from '../../components/toggle-sidebar/toggle-sidebar.component';
 import { CartService } from '../../shared/services/cart.service';
 import { usePreload } from '../../shared/utils/use-preload';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-auth-layout',
@@ -19,6 +20,7 @@ import { usePreload } from '../../shared/utils/use-preload';
     SidebarComponent,
     SidebarComponent,
     ToggleSidebarComponent,
+    ModalComponent,
   ],
   templateUrl: './auth-layout.component.html',
 })

@@ -4,16 +4,14 @@
   >
     <img
       [src]="
-        'https://ui-avatars.com/api/?name=' +
-        (profile ? profile.username : 'User') +
-        '&background=random'
+        'https://ui-avatars.com/api/?name=' + displayName + '&background=random'
       "
-      alt="User Avatar"
+      [alt]="displayName"
       class="rounded-full"
     />
   </div>
   <h3 class="mt-2 text-lg font-semibold text-center">
-    {{ profile ? profile.username : "Hallo" }}
+    {{ displayName }}
   </h3>
   <p class="text-sm text-gray-500 text-center">{{ greeting }} 😁</p>
 </div>

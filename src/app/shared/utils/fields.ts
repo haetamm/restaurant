@@ -118,3 +118,31 @@ export const filterFields = [
     ],
   },
 ];
+
+export interface DeliveryBillFormControls {
+  recipientName: FormControl<string | null>;
+  phone: FormControl<string | null>;
+  deliveryAddress: FormControl<string | null>;
+}
+
+export const deliveryBillFields: Array<{
+  name: keyof DeliveryBillFormControls;
+  type: string;
+  label: string;
+}> = [
+  {
+    name: 'recipientName',
+    type: 'text',
+    label: 'Nama Penerima',
+  },
+  {
+    name: 'phone',
+    type: 'number',
+    label: 'No. Hp. Penerima',
+  },
+  {
+    name: 'deliveryAddress',
+    type: 'textarea',
+    label: 'Alamat Pengiriman',
+  },
+];

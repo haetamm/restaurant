@@ -1,0 +1,32 @@
+<!-- Loading State -->
+<ng-container *ngIf="state.loading">
+  <div class="flex flex-col gap-4">
+    <app-cart-item
+      *ngFor="let i of [1, 2]"
+      [item]="{
+        id: '',
+        menuId: '',
+        name: 'Loading...',
+        image: '',
+        qty: 0,
+        price: 0,
+      }"
+      [isShow]="isShow"
+    />
+  </div>
+</ng-container>
+
+<!-- Empty State -->
+<ng-container *ngIf="!state.loading && state.carts.length === 0">
+  <div class="text-center py-10 flex space-x-2 justify-center items-center">
+    <ng-icon name="bootstrapInfoCircle" />
+    <p class="text-gray-500 italic">Belum ada pesanan</p>
+  </div>
+</ng-container>
+
+<!-- Cart Items -->
+<ng-container *ngIf="!state.loading && state.carts.length > 0">
+  <ng-container *ngFor="let item of state.carts; trackBy: trackById">
+    <app-cart-item [item]="item" [isShow]="isShow" />
+  </ng-container>
+</ng-container>

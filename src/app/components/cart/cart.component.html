@@ -14,61 +14,14 @@
     </button>
   </div>
 
-  <div
-    class="mt-1"
-    *ngIf="cartState$ | async as state"
-    class="h-[calc(100vh - 250px)] overflow-auto pt-3 pr-3"
-  >
-    <!-- Loading State -->
-    <ng-container *ngIf="state.loading">
-      <div class="flex flex-col gap-4">
-        <app-cart-item
-          *ngFor="let i of [1, 2]"
-          [item]="{
-            id: '',
-            menuId: '',
-            name: 'Loading...',
-            image: '',
-            qty: 0,
-            price: 0,
-          }"
-        />
-      </div>
-    </ng-container>
-
-    <!-- Empty State -->
-    <ng-container *ngIf="!state.loading && state.carts.length === 0">
-      <div class="text-center py-10 flex space-x-2 justify-center items-center">
-        <ng-icon name="bootstrapInfoCircle" />
-        <p class="text-gray-500 italic">Belum ada pesanan</p>
-      </div>
-    </ng-container>
-
-    <!-- Cart Items -->
-    <ng-container *ngIf="!state.loading && state.carts.length > 0">
-      <ng-container *ngFor="let item of state.carts; trackBy: trackById">
-        <app-cart-item [item]="item" />
-      </ng-container>
-    </ng-container>
-  </div>
-
-  <div
-    *ngIf="cartState$ | async as state"
-    class="pt-2 lg:mt-6 px-3 pb-1.5 lg:mb-4"
-  >
-    <div class="lg:space-y-1 grid grid-cols-2 gap-1 text-sm xl:text-[16px]">
-      <span>Menu</span>
-      <span class="text-right font-semibold">{{ state.totalMenu }}</span>
-      <span>Porsi</span>
-      <span class="text-right font-semibold">{{ state.totalQty }}</span>
-      <hr class="col-span-2 my-1.5 border-t-2 border-dashed border-gray-300" />
-      <span>Total</span>
-      <span class="text-right font-semibold">Rp. {{ state.totalPrice }}</span>
-    </div>
-    <button
-      class="w-full block cursor-pointer bg-[#F86901] disabled:bg-[#f7b281] disabled:cursor-not-allowed text-white font-semibold rounded-lg px-4 py-2.5 md:py-1.5 lg:py-3 mt-2 mb-2 md:mt-1 md:mb-0 lg:mt-6"
+  <ng-container *ngIf="cartState$ | async as state">
+    <div
+      class="mt-1 h-[calc(100vh - 250px)] overflow-auto pt-3 pl-1 pr-3 md:pr-2 small-scrollbar"
     >
-      Bayar
-    </button>
-  </div>
+      <app-list-cart-item [state]="state" [isShow]="true" />
+    </div>
+    <div class="pl-1 pr-2">
+      <app-cart-summary [state]="state" [isShow]="true" />
+    </div>
+  </ng-container>
 </div>

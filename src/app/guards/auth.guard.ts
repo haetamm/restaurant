@@ -20,5 +20,5 @@ export const authGuard: CanActivateFn = async (): Promise<
     }
   }
 
-  return profile ? true : router.createUrlTree([urlPage.WELCOME]);
+  return profile ? true : router.navigate([urlPage.WELCOME]);
 };

@@ -47,7 +47,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: '',
+        path: 'on',
         redirectTo: 'home',
         pathMatch: 'full',
       },
@@ -75,7 +75,7 @@ export const routes: Routes = [
     canActivate: [guestGuard],
     children: [
       {
-        path: '',
+        path: 'guest',
         redirectTo: 'login',
         pathMatch: 'full',
       },
