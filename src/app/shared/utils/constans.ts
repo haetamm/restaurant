@@ -10,6 +10,7 @@ export const urlPage = {
   HOME: '/on/home',
   CUSTOMER: '/on/customers',
   CART: '/on/cart',
+  TRANSACTION: '/on/transaction',
 };
 
 export const BASE_URL = environment.baseUrl;

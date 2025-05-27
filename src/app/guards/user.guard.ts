@@ -18,6 +18,6 @@ export const userGuard: CanActivateFn = () => {
     return true;
   }
 
-  router.navigate([urlPage.WELCOME]);
+  router.navigate([urlPage.HOME]);
   return false;
 };

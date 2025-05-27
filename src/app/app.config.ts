@@ -1,6 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { routes } from './app.routes';
 import {
   provideClientHydration,
@@ -18,6 +17,5 @@ export const appConfig: ApplicationConfig = {
         includePostRequests: false,
       }),
     ),
-    provideHotToastConfig(),
   ],
 };

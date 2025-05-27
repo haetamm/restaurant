@@ -38,8 +38,8 @@ export class SidebarComponent {
   urlPage = urlPage;
   navItems = [
     { label: 'Home', icon: 'bootstrapShopWindow', link: urlPage.HOME },
+    { label: 'Transaksi', icon: 'bootstrapWallet2', link: urlPage.TRANSACTION },
     { label: 'Menu', icon: 'bootstrapClipboard2', link: '#' },
-    { label: 'Tagihan', icon: 'bootstrapWallet2', link: '#' },
     {
       label: 'Table',
       icon: 'bootstrapCalendar2Check',

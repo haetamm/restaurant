@@ -44,6 +44,7 @@ import {
   ],
 })
 export class CheckoutSectionComponent implements OnInit {
+  loading = false;
   profile: Profile | null = null;
   deliveryBillForm = new FormGroup({
     recipientName: new FormControl<string>('', [Validators.required]),
@@ -109,7 +110,7 @@ export class CheckoutSectionComponent implements OnInit {
     this.modalService.hideModal();
   }
 
-  onSubmit(formValue?: any) {
+  async onSubmit(formValue?: any) {
     if (this.deliveryBillForm.invalid) {
       this.deliveryBillForm.markAllAsTouched();
       return;
@@ -132,7 +133,11 @@ export class CheckoutSectionComponent implements OnInit {
         qty: cart.qty,
       })),
     };
-    this.billService.createDeliveryBill(payload);
-    this.closeModal();
+    this.loading = true;
+    try {
+      await this.billService.createDeliveryBill(payload);
+    } finally {
+      this.loading = false;
+    }
   }
 }

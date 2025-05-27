@@ -1,5 +1,5 @@
 <div
-  class="w-ful grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%]"
+  class="w-ful grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%] bg-auth-layout"
 >
   <div class="flex flex-col min-h-screen border-r-[1px] border-slate-300">
     <app-searchbar
@@ -16,7 +16,11 @@
       <app-categorybar />
       <app-list-menu />
     </div>
-    <app-pagination class="mt-auto" />
+    <app-pagination
+      [paginationData]="menuPagination"
+      [fetchData]="fetchMenus.bind(this)"
+      class="mt-auto"
+    />
   </div>
   <div class="hidden md:block w-full sticky top-0 z-10 h-screen bg-cart">
     <ng-container *ngIf="isUser">

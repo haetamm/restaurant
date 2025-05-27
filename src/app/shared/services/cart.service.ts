@@ -103,7 +103,10 @@ export class CartService {
         ...this.calculateTotals(updatedCarts),
         loading: false,
       });
-      if (qty > 0) this.toastService.success('Item berhasil ditambahkan!');
+      if (qty > 0)
+        this.toastService.success('Item berhasil ditambahkan!', {
+          dismissible: true,
+        });
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(
@@ -128,7 +131,9 @@ export class CartService {
         loading: false,
       });
 
-      this.toastService.success('Item berhasil dihapus!');
+      this.toastService.success('Item berhasil dihapus!', {
+        dismissible: true,
+      });
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(
@@ -143,6 +148,10 @@ export class CartService {
 
   getCart(): Cart[] | [] {
     return this.state.value.carts;
+  }
+
+  resetCart() {
+    this.updateState({ carts: [], totalMenu: 0, totalPrice: 0, totalQty: 0 });
   }
 
   private updateState(newState: Partial<CartState>): void {

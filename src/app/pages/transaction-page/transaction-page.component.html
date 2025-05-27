@@ -1,0 +1,20 @@
+<div
+  class="w-ful grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[75%_25%] xl:grid-cols-[70%_30%] bg-auth-layout lg:bg-white"
+>
+  <div class="flex flex-col min-h-screen border-r-[1px] border-slate-300">
+    <div class="w-full">
+      <p
+        class="text-lg lg:text-4xl p-2 lg:p-3 sticky top-0 z-10 lg:relative bg-white lg:bg-transparent py-3 md:py-2.5 font-bold mb-4 lg:mb-0"
+      >
+        Transaksi
+      </p>
+      <app-bill-table />
+    </div>
+    <app-pagination
+      [paginationData]="billPagination"
+      [fetchData]="fetchBillByCurrentUser.bind(this)"
+      class="mt-auto"
+    />
+  </div>
+  <div class="hidden md:block w-full sticky top-0 z-10 h-screen bg-cart"></div>
+</div>

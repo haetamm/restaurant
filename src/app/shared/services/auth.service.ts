@@ -44,7 +44,10 @@ export class AuthService {
       this.toastService.success(message);
       await this.router.navigate([urlPage.LOGIN]);
     } catch (error: any) {
-      this.toastService.error(error.message || 'Registration failed');
+      this.toastService.error(error.message || 'Registration failed', {
+        autoClose: false,
+        dismissible: true,
+      });
     } finally {
       this.updateState({ loading: false });
     }
@@ -58,7 +61,10 @@ export class AuthService {
       this.toastService.success(`Welcome, ${data.username}!`);
       await this.router.navigate([urlPage.HOME]);
     } catch (error: any) {
-      this.toastService.error(error.message || 'Login failed');
+      this.toastService.error(error.message || 'Login failed', {
+        autoClose: false,
+        dismissible: true,
+      });
     } finally {
       this.updateState({ loading: false });
     }
@@ -80,6 +86,10 @@ export class AuthService {
     } catch (error: any) {
       this.toastService.error(
         error.message || 'Forgot password request failed',
+        {
+          autoClose: false,
+          dismissible: true,
+        },
       );
     } finally {
       this.updateState({ loading: false });
@@ -99,7 +109,10 @@ export class AuthService {
       await this.router.navigate([urlPage.LOGIN]);
       this.toastService.success(message);
     } catch (error: any) {
-      this.toastService.error(error.message || 'Password reset failed');
+      this.toastService.error(error.message || 'Password reset failed', {
+        autoClose: false,
+        dismissible: true,
+      });
     } finally {
       this.updateState({ loading: false });
     }
@@ -112,7 +125,10 @@ export class AuthService {
       await this.router.navigate([urlPage.LOGIN]);
       this.toastService.success(message);
     } catch (error: any) {
-      this.toastService.error(error.message || 'Account activation failed');
+      this.toastService.error(error.message || 'Account activation failed', {
+        autoClose: false,
+        dismissible: true,
+      });
     } finally {
       this.updateState({ loading: false });
     }

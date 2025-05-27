@@ -12,6 +12,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CustomerPageComponent } from './pages/customer-page/customer-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { userGuard } from './guards/user.guard';
+import { TransactionPageComponent } from './pages/transaction-page/transaction-page.component';
 
 export const routes: Routes = [
   {
@@ -54,6 +55,10 @@ export const routes: Routes = [
       {
         path: 'home',
         component: HomePageComponent,
+      },
+      {
+        path: 'transaction',
+        component: TransactionPageComponent,
       },
       {
         path: 'cart',

@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  MenuService,
-  PaginationResponse,
-} from '../../shared/services/menu.service';
+import { PaginationResponse } from '../../shared/services/menu.service';
 
 @Component({
   selector: 'app-pagination',
@@ -16,18 +13,17 @@ export class PaginationComponent {
   pagination: PaginationResponse | null = null;
   pages: number[] = [];
 
+  @Input() fetchData: (queryParams: any) => void = () => {};
   @Output() pageChange = new EventEmitter<number>();
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private menuService: MenuService,
-  ) {
-    // Subscribe to pagination state
-    this.menuService.pagination$.subscribe((pagination: any) => {
-      this.pagination = pagination;
-      this.updatePagination();
-    });
+  ) {}
+
+  @Input() set paginationData(pagination: PaginationResponse | null) {
+    this.pagination = pagination;
+    this.updatePagination();
   }
 
   private updatePagination() {
@@ -65,7 +61,7 @@ export class PaginationComponent {
         queryParamsHandling: 'merge',
       })
       .then(() => {
-        this.menuService.fetchMenus(queryParams);
+        this.fetchData(queryParams);
       })
       .catch((error) => {
         console.error('Navigation error:', error);

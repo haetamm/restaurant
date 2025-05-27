@@ -5,7 +5,10 @@ import { SearchbarComponent } from '../../components/searchbar/searchbar.compone
 import { CategorybarComponent } from '../../components/categorybar/categorybar.component';
 import { ListMenuComponent } from '../../components/list-menu/list-menu.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { MenuService } from '../../shared/services/menu.service';
+import {
+  MenuService,
+  PaginationResponse,
+} from '../../shared/services/menu.service';
 import { take } from 'rxjs/operators';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { CartComponent } from '../../components/cart/cart.component';
@@ -28,6 +31,7 @@ import { usePreload } from '../../shared/utils/use-preload';
 export class HomePageComponent implements OnInit {
   initialSearch: string = '';
   preload = usePreload(false);
+  menuPagination: PaginationResponse | null = null;
 
   constructor(
     private seoService: SeoService,
@@ -37,6 +41,10 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.menuService.pagination$.subscribe((pagination) => {
+      this.menuPagination = pagination;
+    });
+
     if (this.seoService) {
       this.seoService.setMetaTags({
         title: 'Dashboard | Restaurant',
@@ -100,5 +108,9 @@ export class HomePageComponent implements OnInit {
 
   get isUser(): boolean {
     return this.preload.isUser();
+  }
+
+  fetchMenus(queryParams: any) {
+    this.menuService.fetchMenus(queryParams);
   }
 }
