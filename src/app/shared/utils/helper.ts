@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { BASE_URL } from './constans';
+import { BillResponse } from '../services/bill.service';
 
 export const errorHandle = (error: any) => {
   const errorMessage = error.response?.data?.message;
@@ -64,4 +65,11 @@ export const formatDate = (dateString: string): string => {
     month: 'short',
     year: 'numeric',
   });
+};
+
+export const getMenuNames = (bill: BillResponse): string => {
+  if (bill.billDetails && bill.billDetails.length > 0) {
+    return bill.billDetails.map((detail) => detail.name).join(', ');
+  }
+  return 'Tidak ada menu';
 };

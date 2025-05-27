@@ -22,6 +22,7 @@ export interface DeliveryBillRequest {
 export interface BillDetailResponse {
   id: string;
   menuId: string;
+  name: string;
   qty: number;
   price: number;
 }
@@ -102,6 +103,7 @@ export class BillService {
     from?: string;
     to?: string;
     customerName?: string;
+    menuname?: string;
     transType?: string;
     transactionStatus?: string;
     direction?: 'asc' | 'desc';

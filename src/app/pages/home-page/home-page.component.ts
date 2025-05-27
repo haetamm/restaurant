@@ -13,6 +13,7 @@ import { take } from 'rxjs/operators';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { CartComponent } from '../../components/cart/cart.component';
 import { usePreload } from '../../shared/utils/use-preload';
+import { ToggleFilterComponent } from '../../components/toggle-filter/toggle-filter.component';
 
 @Component({
   selector: 'app-home-page',
@@ -25,6 +26,7 @@ import { usePreload } from '../../shared/utils/use-preload';
     RouterModule,
     PaginationComponent,
     CartComponent,
+    ToggleFilterComponent,
   ],
   templateUrl: './home-page.component.html',
 })

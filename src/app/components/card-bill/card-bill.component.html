@@ -1,0 +1,35 @@
+<div
+  class="bg-white border-b border-gray-200 dark:border-gray-700 p-4 mb-2 rounded-sm shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600"
+>
+  <div class="flex flex-col space-y-4 text-sm">
+    <div class="flex justify-between">
+      <span class="text-gray-700">{{ formatDate(bill.transDate) }}</span>
+      <span class="text-gray-700">{{ bill.payment.transactionStatus }}</span>
+    </div>
+
+    <div class="flex flex-col w-1/2">
+      <span class="text-gray-700">{{ getMenuNames(bill) }}</span>
+    </div>
+
+    <div class="flex justify-between items-end">
+      <div class="flex flex-col">
+        <span class="font-medium text-gray-900">Total Bayar</span>
+        <div class="flex space-x-6">
+          <span class="text-gray-700 font-semibold"
+            >Rp. {{ bill.totalPayment }}</span
+          >
+          <a
+            href="#"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >Bayar</a
+          >
+        </div>
+      </div>
+      <a
+        href="#"
+        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+        >Detail</a
+      >
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<button
+  (click)="toggleFilter()"
+  class="shadow-sm shrink-0 bg-white mr-[85px] md:mr-0 rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
+>
+  <ng-icon
+    [name]="isFilterVisible ? 'bootstrapXLg' : 'heroAdjustmentsHorizontal'"
+  />
+</button>
+<div
+  *ngIf="isFilterVisible"
+  class="absolute w-screen md:w-[350px] top-[52px] md:top-18 bg-white shadow-2xl md:rounded-lg right-[1px] md:right-4"
+>
+  <app-filter-form (close)="closeFilter()" />
+</div>

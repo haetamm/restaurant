@@ -2,11 +2,16 @@
   class="w-ful grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%] bg-auth-layout"
 >
   <div class="flex flex-col min-h-screen border-r-[1px] border-slate-300">
-    <app-searchbar
-      [initialSearch]="initialSearch"
-      (searchChange)="onSearch($event)"
-      class="sticky top-0 z-10 bg-auth-layout"
-    />
+    <div
+      class="py-2 px-2 lg:px-3 md:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10 bg-auth-layout"
+    >
+      <app-searchbar
+        [initialSearch]="initialSearch"
+        (searchChange)="onSearch($event)"
+        class="w-full"
+      />
+      <app-toggle-filter />
+    </div>
     <div class="px-2 lg:px-3">
       <img
         src="/img/banner.png"

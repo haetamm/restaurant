@@ -1,36 +1,16 @@
-<div
-  class="py-2 px-2 lg:px-3 md:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10"
->
-  <div class="w-full">
-    <label for="table-search" class="sr-only">Search</label>
-    <div class="relative w-full">
-      <div
-        class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-300"
-      >
-        <ng-icon name="bootstrapSearch" class="w-5 h-5 mr-2" />
-      </div>
-      <input
-        type="search"
-        id="table-search"
-        [formControl]="searchControl"
-        (keydown.enter)="onEnter()"
-        class="w-full shadow-sm bg-white text-gray-900 text-sm rounded-full block pl-10 px-2.5 py-2 focus:outline-none placeholder:text-slate-300"
-        placeholder="Search your food"
-      />
-    </div>
-  </div>
-  <button
-    (click)="toggleFilter()"
-    class="shadow-sm shrink-0 bg-white mr-[85px] md:mr-0 rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
-  >
-    <ng-icon
-      [name]="isFilterVisible ? 'bootstrapXLg' : 'heroAdjustmentsHorizontal'"
-    />
-  </button>
+<label for="table-search" class="sr-only">Search</label>
+<div class="relative w-full">
   <div
-    *ngIf="isFilterVisible"
-    class="absolute w-screen md:w-[350px] top-[52px] md:top-18 bg-white shadow-2xl md:rounded-lg right-[1px] md:right-4"
+    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-300"
   >
-    <app-filter-form (close)="closeFilter()" />
+    <ng-icon name="bootstrapSearch" class="w-5 h-5 mr-2" />
   </div>
+  <input
+    type="search"
+    id="table-search"
+    [formControl]="searchControl"
+    (keydown.enter)="onEnter()"
+    class="w-full shadow-sm bg-white text-gray-900 text-sm rounded-full block pl-10 px-2.5 py-2 focus:outline-none placeholder:text-slate-300"
+    placeholder="Search your food"
+  />
 </div>
