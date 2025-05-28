@@ -28,7 +28,6 @@ export class BillTableComponent implements OnInit {
   ngOnInit() {
     this.billService.getState().subscribe((state) => {
       this.bills = state.bills;
-      console.log(this.bills);
       this.loading = state.loading;
     });
   }

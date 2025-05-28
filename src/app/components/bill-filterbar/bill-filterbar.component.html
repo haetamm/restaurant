@@ -1,14 +1,47 @@
-<div class="flex justify-between items-center pb-2 px-2 lg:px-3 md:pb-4">
-  <div class="w-full flex space-x-4 items-center">
-    <select
-      class="border bg-white border-gray-300 text-gray-900 rounded-full block w-full px-2.5 py-2 text-sm focus:outline-none"
-    >
-      <option value="">loram</option>
-    </select>
-    <select
-      class="border bg-white border-gray-300 text-gray-900 rounded-full block w-full px-2.5 py-2 text-sm focus:outline-none"
-    >
-      <option value="">loram</option>
-    </select>
+<div
+  class="inline-block w-full xs:flex md:inline-block lg:flex justify-between space-y-2 xs:space-y-0 md:space-y-2 lg:space-y-0 gap-x-3 pb-2 px-2 lg:px-3 md:pb-4 items-center"
+>
+  <div
+    class="w-full xs:w-[20%] md:w-full lg:w-[40%] justify-between md:justify-end flex space-x-4 items-center"
+  >
+    <p-select
+      [options]="transactionStatus"
+      [(ngModel)]="selectedTransactionStatus"
+      optionLabel="name"
+      placeholder="Status"
+      class="w-full"
+      size="small"
+      (onChange)="selectStatus($event.value)"
+    />
+    <p-select
+      [options]="transType"
+      [(ngModel)]="selectedTransType"
+      optionLabel="name"
+      placeholder="Tipe"
+      class="w-full"
+      size="small"
+      (onChange)="selectTransType($event.value)"
+    />
+  </div>
+  <div
+    class="w-full xs:w-[50%] md:w-full lg:w-[50%] justify-between md:justify-end flex space-x-3 items-center"
+  >
+    <p-datepicker
+      [(ngModel)]="from"
+      showIcon
+      size="small"
+      placeholder="Mulai dari"
+      (ngModelChange)="selectFrom($event)"
+      readonlyInput
+    />
+    <p-datepicker
+      [(ngModel)]="to"
+      showIcon
+      size="small"
+      placeholder="Sampai"
+      (ngModelChange)="selectTo($event)"
+      readonlyInput
+    />
+    <p-button (click)="reset()" label="Reset" size="small" />
   </div>
 </div>

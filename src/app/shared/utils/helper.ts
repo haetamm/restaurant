@@ -7,7 +7,7 @@ export const errorHandle = (error: any) => {
   if (Array.isArray(errorMessage)) {
     const messages = errorMessage.map((e) => e.message).filter(Boolean);
     throw new Error(
-      messages.length > 0 ? messages.join(', ') : 'Validation error',
+      messages.length > 0 ? messages.join('\n') : 'Validation error',
     );
   }
   throw new Error(errorMessage || error.message || 'Unknown error');
