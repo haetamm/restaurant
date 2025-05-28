@@ -5,10 +5,16 @@ import { BillTableComponent } from '../../components/bill-table/bill-table.compo
 import { PaginationResponse } from '../../shared/services/menu.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
+import { BillFilterbarComponent } from '../../components/bill-filterbar/bill-filterbar.component';
 
 @Component({
   selector: 'app-transaction-page',
-  imports: [PaginationComponent, BillTableComponent, SearchbarComponent],
+  imports: [
+    PaginationComponent,
+    BillTableComponent,
+    SearchbarComponent,
+    BillFilterbarComponent,
+  ],
   templateUrl: './transaction-page.component.html',
 })
 export class TransactionPageComponent implements OnInit {
