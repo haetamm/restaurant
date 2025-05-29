@@ -10,7 +10,8 @@ router.post('/all', async (req, res) => {
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Failed to load menus',
+      message:
+        error.response?.data?.message || 'Failed to load categories menu',
     });
   }
 });

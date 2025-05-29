@@ -1,5 +1,5 @@
 <div
-  *ngIf="modalVisible$ | async"
+  *ngIf="(modalState$ | async)?.isVisible"
   class="relative z-100"
   aria-labelledby="modal-title"
   role="dialog"
@@ -11,14 +11,35 @@
   ></div>
 
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-    <div
-      class="w-full flex md:min-h-full lg:h-screen items-end justify-center p-3 sm:items-center md:p-0"
-    >
-      <div
-        class="transform overflow-hidden rounded-lg bg-auth-layout text-left shadow-xl transition-all w-full max-w-[380px] md:max-w-xl lg:max-w-2xl xl:max-w-[850px]"
-      >
-        <app-checkout-section />
-      </div>
-    </div>
+    <ng-container *ngIf="modalState$ | async as state">
+      <!-- Render cart modal -->
+      <app-checkout-section *ngIf="state.type === 'cart'" />
+
+      <!-- Render small modal for logout -->
+      <app-modal-small
+        *ngIf="state.type === 'logout'"
+        title="Logout Confirmation"
+        desc="Are you sure you want to logout?"
+        buttonLabel="Logout"
+        (onSubmit)="handleLogout()"
+        (onClose)="closeModal()"
+      />
+
+      <!-- Render small modal for delete -->
+      <app-modal-small
+        *ngIf="state.type === 'delete'"
+        title="Delete Confirmation"
+        desc="Are you sure you want to delete this item?"
+        buttonLabel="Delete"
+        (onSubmit)="executeCallback()"
+        (onClose)="closeModal()"
+      />
+
+      <!-- render bill detail -->
+      <app-bill-detail-modal-section
+        (onClose)="closeModal()"
+        *ngIf="state.type === 'billDetail'"
+      />
+    </ng-container>
   </div>
 </div>

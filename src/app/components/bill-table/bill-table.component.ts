@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BillResponse, BillService } from '../../shared/services/bill.service';
 import { CommonModule } from '@angular/common';
 import { BillCardComponent } from '../bill-card/bill-card.component';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-bill-table',
@@ -24,7 +25,10 @@ export class BillTableComponent implements OnInit {
   selectPayment = selectPayment;
   clickedBillId: string | null = null;
 
-  constructor(private billService: BillService) {}
+  constructor(
+    private billService: BillService,
+    private modalService: ModalService,
+  ) {}
 
   ngOnInit() {
     this.coloumns = [
@@ -44,5 +48,6 @@ export class BillTableComponent implements OnInit {
   selectBillDetail(id: string) {
     this.clickedBillId = id;
     this.billService.fetchBillById(id);
+    this.modalService.showBillDetail();
   }
 }

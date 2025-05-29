@@ -22,5 +22,4 @@ export class ListCartItemComponent {
   trackById(index: number, item: Cart): string {
     return item.id;
   }
-
 }

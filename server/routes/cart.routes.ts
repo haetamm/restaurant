@@ -11,7 +11,7 @@ router.post('/all', async (req, res) => {
   } catch (error: any) {
     console.log(error);
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Login failed',
+      message: error.response?.data?.message || 'Network Error',
     });
   }
 });
@@ -27,7 +27,7 @@ router.put('/update', async (req, res) => {
   } catch (error: any) {
     console.log(error);
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Login failed',
+      message: error.response?.data?.message || 'Network Error',
     });
   }
 });
@@ -44,7 +44,7 @@ router.delete('/delete', async (req, res) => {
   } catch (error: any) {
     console.log(error);
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Login failed',
+      message: error.response?.data?.message || 'Network Error',
     });
   }
 });

@@ -28,7 +28,12 @@
           </button>
         </div>
       </div>
-      <button class="font-medium text-blue-600 cursor-pointer">Detail</button>
+      <button
+        (click)="selectBillDetail(bill.id)"
+        class="font-medium text-blue-600 cursor-pointer"
+      >
+        Detail
+      </button>
     </div>
   </div>
 </div>

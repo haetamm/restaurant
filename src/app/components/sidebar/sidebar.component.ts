@@ -13,9 +13,9 @@ import {
   bootstrapBoxArrowLeft,
 } from '@ng-icons/bootstrap-icons';
 import { heroUsers } from '@ng-icons/heroicons/outline';
-import { ProfileService } from '../../shared/services/profile.service';
 import { SidebarService } from '../../shared/services/sidebar.service';
 import { isActiveRoute } from '../../shared/utils/helper';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -50,7 +50,7 @@ export class SidebarComponent {
   ];
 
   constructor(
-    private profileService: ProfileService,
+    private modalService: ModalService,
     private sidebarService: SidebarService,
     public router: Router,
   ) {}
@@ -60,7 +60,7 @@ export class SidebarComponent {
   }
 
   handleLogout() {
-    this.profileService.logout();
+    this.modalService.showLogout();
   }
 
   closeSidebar() {

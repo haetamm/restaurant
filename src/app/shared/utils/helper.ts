@@ -75,7 +75,6 @@ export const getMenuNames = (bill: BillResponse): string => {
 };
 
 export const selectPayment = (urlRedirect: string): void => {
-  // Validasi URL
   if (!urlRedirect) {
     console.error('URL redirect tidak valid');
     return;

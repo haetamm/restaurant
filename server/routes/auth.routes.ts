@@ -47,7 +47,7 @@ router.post('/forgot-password', async (req, res) => {
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Register failed',
+      message: error.response?.data?.message || 'Request failed',
     });
   }
 });
@@ -64,7 +64,7 @@ router.post('/reset-password', async (req, res) => {
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Register failed',
+      message: error.response?.data?.message || 'Reset password failed',
     });
   }
 });
@@ -76,7 +76,7 @@ router.post('/confirm', async (req, res) => {
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Register failed',
+      message: error.response?.data?.message || 'Activation account failed',
     });
   }
 });

@@ -21,6 +21,6 @@ export class CartSummaryComponent {
   constructor(private modalService: ModalService) {}
 
   showModal() {
-    if (this.state.totalPrice > 0) this.modalService.showModal();
+    if (this.state.totalPrice > 0) this.modalService.showCart();
   }
 }
