@@ -1,5 +1,5 @@
 <div
-  class="w-ful grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[75%_25%] xl:grid-cols-[70%_30%] bg-auth-layout"
+  class="w-ful grid grid-cols-1 lg:grid-cols-[70%_30%] xl:grid-cols-[70%_30%] bg-auth-layout"
 >
   <div class="flex flex-col min-h-screen border-r-[1px] border-slate-300">
     <div
@@ -9,15 +9,20 @@
         [initialSearch]="initialSearch"
         (searchChange)="onSearch($event)"
         class="w-full mr-[85px] md:mr-0"
+        [placeholder]="placeholder"
       />
     </div>
     <app-bill-filterbar class="bg-auth-layout" />
-    <app-bill-table />
+    <app-bill-table [isUser]="isUser" />
     <app-pagination
       [paginationData]="billPagination"
       [fetchData]="fetchBillByCurrentUser.bind(this)"
       class="mt-auto"
     />
   </div>
-  <div class="hidden md:block w-full sticky top-0 z-10 h-screen bg-cart"></div>
+  <div
+    class="hidden lg:block w-full sticky top-0 z-10 h-screen overflow-auto small-scrollbar"
+  >
+    <app-bill-detail-card />
+  </div>
 </div>

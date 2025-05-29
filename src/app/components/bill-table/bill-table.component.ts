@@ -1,34 +1,48 @@
-import { formatDate, getMenuNames } from './../../shared/utils/helper';
-import { Component, OnInit } from '@angular/core';
+import {
+  formatDate,
+  getMenuNames,
+  selectPayment,
+} from './../../shared/utils/helper';
+import { Component, Input, OnInit } from '@angular/core';
 import { BillResponse, BillService } from '../../shared/services/bill.service';
 import { CommonModule } from '@angular/common';
-import { CardBillComponent } from '../card-bill/card-bill.component';
+import { BillCardComponent } from '../bill-card/bill-card.component';
 
 @Component({
   selector: 'app-bill-table',
-  imports: [CommonModule, CardBillComponent],
+  standalone: true,
+  imports: [CommonModule, BillCardComponent],
   templateUrl: './bill-table.component.html',
 })
 export class BillTableComponent implements OnInit {
+  @Input() isUser: boolean = false;
+  coloumns: { name: string }[] = [];
   bills: BillResponse[] = [];
   loading: boolean = false;
   formatDate = formatDate;
   getMenuNames = getMenuNames;
+  selectPayment = selectPayment;
+  clickedBillId: string | null = null;
 
   constructor(private billService: BillService) {}
 
-  coloumns = [
-    { name: 'TRANSAKSI' },
-    { name: 'TANGGAL' },
-    { name: 'TOTAL BAYAR' },
-    { name: 'STATUS' },
-    { name: 'ACTION' },
-  ];
-
   ngOnInit() {
+    this.coloumns = [
+      { name: this.isUser ? 'TRANSAKSI' : 'CUSTOMER' },
+      { name: 'TANGGAL' },
+      { name: 'TOTAL BAYAR' },
+      { name: 'STATUS' },
+      { name: 'ACTION' },
+    ];
+
     this.billService.getState().subscribe((state) => {
       this.bills = state.bills;
       this.loading = state.loading;
     });
+  }
+
+  selectBillDetail(id: string) {
+    this.clickedBillId = id;
+    this.billService.fetchBillById(id);
   }
 }

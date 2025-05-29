@@ -7,7 +7,7 @@ export const errorHandle = (error: any) => {
   if (Array.isArray(errorMessage)) {
     const messages = errorMessage.map((e) => e.message).filter(Boolean);
     throw new Error(
-      messages.length > 0 ? messages.join('\n') : 'Validation error',
+      messages.length > 0 ? messages.join(', ') : 'Validation error',
     );
   }
   throw new Error(errorMessage || error.message || 'Unknown error');
@@ -72,4 +72,27 @@ export const getMenuNames = (bill: BillResponse): string => {
     return bill.billDetails.map((detail) => detail.name).join(', ');
   }
   return 'Tidak ada menu';
+};
+
+export const selectPayment = (urlRedirect: string): void => {
+  // Validasi URL
+  if (!urlRedirect) {
+    console.error('URL redirect tidak valid');
+    return;
+  }
+
+  // Tentukan ukuran pop-up
+  const width = 600;
+  const height = 700;
+
+  // Hitung posisi tengah
+  const left = (screen.width - width) / 2;
+  const top = (screen.height - height) / 2;
+
+  // Buka pop-up dengan posisi di tengah
+  window.open(
+    urlRedirect,
+    'paymentPopup',
+    `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=no`,
+  );
 };

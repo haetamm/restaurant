@@ -18,6 +18,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 })
 export class SearchbarComponent implements OnInit {
   @Input() initialSearch: string = '';
+  @Input() placeholder: string = '';
   @Output() searchChange = new EventEmitter<string>();
   searchControl = new FormControl('');
 

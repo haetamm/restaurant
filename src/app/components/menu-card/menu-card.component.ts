@@ -1,21 +1,24 @@
-import { createImgUrl } from './../../shared/utils/helper';
+import { createImgUrl } from '../../shared/utils/helper';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Menu } from '../../shared/services/menu.service';
 import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapPlusLg } from '@ng-icons/bootstrap-icons';
+import { usePreload } from '../../shared/utils/use-preload';
 
 @Component({
-  selector: 'app-card-menu',
+  selector: 'app-menu-card',
   standalone: true,
   imports: [CommonModule, NgIcon],
-  templateUrl: './card-menu.component.html',
+  templateUrl: './menu-card.component.html',
   viewProviders: [provideIcons({ bootstrapPlusLg })],
 })
-export class CardMenuComponent {
+export class MenuCardComponent {
   @Input() menu!: Menu;
   @Input() loadingButton!: boolean;
   @Output() addToCart = new EventEmitter<string>();
+
+  private readonly preload = usePreload(false);
 
   get imageUrl(): string {
     return createImgUrl(this.menu?.image?.id);
@@ -26,6 +29,6 @@ export class CardMenuComponent {
   }
 
   onAddToCart() {
-    this.addToCart.emit(this.menu.id);
+    if (this.preload.isUser()) this.addToCart.emit(this.menu.id);
   }
 }

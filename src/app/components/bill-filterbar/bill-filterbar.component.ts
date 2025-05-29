@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
@@ -17,7 +17,6 @@ interface SelectType {
   standalone: true,
   imports: [DatePickerModule, FormsModule, Select, ButtonModule],
   templateUrl: './bill-filterbar.component.html',
-  styleUrls: ['./bill-filterbar.component.scss'],
 })
 export class BillFilterbarComponent implements OnInit {
   from: Date | undefined;
@@ -35,7 +34,6 @@ export class BillFilterbarComponent implements OnInit {
   ) {
     this.queryParamsSubscription = this.route.queryParams.subscribe(
       (params) => {
-        console.log('Query Params:', params); // Debugging
         const transTypeValue = params['transType'] || undefined;
         const statusValue = params['transactionStatus'] || undefined;
         const fromValue = params['from'] || undefined;

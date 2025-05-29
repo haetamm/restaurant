@@ -3,7 +3,6 @@ import { SeoService } from '../../shared/services/seo.service';
 import { CommonModule } from '@angular/common';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { CategorybarComponent } from '../../components/categorybar/categorybar.component';
-import { ListMenuComponent } from '../../components/list-menu/list-menu.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   MenuService,
@@ -14,6 +13,7 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 import { CartComponent } from '../../components/cart/cart.component';
 import { usePreload } from '../../shared/utils/use-preload';
 import { ToggleFilterComponent } from '../../components/toggle-filter/toggle-filter.component';
+import { MenuListComponent } from '../../components/menu-list/menu-list.component';
 
 @Component({
   selector: 'app-home-page',
@@ -22,11 +22,11 @@ import { ToggleFilterComponent } from '../../components/toggle-filter/toggle-fil
     CommonModule,
     SearchbarComponent,
     CategorybarComponent,
-    ListMenuComponent,
     RouterModule,
     PaginationComponent,
     CartComponent,
     ToggleFilterComponent,
+    MenuListComponent,
   ],
   templateUrl: './home-page.component.html',
 })

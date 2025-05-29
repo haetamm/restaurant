@@ -5,7 +5,7 @@
     <!-- Loading Skeletons -->
     <ng-container *ngIf="loading">
       <ng-container *ngFor="let i of [1, 2, 3]">
-        <app-card-menu
+        <app-menu-card
           [menu]="{ id: '', name: '', price: '', image: '' }"
           (addToCart)="onAddToCart($event)"
           [loadingButton]="loadingMenuId === ''"
@@ -23,7 +23,7 @@
     <!-- Real Data -->
     <ng-container *ngIf="!loading && menus.length > 0">
       <ng-container *ngFor="let menu of menus">
-        <app-card-menu
+        <app-menu-card
           [loadingButton]="loadingMenuId === menu.id"
           [menu]="menu"
           (addToCart)="onAddToCart($event)"

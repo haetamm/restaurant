@@ -6,6 +6,8 @@ import { PaginationResponse } from '../../shared/services/menu.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { BillFilterbarComponent } from '../../components/bill-filterbar/bill-filterbar.component';
+import { usePreload } from '../../shared/utils/use-preload';
+import { BillDetailCardComponent } from '../../components/bill-detail-card/bill-detail-card.component';
 
 @Component({
   selector: 'app-transaction-page',
@@ -14,18 +16,28 @@ import { BillFilterbarComponent } from '../../components/bill-filterbar/bill-fil
     BillTableComponent,
     SearchbarComponent,
     BillFilterbarComponent,
+    BillDetailCardComponent,
   ],
   templateUrl: './transaction-page.component.html',
 })
 export class TransactionPageComponent implements OnInit {
   billPagination: PaginationResponse | null = null;
   initialSearch: string = '';
+  private readonly preload = usePreload(false);
 
   constructor(
     private billService: BillService,
     private route: ActivatedRoute,
     private router: Router,
   ) {}
+
+  get isUser() {
+    return this.preload.isUser();
+  }
+
+  get placeholder(): string {
+    return this.isUser ? 'Search your food' : 'Search customer';
+  }
 
   ngOnInit(): void {
     // Subscribe ke perubahan pagination
@@ -36,8 +48,10 @@ export class TransactionPageComponent implements OnInit {
     // Ambil query parameter dari URL saat ini
     const queryParams = this.route.snapshot.queryParams;
 
-    // Set initialSearch berdasarkan menuName dari queryParams (jika ada)
-    this.initialSearch = queryParams['menuName'] || '';
+    // Set initialSearch berdasarkan menuName atau customer dari queryParams (jika ada)
+    this.initialSearch = this.isUser
+      ? queryParams['menuName'] || ''
+      : queryParams['customerName'] || '';
 
     // Panggil fetchBillByCurrentUser dengan query parameter
     this.billService.fetchBillByCurrentUser(queryParams);
@@ -49,10 +63,13 @@ export class TransactionPageComponent implements OnInit {
 
   onSearch(searchTerm: string) {
     const trimmedSearch = searchTerm.trim();
+
     const queryParams = {
-      ...this.route.snapshot.queryParams, // Pertahankan parameter lain
-      menuName: trimmedSearch || '',
-      page: 1, // Reset ke halaman 1
+      ...this.route.snapshot.queryParams,
+      page: 1,
+      ...(this.isUser
+        ? { menuName: trimmedSearch || '' }
+        : { customerName: trimmedSearch || '' }),
     };
 
     // Navigasi ke URL dengan query parameter baru

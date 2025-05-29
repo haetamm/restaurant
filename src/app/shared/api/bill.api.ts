@@ -24,4 +24,34 @@ export const billApi = {
       errorHandle(error);
     }
   },
+
+  getBills: async (body = {}) => {
+    try {
+      const response = await axiosInstance.post('/api/bill/all', body);
+      const data = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  getBillById: async (id: string) => {
+    try {
+      const response = await axiosInstance.post('/api/bill/detail', { id });
+      const data = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  currentUserGetBillById: async (id: string) => {
+    try {
+      const response = await axiosInstance.post('/api/bill/detail/me', { id });
+      const data = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
 };

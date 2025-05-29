@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { Menu, MenuService } from '../../shared/services/menu.service';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
-import { CardMenuComponent } from '../card-menu/card-menu.component';
 import { CartService } from '../../shared/services/cart.service';
+import { MenuCardComponent } from '../menu-card/menu-card.component';
 
 @Component({
-  selector: 'app-list-menu',
+  selector: 'app-menu-list',
   standalone: true,
-  imports: [CommonModule, NgFor, CardMenuComponent],
-  templateUrl: './list-menu.component.html',
+  imports: [CommonModule, NgFor, MenuCardComponent],
+  templateUrl: './menu-list.component.html',
 })
-export class ListMenuComponent {
+export class MenuListComponent {
   menus: Menu[] = [];
   loading: boolean = false;
   loadingMenuId: string | null = null;

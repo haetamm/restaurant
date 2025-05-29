@@ -6,6 +6,8 @@ import { billApi } from '../api/bill.api';
 import { ModalService } from './modal.service';
 import { CartService } from './cart.service';
 import { PaginationResponse } from './menu.service';
+import { selectPayment } from '../utils/helper';
+import { usePreload } from '../utils/use-preload';
 
 export interface BillRequest {
   menuId: string;
@@ -51,8 +53,10 @@ export interface BillResponse {
 
 interface BiillState {
   loading: boolean;
+  loadingDetail: boolean;
   bills: BillResponse[];
   pagination: PaginationResponse | null;
+  billDetail: BillResponse | null;
 }
 
 @Injectable({
@@ -61,8 +65,10 @@ interface BiillState {
 export class BillService {
   private state = new BehaviorSubject<BiillState>({
     loading: false,
+    loadingDetail: false,
     bills: [],
     pagination: null,
+    billDetail: null,
   });
   state$: Observable<BiillState> = this.state.asObservable();
 
@@ -77,6 +83,7 @@ export class BillService {
   private readonly toastService = inject(HotToastService);
   private readonly modalService = inject(ModalService);
   private readonly cartService = inject(CartService);
+  private readonly preload = usePreload(false);
 
   getLoading(): boolean {
     return this.state.value.loading;
@@ -84,12 +91,11 @@ export class BillService {
 
   async createDeliveryBill(payload: DeliveryBillRequest): Promise<void> {
     try {
-      await billApi.createDeliverBill(payload);
+      const bill = await billApi.createDeliverBill(payload);
       this.modalService.hideModal();
       this.cartService.resetCart();
-      this.toastService.success('Transaksi berhasil dibuat', {
-        dismissible: true,
-      });
+      this.toastService.success('Transaksi berhasil dibuat');
+      selectPayment(bill.payment.redirectUrl);
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(error.message || 'Gagal membuat transaksi', {
@@ -113,7 +119,10 @@ export class BillService {
   }): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const data = await billApi.getBillByCurrentUser(params);
+      const data = this.preload.isUser()
+        ? await billApi.getBillByCurrentUser(params)
+        : await billApi.getBills(params);
+
       this.updateState({
         bills: data.data,
         loading: false,
@@ -121,7 +130,27 @@ export class BillService {
       });
     } catch (error: any) {
       this.updateState({ bills: [], loading: false, pagination: null });
-      this.toastService.error(error.message || 'Failed to load menu');
+      this.toastService.error(error.message || 'Failed to load bills');
+    }
+  }
+
+  async fetchBillById(id: string): Promise<void> {
+    this.updateState({ loadingDetail: true });
+    try {
+      const data = this.preload.isUser()
+        ? await billApi.currentUserGetBillById(id)
+        : await billApi.getBillById(id);
+
+      this.updateState({
+        billDetail: data.data,
+        loadingDetail: false,
+      });
+    } catch (error: any) {
+      this.updateState({
+        loadingDetail: false,
+        billDetail: null,
+      });
+      this.toastService.error(error.message || 'Failed to load bill detail');
     }
   }
 
@@ -131,6 +160,10 @@ export class BillService {
 
   getBills(): BillResponse[] | null {
     return this.state.value.bills;
+  }
+
+  getBillById(): BillResponse | null {
+    return this.state.value.billDetail;
   }
 
   getPagination(): PaginationResponse | null {

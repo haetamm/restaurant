@@ -1,6 +1,6 @@
 <!-- Desktop Table (hidden lg:block) -->
 <div
-  class="hidden lg:block px-3 relative max-h-[calc(100vh_-_194px)] overflow-auto small-scrollbar"
+  class="hidden md:block px-3 relative max-h-[calc(100vh_-_194px)] overflow-auto small-scrollbar"
 >
   <table
     class="w-full min-w-full text-sm shadow-sm text-left rtl:text-right rounded-lg overflow-hidden text-gray-500 dark:text-gray-400 table-fixed box-border"
@@ -56,29 +56,35 @@
           class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
           <td class="px-6 py-4 box-border font-medium text-gray-900 truncate">
-            {{ getMenuNames(bill) }}
+            {{ isUser ? getMenuNames(bill) : bill.customerName }}
           </td>
           <td class="px-6 py-4 box-border truncate">
             {{ formatDate(bill.transDate) }}
           </td>
           <td class="px-6 py-4 box-border truncate">
-            Rp. {{ bill.totalPayment }}
+            Rp. {{ bill.totalPayment | number: "1.0-0" }}
           </td>
           <td class="px-6 py-4 box-border truncate">
             {{ bill.payment.transactionStatus }}
           </td>
-          <td class="px-1 xl:px-6 py-4 box-border truncate">
-            <div class="flex space-x-4">
-              <a
-                href="#"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >Detail</a
+          <td class="px-1 box-border truncate">
+            <div class="flex space-x-2">
+              <button
+                (click)="selectPayment(bill.payment.redirectUrl)"
+                class="font-medium p-0.5 text-blue-600 cursor-pointer"
               >
-              <a
-                href="#"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >Bayar</a
+                Bayar
+              </button>
+              <button
+                (click)="selectBillDetail(bill.id)"
+                class="font-medium p-0.5 cursor-pointer"
+                [ngClass]="{
+                  'text-blue-600': clickedBillId !== bill.id,
+                  'text-[#F86901]': clickedBillId === bill.id,
+                }"
               >
+                Detail
+              </button>
             </div>
           </td>
         </tr>
@@ -88,7 +94,7 @@
 </div>
 
 <!-- Mobile Table (lg:hidden) -->
-<div class="lg:hidden text-sm px-3 pt-2">
+<div class="md:hidden text-sm px-3 pt-2">
   <ng-container *ngIf="loading; else billList">
     <ng-container *ngFor="let i of [1, 2, 3]">
       <div
@@ -111,10 +117,10 @@
   </ng-container>
 
   <ng-template #billList>
-    <app-card-bill
+    <app-bill-card
       *ngFor="let bill of bills"
       [bill]="bill"
-      [formatDate]="formatDate"
-    ></app-card-bill>
+      [isUser]="isUser"
+    ></app-bill-card>
   </ng-template>
 </div>

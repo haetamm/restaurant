@@ -103,10 +103,7 @@ export class CartService {
         ...this.calculateTotals(updatedCarts),
         loading: false,
       });
-      if (qty > 0)
-        this.toastService.success('Item berhasil ditambahkan!', {
-          dismissible: true,
-        });
+      if (qty > 0) this.toastService.success('Item berhasil ditambahkan!');
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(
@@ -131,9 +128,7 @@ export class CartService {
         loading: false,
       });
 
-      this.toastService.success('Item berhasil dihapus!', {
-        dismissible: true,
-      });
+      this.toastService.success('Item berhasil dihapus!');
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(

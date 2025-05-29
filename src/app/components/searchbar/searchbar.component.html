@@ -11,6 +11,6 @@
     [formControl]="searchControl"
     (keydown.enter)="onEnter()"
     class="w-full shadow-sm bg-white text-gray-900 text-sm rounded-full block pl-10 px-2.5 py-2 focus:outline-none placeholder:text-slate-300"
-    placeholder="Search your food"
+    [placeholder]="placeholder || 'Search your food'"
   />
 </div>
