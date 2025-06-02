@@ -22,11 +22,7 @@ export function usePreload(initialLoadingState: boolean) {
 
   function isAdmin(): boolean {
     const roles = getRoles();
-    return (
-      roles.length === 2 &&
-      roles.includes('ROLE_USER') &&
-      roles.includes('ROLE_ADMIN')
-    );
+    return roles.length > 1 && roles.includes('ROLE_ADMIN');
   }
 
   function isSuperAdmin(): boolean {

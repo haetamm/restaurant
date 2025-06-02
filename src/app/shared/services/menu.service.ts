@@ -26,7 +26,7 @@ export interface MenuQueryParams {
 export interface Menu {
   id: string;
   name: string;
-  price: string;
+  price: number;
   image?: any;
 }
 

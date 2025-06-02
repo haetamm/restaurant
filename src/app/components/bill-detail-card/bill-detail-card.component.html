@@ -1,5 +1,5 @@
 <div class="font-sans">
-  <div class="min-h-screen flex justify-center p-4 lg:p-2 xl:p-4">
+  <div class="min-h-screen flex justify-center p-4 lg:px-2 lg:py-4 xl:p-4">
     <div
       [class]="
         billDetail
@@ -52,14 +52,15 @@
           <h2 class="text-lg font-semibold text-gray-700">Order Details</h2>
           <div class="mt-2 text-sm text-gray-600 space-y-1">
             <p *ngIf="billDetail.tableName">
-              <span class="font-medium">Table: </span>
-              An. {{ billDetail.tableName }}
+              <span class="font-medium">Table: </span>{{ billDetail.tableName }}
             </p>
             <p>
-              <span class="font-medium">Date:</span> {{ billDetail.transDate }}
+              <span class="font-medium">Date:</span>
+              {{ billDetail.transDate }}
             </p>
             <p>
-              <span class="font-medium">Type:</span> {{ billDetail.transType }}
+              <span class="font-medium">Type:</span>
+              {{ billDetail.transType }}
             </p>
           </div>
           <div class="mt-4">
@@ -100,18 +101,15 @@
                 billDetail.payment.transactionStatus
               }}</span>
             </p>
-
-            <p>
-              <span class="font-medium">Payment Link:</span>
-              <a
-                *ngIf="billDetail.payment?.redirectUrl"
-                [href]="billDetail.payment.redirectUrl"
-                class="text-blue-600 hover:underline break-all"
-                target="_blank"
-              >
-                Midtrans Payment
-              </a>
-            </p>
+            <div>
+              <div class="font-medium">Scan to Pay:</div>
+              <div class="flex justify-center">
+                <qrcode
+                  [qrdata]="billDetail.payment.redirectUrl"
+                  [width]="150"
+                ></qrcode>
+              </div>
+            </div>
           </div>
         </div>
 

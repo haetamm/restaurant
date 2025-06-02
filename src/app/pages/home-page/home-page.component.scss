@@ -1,0 +1,9 @@
+.cart-admin-container {
+  display: block;
+}
+
+@media (max-width: 1023px) and (max-height: 649px) {
+  .cart-admin-container {
+    display: none;
+  }
+}

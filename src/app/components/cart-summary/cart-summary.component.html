@@ -6,7 +6,9 @@
     <span class="text-right font-semibold">{{ state.totalQty }}</span>
     <hr class="col-span-2 border-t-2 border-dashed border-gray-300" />
     <span>Total</span>
-    <span class="text-right font-semibold">Rp. {{ state.totalPrice }}</span>
+    <span class="text-right font-semibold"
+      >Rp. {{ state.totalPrice | number: "1.0-0" }}</span
+    >
   </div>
   <button
     *ngIf="isShow"

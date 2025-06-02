@@ -14,6 +14,7 @@ import { CartComponent } from '../../components/cart/cart.component';
 import { usePreload } from '../../shared/utils/use-preload';
 import { ToggleFilterComponent } from '../../components/toggle-filter/toggle-filter.component';
 import { MenuListComponent } from '../../components/menu-list/menu-list.component';
+import { CartAdminComponent } from '../../components/cart-admin/cart-admin.component';
 
 @Component({
   selector: 'app-home-page',
@@ -27,8 +28,10 @@ import { MenuListComponent } from '../../components/menu-list/menu-list.componen
     CartComponent,
     ToggleFilterComponent,
     MenuListComponent,
+    CartAdminComponent,
   ],
   templateUrl: './home-page.component.html',
+  styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent implements OnInit {
   initialSearch: string = '';
@@ -110,6 +113,10 @@ export class HomePageComponent implements OnInit {
 
   get isUser(): boolean {
     return this.preload.isUser();
+  }
+
+  get isAdmin(): boolean {
+    return this.preload.isAdmin();
   }
 
   fetchMenus(queryParams: any) {

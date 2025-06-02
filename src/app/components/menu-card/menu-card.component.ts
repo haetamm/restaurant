@@ -4,7 +4,6 @@ import { Menu } from '../../shared/services/menu.service';
 import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapPlusLg } from '@ng-icons/bootstrap-icons';
-import { usePreload } from '../../shared/utils/use-preload';
 
 @Component({
   selector: 'app-menu-card',
@@ -18,8 +17,6 @@ export class MenuCardComponent {
   @Input() loadingButton!: boolean;
   @Output() addToCart = new EventEmitter<string>();
 
-  private readonly preload = usePreload(false);
-
   get imageUrl(): string {
     return createImgUrl(this.menu?.image?.id);
   }
@@ -29,6 +26,6 @@ export class MenuCardComponent {
   }
 
   onAddToCart() {
-    if (this.preload.isUser()) this.addToCart.emit(this.menu.id);
+    this.addToCart.emit(this.menu.id);
   }
 }

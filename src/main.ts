@@ -7,6 +7,7 @@ import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import MyPreset from './app/shared/utils/custom-theme';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -14,7 +15,7 @@ bootstrapApplication(AppComponent, {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: MyPreset,
       },
     }),
     provideHttpClient(),

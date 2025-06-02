@@ -31,5 +31,8 @@
     <ng-container *ngIf="isUser">
       <app-cart />
     </ng-container>
+    <div *ngIf="isAdmin" class="cart-admin-container block">
+      <app-cart-admin />
+    </div>
   </div>
 </div>

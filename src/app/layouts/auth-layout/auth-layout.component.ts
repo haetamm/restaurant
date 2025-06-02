@@ -9,6 +9,8 @@ import { ToggleSidebarComponent } from '../../components/toggle-sidebar/toggle-s
 import { CartService } from '../../shared/services/cart.service';
 import { usePreload } from '../../shared/utils/use-preload';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { TableService } from '../../shared/services/table.service';
+import { CartAdminService } from '../../shared/services/cart-admin.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -32,6 +34,8 @@ export class AuthLayoutComponent implements OnInit {
   constructor(
     private sidebarService: SidebarService,
     private cartService: CartService,
+    private tableService: TableService,
+    private cartAdminService: CartAdminService,
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +44,16 @@ export class AuthLayoutComponent implements OnInit {
     const cart = this.cartService.getCart();
     if (!cart || (cart.length === 0 && this.preload.isUser())) {
       this.cartService.fetchCart();
+    }
+
+    const cartAdmin = this.cartAdminService.getCart();
+    if (!cartAdmin && this.preload.isAdmin()) {
+      this.cartAdminService.fetchCart();
+    }
+
+    const tables = this.tableService.getTables();
+    if (!tables || (tables.length === 0 && this.preload.isAdmin())) {
+      this.tableService.fetchTables();
     }
   }
 }

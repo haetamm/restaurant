@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Cart } from '../../shared/services/cart.service';
 import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
@@ -11,8 +10,6 @@ import { ModalService } from '../../shared/services/modal.service';
 export class CartSummaryComponent {
   @Input() isShow!: boolean;
   @Input() state!: {
-    carts: Cart[];
-    loading: boolean;
     totalMenu: number;
     totalQty: number;
     totalPrice: number;
