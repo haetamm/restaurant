@@ -5,54 +5,51 @@ import {
   ChangeDetectorRef,
   inject,
 } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
-import { SelectModule } from 'primeng/select';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { Table, TableService } from '../../shared/services/table.service';
-import { provideIcons, NgIcon } from '@ng-icons/core';
-import { bootstrapThreeDots } from '@ng-icons/bootstrap-icons';
-import { InputTextModule } from 'primeng/inputtext';
-import { FloatLabel } from 'primeng/floatlabel';
-import { KeyFilterModule } from 'primeng/keyfilter';
 import { ButtonModule } from 'primeng/button';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription, tap, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {
   CartAdmin,
   CartAdminService,
-  RequestMenu,
 } from '../../shared/services/cart-admin.service';
 import { CartSummaryComponent } from '../cart-summary/cart-summary.component';
-import { createImgUrl } from '../../shared/utils/helper';
-import { InputNumber } from 'primeng/inputnumber';
-import { FormsModule } from '@angular/forms';
-import { ModalService } from '../../shared/services/modal.service';
+import { CartHeaderComponent } from '../cart-header/cart-header.component';
+import { ListCartAdminItemComponent } from '../list-cart-admin-item/list-cart-admin-item.component';
+import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
+import {
+  adminCartSchema,
+  AdminCartFormType,
+} from '../../shared/utils/validation';
+import {
+  BillService,
+  DineInBillRequest,
+} from '../../shared/services/bill.service';
+import { CartAdminFormComponent } from '../cart-admin-form/cart-admin-form.component';
 
 @Component({
   selector: 'app-cart-admin',
   standalone: true,
   imports: [
-    NgIcon,
-    InputTextModule,
-    ReactiveFormsModule,
-    SelectModule,
-    FloatLabel,
-    KeyFilterModule,
     ButtonModule,
     CommonModule,
     CartSummaryComponent,
-    InputNumber,
-    FormsModule,
+    CartHeaderComponent,
+    ListCartAdminItemComponent,
+    CartAdminFormComponent,
   ],
   templateUrl: './cart-admin.component.html',
-  viewProviders: [
-    provideIcons({
-      bootstrapThreeDots,
-    }),
-  ],
 })
 export class CartAdminComponent implements OnInit, OnDestroy {
   tables: Table[] = [];
-  form: FormGroup;
+  loading: boolean = false;
+  adminCartForm: FormGroup;
   cartState$!: Observable<{
     cart: CartAdmin | null;
     loading: boolean;
@@ -60,12 +57,9 @@ export class CartAdminComponent implements OnInit, OnDestroy {
     totalQty: number;
     totalPrice: number;
   }>;
-  qty: number = 50;
-
-  createImgUrl = createImgUrl;
 
   private tableSubscription: Subscription | null = null;
-  private modalService = inject(ModalService);
+  private billService = inject(BillService);
 
   constructor(
     private tableService: TableService,
@@ -73,18 +67,16 @@ export class CartAdminComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private cartAdminService: CartAdminService,
   ) {
-    this.form = this.fb.group({
-      selectedTable: [null],
-      customerName: [''],
-      customerPhone: [''],
+    this.adminCartForm = this.fb.group({
+      customerName: ['', Validators.required],
+      customerPhone: ['', Validators.required],
+      tableName: ['', Validators.required],
     });
-  }
 
-  ngOnInit(): void {
-    this.tableSubscription = this.tableService.getState().subscribe((state) => {
-      this.tables = state.tables;
-      this.cdr.detectChanges();
-    });
+    setupZodValidation(
+      this.adminCartForm.controls as unknown as Record<string, AbstractControl>,
+      adminCartSchema,
+    );
 
     this.cartState$ = this.cartAdminService.getState().pipe(
       tap(() => {
@@ -93,38 +85,54 @@ export class CartAdminComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnInit(): void {
+    this.tableSubscription = this.tableService.getState().subscribe((state) => {
+      this.tables = state.tables;
+      this.cdr.detectChanges();
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.tableSubscription) {
       this.tableSubscription.unsubscribe();
     }
   }
 
-  onSubmit(): void {
-    const formValues = this.form.value;
-    this.cartAdminService
-      .updateCart({
-        customerName: formValues.customerName,
-        customerPhone: formValues.customerPhone,
-        tableName: formValues.selectedTable
-          ? formValues.selectedTable.name
-          : '',
-      })
-      .then(() => {
-        console.log('Cart updated successfully');
-      });
-  }
+  async onSubmit(): Promise<void> {
+    if (this.adminCartForm.invalid) {
+      this.adminCartForm.markAllAsTouched();
+      return;
+    }
 
-  trackById(index: number, item: RequestMenu): string {
-    return item.id || index.toString();
-  }
+    const result = adminCartSchema.safeParse(this.adminCartForm.value);
+    if (!result.success) return;
 
-  updateQuantity(itemId: string, newQty: number): void {
-    this.cartAdminService.updateItemQuantity(itemId, newQty);
-  }
+    const formData: AdminCartFormType = result.data;
 
-  deleteByMenuId(menuId: string): void {
-    this.modalService.showDelete(async () => {
-      this.cartAdminService.deleteItemByMenuId(menuId);
+    this.cartState$.pipe(take(1)).subscribe(async (state) => {
+      const cart = state.cart;
+
+      if (!cart || !cart.billRequest || cart.billRequest.length === 0) {
+        return;
+      }
+
+      const payload: DineInBillRequest = {
+        customerName: formData.customerName,
+        customerPhone: formData.customerPhone,
+        tableName: formData.tableName,
+        billRequest: cart.billRequest.map((item) => ({
+          menuId: item.id,
+          qty: item.qty,
+        })),
+      };
+
+      this.loading = true;
+      try {
+        await this.billService.createDineInBill(payload);
+        this.adminCartForm.reset();
+      } finally {
+        this.loading = false;
+      }
     });
   }
 }

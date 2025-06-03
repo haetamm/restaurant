@@ -21,9 +21,9 @@ const name = z
 const phone = z
   .string()
   .trim()
-  .min(1, 'Nomor telepon wajib diisi')
-  .max(25, 'Nomor telepon maksimal 25 karakter')
-  .regex(/^[0-9 ]+$/, 'Nomor telepon hanya boleh berisi angka dan spasi');
+  .min(1, 'Nomor hp wajib diisi')
+  .max(25, 'Nomor hp maksimal 25 karakter')
+  .regex(/^[0-9 ]+$/, 'Nomor hp hanya boleh berisi angka dan spasi');
 
 const email = z
   .string()
@@ -58,6 +58,8 @@ const address = z
   .trim()
   .min(1, 'Alamat wajib diisi')
   .max(225, 'Alamat maksimal 225 karakter');
+
+const tableName = z.string().trim().min(1, 'Meja diisi');
 
 export const registerSchema = z.object({
   name,
@@ -94,3 +96,11 @@ export const deliveryBillSchema = z.object({
 });
 
 export type DeliveryBillFormType = z.infer<typeof deliveryBillSchema>;
+
+export const adminCartSchema = z.object({
+  customerName: name,
+  customerPhone: phone,
+  tableName,
+});
+
+export type AdminCartFormType = z.infer<typeof adminCartSchema>;

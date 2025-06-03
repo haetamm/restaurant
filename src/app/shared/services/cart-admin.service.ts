@@ -5,7 +5,6 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
 import { Menu } from './menu.service';
 
-// Definisikan struktur data untuk RequestMenu
 export interface RequestMenu {
   id: string;
   name: string;
@@ -14,24 +13,18 @@ export interface RequestMenu {
   image?: any;
 }
 
-// Definisikan struktur data untuk Cart
 export interface CartAdmin {
   key: string;
-  customerName: string;
-  customerPhone: string;
-  tableName: string;
   billRequest: RequestMenu[];
 }
 
-// Definisikan struktur data untuk IndexedDB
 export interface CartDB extends DBSchema {
   cart: {
-    key: string; // Key tetap, misalnya 'admin-cart'
+    key: string;
     value: CartAdmin;
   };
 }
 
-// Definisikan state untuk service
 interface CartAdminState {
   loading: boolean;
   cart: CartAdmin | null;
@@ -90,35 +83,6 @@ export class CartAdminService {
     }
   }
 
-  async updateCart(cartData: {
-    customerName: string;
-    customerPhone: string;
-    tableName: string;
-    billRequest?: RequestMenu[];
-  }): Promise<void> {
-    this.updateState({ loading: true });
-    try {
-      const db = await this.dbPromise;
-      const cart: CartAdmin = {
-        key: 'admin-cart',
-        customerName: cartData.customerName,
-        customerPhone: cartData.customerPhone,
-        tableName: cartData.tableName,
-        billRequest: cartData.billRequest || [],
-      };
-      await db.put('cart', cart);
-      this.updateState({
-        cart,
-        ...this.calculateTotals(cart.billRequest),
-        loading: false,
-      });
-      this.toastService.success('Keranjang berhasil diperbarui!');
-    } catch (error: any) {
-      this.updateState({ loading: false });
-      this.toastService.error(error.message || 'Gagal memperbarui keranjang');
-    }
-  }
-
   async updateBillRequest(billRequestItem: Menu): Promise<void> {
     try {
       const db = await this.dbPromise;
@@ -127,9 +91,6 @@ export class CartAdminService {
       if (!cart) {
         cart = {
           key: 'admin-cart',
-          customerName: '',
-          customerPhone: '',
-          tableName: '',
           billRequest: [],
         };
       }
@@ -141,7 +102,6 @@ export class CartAdminService {
 
       // Jika item sudah ada, lanjutkan tanpa perubahan
       if (existingItemIndex !== -1) {
-        this.updateState({ loading: false });
         this.toastService.info('Menu telah tersedia di keranjang!');
         return;
       }
@@ -161,17 +121,14 @@ export class CartAdminService {
       this.updateState({
         cart,
         ...this.calculateTotals(cart.billRequest),
-        loading: false,
       });
 
       this.toastService.success('menu berhasil ditambahkan!');
     } catch (error: any) {
-      this.updateState({ loading: false });
       this.toastService.error(error.message || 'Gagal memperbarui menu');
     }
   }
 
-  // Tambahkan di dalam kelas CartAdminService
   async updateItemQuantity(itemId: string, newQty: number): Promise<void> {
     try {
       const db = await this.dbPromise;
@@ -199,10 +156,8 @@ export class CartAdminService {
       this.updateState({
         cart,
         ...this.calculateTotals(cart.billRequest),
-        loading: false,
       });
     } catch (error: any) {
-      this.updateState({ loading: false });
       this.toastService.error(error.message || 'Gagal memperbarui jumlah menu');
     }
   }
@@ -232,27 +187,24 @@ export class CartAdminService {
       this.updateState({
         cart,
         ...this.calculateTotals(cart.billRequest),
-        loading: false,
       });
     } catch (error: any) {
-      this.updateState({ loading: false });
       this.toastService.error(error.message || 'Gagal memperbarui jumlah menu');
     }
   }
 
   async resetCart(): Promise<void> {
-    this.updateState({ loading: true });
     try {
       const db = await this.dbPromise;
       await db.delete('cart', 'admin-cart');
       this.updateState({
         cart: null,
         totalQty: 0,
+        totalMenu: 0,
+        totalPrice: 0,
         loading: false,
       });
-      this.toastService.success('Keranjang telah direset!');
     } catch (error: any) {
-      this.updateState({ loading: false });
       this.toastService.error(error.message || 'Gagal mereset keranjang');
     }
   }

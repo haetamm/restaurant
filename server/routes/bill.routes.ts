@@ -16,6 +16,19 @@ router.post('/delivery', async (req, res) => {
   }
 });
 
+router.post('/dine-in', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const bill = req.body;
+    const response = await axiosInstance.post('/bills', bill);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to load ',
+    });
+  }
+});
+
 router.post('/me', async (req, res) => {
   try {
     const axiosInstance = createServerAxiosInstance(req);

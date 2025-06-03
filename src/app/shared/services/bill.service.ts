@@ -8,6 +8,7 @@ import { CartService } from './cart.service';
 import { PaginationResponse } from './menu.service';
 import { selectPayment } from '../utils/helper';
 import { usePreload } from '../utils/use-preload';
+import { CartAdminService } from './cart-admin.service';
 
 export interface BillRequest {
   menuId: string;
@@ -18,6 +19,13 @@ export interface DeliveryBillRequest {
   recipientName: string;
   phone: string;
   deliveryAddress: string;
+  billRequest: BillRequest[];
+}
+
+export interface DineInBillRequest {
+  customerName: string;
+  customerPhone: string;
+  tableName: string;
   billRequest: BillRequest[];
 }
 
@@ -83,6 +91,7 @@ export class BillService {
   private readonly toastService = inject(HotToastService);
   private readonly modalService = inject(ModalService);
   private readonly cartService = inject(CartService);
+  private readonly cartAdminService = inject(CartAdminService);
   private readonly preload = usePreload(false);
 
   getLoading(): boolean {
@@ -94,6 +103,21 @@ export class BillService {
       const bill = await billApi.createDeliverBill(payload);
       this.modalService.hideModal();
       this.cartService.resetCart();
+      this.toastService.success('Transaksi berhasil dibuat');
+      selectPayment(bill.payment.redirectUrl);
+    } catch (error: any) {
+      this.updateState({ loading: false });
+      this.toastService.error(error.message || 'Gagal membuat transaksi', {
+        autoClose: false,
+        dismissible: true,
+      });
+    }
+  }
+
+  async createDineInBill(payload: DineInBillRequest): Promise<void> {
+    try {
+      const bill = await billApi.createDineInBill(payload);
+      this.cartAdminService.resetCart();
       this.toastService.success('Transaksi berhasil dibuat');
       selectPayment(bill.payment.redirectUrl);
     } catch (error: any) {
