@@ -1,1 +1,6 @@
-<app-cart />
+<ng-container *ngIf="isUser">
+  <app-cart />
+</ng-container>
+<ng-container *ngIf="isAdmin">
+  <app-cart-admin />
+</ng-container>

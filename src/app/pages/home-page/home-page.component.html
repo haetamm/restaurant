@@ -1,5 +1,5 @@
 <div
-  class="w-ful grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%] bg-auth-layout"
+  class="w-ful grid grid-cols-1 lg:grid-cols-[70%_30%] xl:grid-cols-[70%_30%] bg-auth-layout"
 >
   <div class="flex flex-col min-h-screen border-r-[1px] border-slate-300">
     <div
@@ -16,7 +16,7 @@
       <img
         src="/img/banner.png"
         alt="banner"
-        class="rounded-xl shadow-sm min-h-[131px] xs:min-h-[231px] md:min-h-[150px] lg:min-[206px]"
+        class="rounded-xl shadow-sm min-h-[131px] xs:min-h-[231px] md:min-h-[150px]"
       />
       <app-categorybar />
       <app-menu-list />
@@ -27,7 +27,7 @@
       class="mt-auto"
     />
   </div>
-  <div class="hidden md:block w-full sticky top-0 z-10 h-screen bg-cart">
+  <div class="hidden lg:block w-full sticky top-0 z-10 h-screen bg-cart">
     <ng-container *ngIf="isUser">
       <app-cart />
     </ng-container>

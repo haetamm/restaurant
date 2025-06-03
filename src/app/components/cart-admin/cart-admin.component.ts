@@ -70,7 +70,7 @@ export class CartAdminComponent implements OnInit, OnDestroy {
     this.adminCartForm = this.fb.group({
       customerName: ['', Validators.required],
       customerPhone: ['', Validators.required],
-      tableName: ['', Validators.required],
+      tableName: [null, Validators.required],
     });
 
     setupZodValidation(

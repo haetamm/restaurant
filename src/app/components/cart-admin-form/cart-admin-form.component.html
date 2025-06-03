@@ -1,9 +1,11 @@
 <form
   [formGroup]="adminCartForm"
   (ngSubmit)="onSubmit()"
-  class="space-y-4 mb-1.5"
+  class="w-full space-y-3 lg:mb-1.5 xs:flex space-x-3 lg:inline-block lg:space-x-0"
 >
-  <div class="xl:flex items-center space-y-4 xl:space-y-0 xl:space-x-3">
+  <div
+    class="w-full flex space-x-3 lg:inline-block lg:space-y-3 xl:flex items-center xl:space-y-0 xl:space-x-3"
+  >
     <div class="flex flex-col w-full">
       <p-floatlabel variant="on" class="w-full">
         <input
@@ -49,25 +51,27 @@
       </small>
     </div>
   </div>
-  <p-floatlabel variant="on" class="w-full">
-    <p-select
-      [options]="tables"
-      formControlName="tableName"
-      optionLabel="name"
-      optionValue="name"
-      [filter]="true"
-      filterBy="name"
-      [showClear]="true"
-      id="tableName"
-      class="w-full"
-    >
-      <ng-template pTemplate="selectedItem" let-selectedOption>
-        <div class="flex items-center gap-2">
-          <div>{{ selectedOption.name }}</div>
-        </div>
-      </ng-template>
-    </p-select>
-    <label for="tableName">Pilih Meja</label>
+  <div class="flex flex-col w-full xs:w-[50%] lg:w-full">
+    <p-floatlabel variant="on" class="w-full">
+      <p-select
+        [options]="tables"
+        formControlName="tableName"
+        optionLabel="name"
+        optionValue="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="tableName"
+        class="w-full"
+      >
+        <ng-template pTemplate="selectedItem" let-selectedOption>
+          <div class="flex items-center gap-2">
+            <div>{{ selectedOption.name }}</div>
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="tableName">Pilih Meja</label>
+    </p-floatlabel>
     <small
       *ngIf="
         adminCartForm.get('tableName')?.invalid &&
@@ -77,5 +81,5 @@
     >
       {{ adminCartForm.get("tableName")?.errors?.["zod"] }}
     </small>
-  </p-floatlabel>
+  </div>
 </form>

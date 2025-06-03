@@ -4,13 +4,13 @@
   <!-- Placeholder untuk gambar -->
   <div
     *ngIf="!item.id; else imageTemplate"
-    class="h-10 w-10 lg:h-20 lg:w-20 bg-gray-300 rounded animate-pulse"
+    class="h-22 w-22 bg-gray-300 rounded animate-pulse"
   ></div>
   <ng-template #imageTemplate>
     <img
       [src]="imageUrl"
       [alt]="item.name || 'Item'"
-      class="h-16 w-16 lg:h-20 lg:w-20 object-contain bg-amber-100 rounded-lg"
+      class="h-22 w-22 object-contain bg-amber-100 rounded-lg"
     />
   </ng-template>
 

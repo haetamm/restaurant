@@ -13,6 +13,8 @@ import {
 } from '@ng-icons/bootstrap-icons';
 import { CartService } from '../../shared/services/cart.service';
 import { RouterModule } from '@angular/router';
+import { CartAdminService } from '../../shared/services/cart-admin.service';
+import { usePreload } from '../../shared/utils/use-preload';
 
 @Component({
   selector: 'app-toggle-sidebar',
@@ -27,22 +29,31 @@ import { RouterModule } from '@angular/router';
   ],
 })
 export class ToggleSidebarComponent implements OnInit {
+  private preload = usePreload(false);
   urlPage = urlPage;
   sidebarVisible$!: Observable<boolean>;
   cartState$!: Observable<{
-    loading: boolean;
+    totalMenu: number;
+  }>;
+  cartAdminState$!: Observable<{
     totalMenu: number;
   }>;
 
   constructor(
     private sidebarService: SidebarService,
     private cartService: CartService,
+    private cartAdminService: CartAdminService,
     private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.cartState$ = this.cartService.getState().pipe(
-      map(({ loading, totalMenu }) => ({ loading, totalMenu })), // hanya ambil yang dibutuhkan
+      map(({ totalMenu }) => ({ totalMenu })), // hanya ambil yang dibutuhkan
+      tap(() => this.cdr.detectChanges()),
+    );
+
+    this.cartAdminState$ = this.cartAdminService.getState().pipe(
+      map(({ totalMenu }) => ({ totalMenu })),
       tap(() => this.cdr.detectChanges()),
     );
 
@@ -51,5 +62,9 @@ export class ToggleSidebarComponent implements OnInit {
 
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
+  }
+
+  get cart$() {
+    return this.preload.isUser() ? this.cartState$ : this.cartAdminState$;
   }
 }
