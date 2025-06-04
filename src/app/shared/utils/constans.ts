@@ -11,6 +11,8 @@ export const urlPage = {
   CUSTOMER: '/on/customers',
   CART: '/on/cart',
   TRANSACTION: '/on/transaction',
+  MENU: '/on/menu',
+  TABLE: '/on/table',
 };
 
 export const BASE_URL = environment.baseUrl;

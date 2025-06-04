@@ -1,0 +1,52 @@
+<div class="bg-auth-layout min-h-screen relative overflow-hidden">
+  <div class="mx-auto pt-[55px] lg:pt-5 pb-5 px-4">
+    <div
+      class="grid grid-cols-2 gap-4 xs:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 xl:gap-5"
+    >
+      <!-- Looping kartu meja -->
+
+      <div
+        *ngFor="let table of tables"
+        [ngClass]="
+          table.isTaken
+            ? 'border-red-500 hover:shadow-red-500/30 shadow-lg transition-all duration-300'
+            : 'border-[#04A033] hover:shadow-[#04A033]/30 shadow-lg transition-all duration-300'
+        "
+        class="relative bg-white p-6 rounded-[40%_40%_20%_20%] border-2"
+      >
+        <div class="flex flex-col items-center">
+          <div class="w-20 h-20 flex items-center justify-center mb-2">
+            <img
+              src="/img/table.webp"
+              alt="Meja {{ table.name }}"
+              class="w-20 h-20 rounded-full border-2"
+              [ngClass]="table.isTaken ? 'border-red-500' : 'border-[#04A033]'"
+            />
+          </div>
+          <p
+            [ngClass]="table.isTaken ? 'text-red-500' : 'text-[#04A033]'"
+            class="text-xl font-bold text-center"
+          >
+            {{ table.name }}
+          </p>
+          <div class="mt-2">
+            <span
+              class="inline-flex items-center px-3 py-1 text-xs font-semibold text-white rounded-full"
+              [ngClass]="table.isTaken ? 'bg-red-500' : 'bg-[#04A033]'"
+            >
+              {{ table.isTaken ? "Dipesan" : "Kosong" }}
+            </span>
+          </div>
+          <div class="mt-4 flex items-center space-x-3">
+            <p-toggleSwitch
+              [(ngModel)]="table.isTaken"
+              (onChange)="updateTableStatus(table.id, $event.checked)"
+              inputId="toggle-{{ table.id }}"
+              [style]="{ padding: '0px', margin: '0px' }"
+            ></p-toggleSwitch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

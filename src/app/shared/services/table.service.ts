@@ -6,6 +6,7 @@ import { tableApi } from '../api/table.api';
 export interface Table {
   id: string;
   name: string;
+  is_taken: boolean;
 }
 
 interface TablesState {

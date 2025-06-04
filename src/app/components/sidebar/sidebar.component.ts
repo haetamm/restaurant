@@ -39,11 +39,11 @@ export class SidebarComponent {
   navItems = [
     { label: 'Home', icon: 'bootstrapShopWindow', link: urlPage.HOME },
     { label: 'Transaksi', icon: 'bootstrapWallet2', link: urlPage.TRANSACTION },
-    { label: 'Menu', icon: 'bootstrapClipboard2', link: '#' },
+    { label: 'Menu', icon: 'bootstrapClipboard2', link: urlPage.MENU },
     {
-      label: 'Table',
+      label: 'Meja',
       icon: 'bootstrapCalendar2Check',
-      link: '#',
+      link: urlPage.TABLE,
     },
     { label: 'Customer', icon: 'heroUsers', link: urlPage.CUSTOMER },
     { label: 'Settings', icon: 'bootstrapGear', link: '#' },

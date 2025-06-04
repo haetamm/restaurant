@@ -81,7 +81,7 @@ export const selectPayment = (urlRedirect: string): void => {
   }
 
   // Tentukan ukuran pop-up
-  const width = 600;
+  const width = 500;
   const height = 700;
 
   // Hitung posisi tengah

@@ -13,6 +13,8 @@ import { CustomerPageComponent } from './pages/customer-page/customer-page.compo
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { userGuard } from './guards/user.guard';
 import { TransactionPageComponent } from './pages/transaction-page/transaction-page.component';
+import { MenuPageComponent } from './pages/menu-page/menu-page.component';
+import { TablePageComponent } from './pages/table-page/table-page.component';
 
 export const routes: Routes = [
   {
@@ -64,6 +66,14 @@ export const routes: Routes = [
         path: 'cart',
         canActivate: [userGuard],
         component: CartPageComponent,
+      },
+      {
+        path: 'menu',
+        component: MenuPageComponent,
+      },
+      {
+        path: 'table',
+        component: TablePageComponent,
       },
       {
         path: 'customers',
