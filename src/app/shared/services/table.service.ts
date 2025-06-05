@@ -6,7 +6,7 @@ import { tableApi } from '../api/table.api';
 export interface Table {
   id: string;
   name: string;
-  is_taken: boolean;
+  isTaken: boolean;
 }
 
 interface TablesState {
@@ -44,9 +44,28 @@ export class TableService {
       });
     } catch (error: any) {
       this.updateState({ tables: [], loading: false });
-      this.toastService.error(
-        error.message || 'Failed to load menu categories',
-      );
+      this.toastService.error(error.message || 'Failed to load data table');
+    }
+  }
+
+  async updateTableStatus(table: Table): Promise<void> {
+    try {
+      const updatedTable = await tableApi.updateTableById(table);
+      const tables = [...this.state.value.tables];
+      const index = tables.findIndex((t) => t.id === updatedTable.id);
+
+      if (index !== -1) {
+        tables[index] = updatedTable;
+
+        this.updateState({
+          tables,
+        });
+      }
+
+      this.toastService.success('Status meja berhasil diupdate');
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Gagal mengupdate status meja');
+      throw error;
     }
   }
 

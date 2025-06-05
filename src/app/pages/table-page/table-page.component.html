@@ -1,18 +1,38 @@
-<div class="bg-auth-layout min-h-screen relative overflow-hidden">
-  <div class="mx-auto pt-[55px] lg:pt-5 pb-5 px-4">
-    <div
-      class="grid grid-cols-2 gap-4 xs:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 xl:gap-5"
+<div
+  class="flex flex-col h-screen border-r-[1px] border-slate-300 bg-auth-layout"
+>
+  <div
+    class="shadow-sm pt-4 pb-3 z-10 xs:py-3.5 md:py-3 lg:p-4 md:shadow-none w-full flex items-center bg-transparent md:justify-center"
+  >
+    <button
+      (click)="filterTables(false)"
+      [class]="activeFilter === false ? ' text-[#F86901]' : 'text-black '"
+      class="px-4 font-bold focus:outline-none cursor-pointer lg:text-2xl"
     >
-      <!-- Looping kartu meja -->
-
+      Kosong
+    </button>
+    <button
+      (click)="filterTables(true)"
+      [class]="activeFilter === true ? ' text-[#F86901]' : 'text-black '"
+      class="px-4 font-bold focus:outline-none cursor-pointer lg:text-2xl"
+    >
+      Dipesan
+    </button>
+  </div>
+  <div
+    class="h-[calc(100vh - 250px)] overflow-auto no-scrollbar py-3 px-3 md:px-5"
+  >
+    <div
+      class="grid grid-cols-2 gap-4 xs:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 xl:gap-5"
+    >
       <div
-        *ngFor="let table of tables"
+        *ngFor="let table of filteredTables"
         [ngClass]="
           table.isTaken
             ? 'border-red-500 hover:shadow-red-500/30 shadow-lg transition-all duration-300'
             : 'border-[#04A033] hover:shadow-[#04A033]/30 shadow-lg transition-all duration-300'
         "
-        class="relative bg-white p-6 rounded-[40%_40%_20%_20%] border-2"
+        class="relative bg-white pt-3 pb-3 px-2 rounded-[40%_40%_20%_20%] border-2"
       >
         <div class="flex flex-col items-center">
           <div class="w-20 h-20 flex items-center justify-center mb-2">
@@ -39,6 +59,7 @@
           </div>
           <div class="mt-4 flex items-center space-x-3">
             <p-toggleSwitch
+              [disabled]="isUser"
               [(ngModel)]="table.isTaken"
               (onChange)="updateTableStatus(table.id, $event.checked)"
               inputId="toggle-{{ table.id }}"
