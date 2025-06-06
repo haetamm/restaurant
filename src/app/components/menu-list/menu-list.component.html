@@ -6,7 +6,7 @@
     <ng-container *ngIf="loading">
       <ng-container *ngFor="let i of [1, 2, 3]">
         <app-menu-card
-          [menu]="{ id: '', name: '', price: 0, image: '' }"
+          [menu]="{ id: '', name: '', price: 0, category: '', image: '' }"
           (addToCart)="onAddToCart($event)"
           [loadingButton]="loadingMenuId === ''"
         />

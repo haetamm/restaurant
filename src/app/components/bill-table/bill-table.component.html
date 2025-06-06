@@ -1,6 +1,6 @@
 <!-- Desktop Table (hidden lg:block) -->
 <div
-  class="hidden md:block px-3 relative max-h-[calc(100vh_-_194px)] overflow-auto small-scrollbar"
+  class="hidden md:block px-3 relative md:max-h-[calc(100vh_-_170px)] lg:max-h-[calc(100vh_-_194px)] overflow-auto small-scrollbar"
 >
   <table
     class="w-full min-w-full text-sm shadow-sm text-left rtl:text-right rounded-lg overflow-hidden text-gray-500 dark:text-gray-400 table-fixed box-border"
@@ -25,7 +25,7 @@
       <!-- Loading Placeholder -->
       <ng-container *ngIf="loading">
         <tr
-          *ngFor="let i of [1, 2, 3]"
+          *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
           class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
         >
           <td *ngFor="let j of [1, 2, 3, 4, 5]" class="px-6 py-4">

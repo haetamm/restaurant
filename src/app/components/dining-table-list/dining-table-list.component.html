@@ -1,0 +1,32 @@
+<div
+  class="py-3 px-3 md:px-5 h-[calc(100vh-56px)] lg:h-[calc(100vh-64px)] overflow-auto no-scrollbar"
+>
+  <div
+    class="grid grid-cols-2 gap-4 xs:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 xl:gap-5"
+  >
+    <ng-container *ngIf="!loading && tables.length === 0">
+      <div class="col-span-full text-center mt-10 text-gray-500 font-medium">
+        Tidak ada meja ditemukan.
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="loading">
+      <app-dining-table-card
+        *ngFor="
+          let i of [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20,
+          ]
+        "
+        [table]="null"
+      />
+    </ng-container>
+
+    <app-dining-table-card
+      *ngFor="let table of tables"
+      [table]="table"
+      [isUser]="isUser"
+      (statusChange)="statusChange.emit($event)"
+    />
+  </div>
+</div>

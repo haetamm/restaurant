@@ -14,7 +14,7 @@ import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { userGuard } from './guards/user.guard';
 import { TransactionPageComponent } from './pages/transaction-page/transaction-page.component';
 import { MenuPageComponent } from './pages/menu-page/menu-page.component';
-import { TablePageComponent } from './pages/table-page/table-page.component';
+import { DiningTablePageComponent } from './pages/dining-table-page/dining-table-page.component';
 
 export const routes: Routes = [
   {
@@ -73,7 +73,7 @@ export const routes: Routes = [
       },
       {
         path: 'table',
-        component: TablePageComponent,
+        component: DiningTablePageComponent,
       },
       {
         path: 'customers',

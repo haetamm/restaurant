@@ -1,0 +1,29 @@
+<div
+  class="flex flex-col h-screen border-r-[1px] border-slate-300 bg-auth-layout"
+>
+  <div
+    class="shadow-sm pt-4 pb-3 z-10 xs:py-3.5 md:py-3 lg:p-4 md:shadow-none w-full flex items-center bg-transparent md:justify-center"
+  >
+    <button
+      (click)="filterTables(false)"
+      [class]="activeFilter === false ? ' text-[#F86901]' : 'text-black '"
+      class="px-4 font-bold focus:outline-none cursor-pointer lg:text-2xl"
+    >
+      Kosong
+    </button>
+    <button
+      (click)="filterTables(true)"
+      [class]="activeFilter === true ? ' text-[#F86901]' : 'text-black '"
+      class="px-4 font-bold focus:outline-none cursor-pointer lg:text-2xl"
+    >
+      Dipesan
+    </button>
+  </div>
+
+  <app-dining-table-list
+    [tables]="filteredTables"
+    [loading]="loading"
+    [isUser]="isUser"
+    (statusChange)="updateTableStatus($event.id, $event.isTaken)"
+  />
+</div>

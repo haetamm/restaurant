@@ -7,19 +7,21 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
+
 import { Subscription } from 'rxjs';
 import { Table, TableService } from '../../shared/services/table.service';
 import { usePreload } from '../../shared/utils/use-preload';
+import { DiningTableListComponent } from '../../components/dining-table-list/dining-table-list.component';
 
 @Component({
-  selector: 'app-table-page',
+  selector: 'app-dining-table-page',
   standalone: true,
-  templateUrl: './table-page.component.html',
-  imports: [ToggleSwitchModule, FormsModule, CommonModule],
+  templateUrl: './dining-table-page.component.html',
+  imports: [FormsModule, CommonModule, DiningTableListComponent],
 })
-export class TablePageComponent implements OnInit, OnDestroy {
+export class DiningTablePageComponent implements OnInit, OnDestroy {
   tables: Table[] = [];
+  loading: boolean = false;
   filteredTables: Table[] = [];
   activeFilter: boolean = false;
   private tableSubscription: Subscription | null = null;
@@ -32,6 +34,7 @@ export class TablePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.tableSubscription = this.tableService.getState().subscribe((state) => {
       this.tables = state.tables;
+      this.loading = state.loading;
       this.filterTables(this.activeFilter);
       this.cdr.detectChanges();
     });

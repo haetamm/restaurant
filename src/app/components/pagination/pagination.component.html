@@ -1,4 +1,7 @@
-<div *ngIf="pagination" class="flex justify-center items-center py-4">
+<div
+  *ngIf="pagination"
+  class="flex justify-center items-center py-4 md:py-2 lg:py-4"
+>
   <button
     (click)="previousPage()"
     [disabled]="!pagination.hasPrevious"

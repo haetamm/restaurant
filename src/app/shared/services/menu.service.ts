@@ -27,6 +27,7 @@ export interface Menu {
   id: string;
   name: string;
   price: number;
+  category: string;
   image?: any;
 }
 

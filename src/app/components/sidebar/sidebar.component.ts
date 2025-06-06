@@ -16,6 +16,7 @@ import { heroUsers } from '@ng-icons/heroicons/outline';
 import { SidebarService } from '../../shared/services/sidebar.service';
 import { isActiveRoute } from '../../shared/utils/helper';
 import { ModalService } from '../../shared/services/modal.service';
+import { usePreload } from '../../shared/utils/use-preload';
 
 @Component({
   selector: 'app-sidebar',
@@ -35,21 +36,38 @@ import { ModalService } from '../../shared/services/modal.service';
   ],
 })
 export class SidebarComponent {
+  private preload = usePreload(false);
   urlPage = urlPage;
-  navItems = [
-    { label: 'Home', icon: 'bootstrapShopWindow', link: urlPage.HOME },
-    { label: 'Transaksi', icon: 'bootstrapWallet2', link: urlPage.TRANSACTION },
-    { label: 'Meja', icon: 'bootstrapCalendar2Check', link: urlPage.TABLE },
-    { label: 'Menu', icon: 'bootstrapClipboard2', link: urlPage.MENU },
-    { label: 'Customer', icon: 'heroUsers', link: urlPage.CUSTOMER },
-    { label: 'Settings', icon: 'bootstrapGear', link: '#' },
-  ];
 
   constructor(
     private modalService: ModalService,
     private sidebarService: SidebarService,
     public router: Router,
   ) {}
+
+  get navItems() {
+    const baseItems = [
+      { label: 'Home', icon: 'bootstrapShopWindow', link: urlPage.HOME },
+      {
+        label: 'Transaksi',
+        icon: 'bootstrapWallet2',
+        link: urlPage.TRANSACTION,
+      },
+      { label: 'Meja', icon: 'bootstrapCalendar2Check', link: urlPage.TABLE },
+      { label: 'Customer', icon: 'heroUsers', link: urlPage.CUSTOMER },
+      { label: 'Settings', icon: 'bootstrapGear', link: '#' },
+    ];
+
+    if (this.preload.isAdmin()) {
+      baseItems.splice(3, 0, {
+        label: 'Menu',
+        icon: 'bootstrapClipboard2',
+        link: urlPage.MENU,
+      });
+    }
+
+    return baseItems;
+  }
 
   isRouteActive(path: string, exact: boolean = false): boolean {
     return isActiveRoute(this.router, path, exact);

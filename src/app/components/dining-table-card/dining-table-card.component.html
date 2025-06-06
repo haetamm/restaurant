@@ -1,0 +1,66 @@
+<div
+  [ngClass]="
+    table
+      ? table.isTaken
+        ? 'border-red-500 hover:shadow-red-500/30'
+        : 'border-[#04A033] hover:shadow-[#04A033]/30'
+      : 'border-gray-300 animate-pulse'
+  "
+  class="relative bg-white pt-3 pb-3 px-2 rounded-[40%_40%_20%_20%] border-2 shadow-lg transition-all duration-300"
+>
+  <div class="flex flex-col items-center">
+    <div class="w-20 h-20 flex items-center justify-center mb-2">
+      <ng-container *ngIf="table; else loadingImage">
+        <img
+          src="/img/table.webp"
+          alt="Meja {{ table.name }}"
+          class="w-20 h-20 rounded-full border-2"
+          [ngClass]="table.isTaken ? 'border-red-500' : 'border-[#04A033]'"
+        />
+      </ng-container>
+      <ng-template #loadingImage>
+        <div class="w-20 h-20 rounded-full bg-slate-200 border-2"></div>
+      </ng-template>
+    </div>
+
+    <p
+      *ngIf="table; else loadingText"
+      [ngClass]="table.isTaken ? 'text-red-500' : 'text-[#04A033]'"
+      class="text-xl font-bold text-center"
+    >
+      {{ table.name }}
+    </p>
+    <ng-template #loadingText>
+      <div class="w-16 h-5 bg-slate-200 rounded text-xl"></div>
+    </ng-template>
+
+    <div class="mt-2">
+      <ng-container *ngIf="table; else loadingStatus">
+        <span
+          class="inline-flex items-center px-3 py-1 text-xs font-semibold text-white rounded-full"
+          [ngClass]="table.isTaken ? 'bg-red-500' : 'bg-[#04A033]'"
+        >
+          {{ table.isTaken ? "Dipesan" : "Kosong" }}
+        </span>
+      </ng-container>
+      <ng-template #loadingStatus>
+        <div class="w-16 h-4 bg-slate-200 rounded-full"></div>
+      </ng-template>
+    </div>
+
+    <div class="mt-4 flex items-center space-x-3">
+      <ng-container *ngIf="table; else loadingToggle">
+        <p-toggleSwitch
+          [disabled]="isUser"
+          [(ngModel)]="table.isTaken"
+          (onChange)="onToggleChange($event)"
+          inputId="toggle-{{ table.id }}"
+          [style]="{ padding: '0px', margin: '0px' }"
+        ></p-toggleSwitch>
+      </ng-container>
+      <ng-template #loadingToggle>
+        <div class="w-12 h-6 bg-slate-200 rounded-full"></div>
+      </ng-template>
+    </div>
+  </div>
+</div>

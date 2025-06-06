@@ -3,12 +3,12 @@
 >
   <div class="flex flex-col min-h-screen border-r-[1px] border-slate-300">
     <div
-      class="py-2 px-2 lg:px-3 md:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10 bg-auth-layout"
+      class="py-2 px-2 lg:px-3 md:pt-2 md:pb-3 lg:py-4 w-full flex items-center justify-between gap-x-2.5 sticky top-0 z-10 bg-auth-layout"
     >
       <app-searchbar
         [initialSearch]="initialSearch"
         (searchChange)="onSearch($event)"
-        class="w-full mr-[85px] md:mr-0"
+        class="w-full mr-[85px] md:mr-[50px] lg:mr-0"
         [placeholder]="placeholder"
       />
     </div>
