@@ -11,10 +11,11 @@ import { WelcomePageComponent } from './pages/welcome-page/welcome-page.componen
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CustomerPageComponent } from './pages/customer-page/customer-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
-import { userGuard } from './guards/user.guard';
 import { TransactionPageComponent } from './pages/transaction-page/transaction-page.component';
 import { MenuPageComponent } from './pages/menu-page/menu-page.component';
 import { DiningTablePageComponent } from './pages/dining-table-page/dining-table-page.component';
+import { mobileGuard } from './guards/mobile.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -64,11 +65,12 @@ export const routes: Routes = [
       },
       {
         path: 'cart',
-        canActivate: [userGuard],
+        canActivate: [mobileGuard],
         component: CartPageComponent,
       },
       {
         path: 'menu',
+        canActivate: [adminGuard],
         component: MenuPageComponent,
       },
       {

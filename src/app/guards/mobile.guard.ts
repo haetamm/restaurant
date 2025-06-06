@@ -5,7 +5,7 @@ import { urlPage } from '../shared/utils/constans';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
-export const userGuard: CanActivateFn = () => {
+export const mobileGuard: CanActivateFn = () => {
   const router = inject(Router);
   const platformId = inject(PLATFORM_ID);
 
