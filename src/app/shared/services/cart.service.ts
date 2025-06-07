@@ -125,12 +125,10 @@ export class CartService {
       this.updateState({
         carts: updatedCarts,
         ...this.calculateTotals(updatedCarts),
-        loading: false,
       });
 
       this.toastService.success('Item berhasil dihapus!');
     } catch (error: any) {
-      this.updateState({ loading: false });
       this.toastService.error(
         error.message || 'Gagal menghapus item dari keranjang',
       );

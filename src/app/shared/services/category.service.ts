@@ -10,7 +10,7 @@ export interface Category {
 
 interface CategoriesState {
   loading: boolean;
-  menus: Category[];
+  categories: Category[];
 }
 
 @Injectable({
@@ -18,7 +18,7 @@ interface CategoriesState {
 })
 export class CategoryService {
   private state = new BehaviorSubject<CategoriesState>({
-    menus: [],
+    categories: [],
     loading: false,
   });
   state$: Observable<CategoriesState> = this.state.asObservable();
@@ -38,11 +38,11 @@ export class CategoryService {
     try {
       const data = await categoryApi.getCategories();
       this.updateState({
-        menus: data.data,
+        categories: data.data,
         loading: false,
       });
     } catch (error: any) {
-      this.updateState({ menus: [], loading: false });
+      this.updateState({ categories: [], loading: false });
       this.toastService.error(
         error.message || 'Failed to load menu categories',
       );
@@ -53,8 +53,8 @@ export class CategoryService {
     return this.state$;
   }
 
-  getCategories(): Category[] | null {
-    return this.state.value.menus;
+  getCategories(): Category[] | [] {
+    return this.state.value.categories;
   }
 
   private updateState(newState: Partial<CategoriesState>): void {

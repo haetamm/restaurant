@@ -3,6 +3,13 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { menuApi } from '../api/menu.api';
 
+export interface MenuRequest {
+  name: string;
+  price: number;
+  categoryId: string;
+  image: File;
+}
+
 export interface PaginationResponse {
   totalPages: number;
   totalElement: number;
@@ -83,6 +90,53 @@ export class MenuService {
     } catch (error: any) {
       this.updateState({ menus: [], loading: false, pagination: null });
       this.toastService.error(error.message || 'Failed to load menu');
+    }
+  }
+
+  async createMenu(menu: MenuRequest): Promise<void> {
+    try {
+      const newMenu = await menuApi.createMenu(menu);
+      const currentMenus = this.state.value.menus;
+      this.updateState({
+        menus: [newMenu, ...currentMenus],
+      });
+      this.toastService.success('Menu berhasil dibuat!');
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Gagal membuat menu');
+      throw error;
+    }
+  }
+
+  async updateMenu(menu: Menu): Promise<void> {
+    try {
+      const updatedMenu = await menuApi.updateMenu(menu);
+      const currentMenus = this.state.value.menus;
+
+      const updatedMenus = currentMenus.map((m) =>
+        m.id === updatedMenu.id ? updatedMenu : m,
+      );
+
+      this.updateState({
+        menus: updatedMenus,
+      });
+
+      this.toastService.success('Menu berhasil diperbarui!');
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Gagal memperbarui menu');
+    }
+  }
+
+  async deleteMenu(id: string): Promise<void> {
+    try {
+      await menuApi.deleteMenu({ id });
+      const currentMenus = this.state.value.menus;
+      const updatedMenus = currentMenus.filter((menu) => menu.id !== id);
+      this.updateState({
+        menus: updatedMenus,
+      });
+      this.toastService.success('Menu berhasil dihapus!');
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Gagal menghapus menu');
     }
   }
 

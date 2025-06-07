@@ -9,6 +9,7 @@ import { SearchbarComponent } from '../../components/searchbar/searchbar.compone
 import { MenuTableComponent } from '../../components/menu-table/menu-table.component';
 import { ButtonModule } from 'primeng/button';
 import { ButtonBottomComponent } from '../../components/button-bottom/button-bottom.component';
+import { MenuFormComponent } from '../../components/menu-form/menu-form.component';
 
 @Component({
   selector: 'app-menu-page',
@@ -18,6 +19,7 @@ import { ButtonBottomComponent } from '../../components/button-bottom/button-bot
     MenuTableComponent,
     ButtonModule,
     ButtonBottomComponent,
+    MenuFormComponent,
   ],
   templateUrl: './menu-page.component.html',
 })
@@ -40,11 +42,14 @@ export class MenuPageComponent {
     // Ambil query parameter dari URL saat ini
     const queryParams = this.route.snapshot.queryParams;
 
-    // Set initialSearch berdasarkan menuName atau customer dari queryParams (jika ada)
+    // Set initialSearch berdasarkan name (jika ada)
     queryParams['name'] || '';
 
-    // Panggil fetchBillByCurrentUser dengan query parameter
-    this.menuService.fetchMenus(queryParams);
+    // Panggil fetchMenus dengan query parameter
+    const menus = this.menuService.getMenus();
+    if (!menus || menus.length < 10) {
+      this.menuService.fetchMenus(queryParams);
+    }
   }
 
   onSearch(searchTerm: string) {

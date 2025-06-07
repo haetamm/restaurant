@@ -1,28 +1,31 @@
 import { categoriesMeta } from './../../shared/utils/helper';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { CategoryService } from '../../shared/services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../shared/services/menu.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { Select } from 'primeng/select';
 
 @Component({
   selector: 'app-categorybar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Select],
   templateUrl: './categorybar.component.html',
 })
 export class CategorybarComponent implements OnDestroy {
   categoriesMenu: any[] = [];
   selectedCategory: string = 'all'; // Properti untuk menyimpan kategori aktif
   private queryParamsSubscription: Subscription;
+  categorySubscription: Subscription | null = null;
 
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
     private router: Router,
     private menuService: MenuService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.queryParamsSubscription = this.route.queryParams.subscribe(
       (params) => {
@@ -34,24 +37,29 @@ export class CategorybarComponent implements OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    let apiCategories = this.categoryService.getCategories() || [];
-    if (!apiCategories || apiCategories.length === 0) {
-      await this.categoryService.fetchCategories();
-      apiCategories = this.categoryService.getCategories() || [];
-    }
+    // Berlangganan ke state categories menu
+    this.categorySubscription = this.categoryService
+      .getState()
+      .subscribe((state) => {
+        if (state.categories.length > 0) {
+          this.categoriesMenu = [
+            categoriesMeta[0], // "Semua"
+            ...state.categories.map((cat) => {
+              const match = categoriesMeta.find(
+                (meta) => meta.value === cat.name,
+              );
+              return {
+                label: match?.label || cat.name,
+                link: match?.link || '/img/default-food.png',
+                value: cat.name,
+                active: false,
+              };
+            }),
+          ];
 
-    this.categoriesMenu = [
-      categoriesMeta[0], // "Semua"
-      ...apiCategories.map((cat) => {
-        const match = categoriesMeta.find((meta) => meta.value === cat.name);
-        return {
-          label: match?.label || cat.name,
-          link: match?.link || '/img/default-food.png',
-          value: cat.name,
-          active: false,
-        };
-      }),
-    ];
+          this.cdr.detectChanges();
+        }
+      });
 
     const selectedCategory =
       this.route.snapshot.queryParams['category'] || 'all';
@@ -87,5 +95,8 @@ export class CategorybarComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.queryParamsSubscription.unsubscribe();
+    if (this.categorySubscription) {
+      this.categorySubscription.unsubscribe();
+    }
   }
 }

@@ -11,6 +11,7 @@ import { usePreload } from '../../shared/utils/use-preload';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { TableService } from '../../shared/services/table.service';
 import { CartAdminService } from '../../shared/services/cart-admin.service';
+import { CategoryService } from '../../shared/services/category.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -36,6 +37,7 @@ export class AuthLayoutComponent implements OnInit {
     private cartService: CartService,
     private tableService: TableService,
     private cartAdminService: CartAdminService,
+    private categoryService: CategoryService,
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +56,11 @@ export class AuthLayoutComponent implements OnInit {
     const tables = this.tableService.getTables();
     if (!tables || (tables.length === 0 && this.preload.isAdmin())) {
       this.tableService.fetchTables();
+    }
+
+    const apiCategories = this.categoryService.getCategories() || [];
+    if (apiCategories.length === 0) {
+      this.categoryService.fetchCategories();
     }
   }
 }

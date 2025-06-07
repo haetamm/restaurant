@@ -1,16 +1,18 @@
 <div class="pt-4 px-1 flex justify-between items-center lg:inline-block">
   <p class="font-bold text-2xl my-2 w-full">Kategori</p>
-  <select
-    class="lg:hidden border border-gray-300 text-gray-900 rounded-lg block w-full px-2.5 py-2 text-sm focus:outline-none"
-    [(ngModel)]="selectedCategory"
-    (change)="selectCategory($any($event.target).value)"
-  >
-    <ng-container *ngFor="let category of categoriesMenu">
-      <option [value]="category.value">
-        {{ category.label }}
-      </option>
-    </ng-container>
-  </select>
+
+  <div class="lg:hidden w-full">
+    <p-select
+      class="border border-gray-300 text-gray-900 w-full"
+      [options]="categoriesMenu"
+      [(ngModel)]="selectedCategory"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Pilih kategori"
+      (onChange)="selectCategory($event.value)"
+    ></p-select>
+  </div>
+
   <div class="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 items-center gap-3">
     <ng-container *ngFor="let category of categoriesMenu">
       <button

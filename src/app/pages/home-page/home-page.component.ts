@@ -81,8 +81,9 @@ export class HomePageComponent implements OnInit {
           queryParams: defaultParams,
         });
       }
+
       const menus = this.menuService.getMenus();
-      if (!menus || menus.length === 0) {
+      if (!menus || menus.length < 10) {
         this.menuService.fetchMenus(params);
       }
     });

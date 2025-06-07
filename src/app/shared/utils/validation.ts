@@ -61,6 +61,46 @@ const address = z
 
 const tableName = z.string().trim().min(1, 'Meja diisi');
 
+const menuName = z
+  .string()
+  .trim()
+  .min(1, 'Nama wajib diisi')
+  .max(50, 'Nama maksimal 50 karakter');
+
+const price = z.coerce
+  .number({ invalid_type_error: 'Harga harus berupa angka' })
+  .min(1, 'Harga wajib diisi');
+
+const menuCategoryId = z.string().trim().min(1, 'Kategori wajib diisi');
+
+const menuImage = z.custom<File>(
+  (value) => {
+    if (!value || !(value instanceof File)) {
+      return false;
+    }
+
+    const allowedMimeTypes = [
+      'image/png',
+      'image/jpeg',
+      'image/jpg',
+      'image/webp',
+    ];
+    if (!allowedMimeTypes.includes(value.type)) {
+      return false;
+    }
+
+    const maxSizeInBytes = 307200;
+    if (value.size > maxSizeInBytes) {
+      return false;
+    }
+
+    return true;
+  },
+  {
+    message: 'Harap unggah gambar (jpg/png/webp) dengan ukuran maksimal 300KB',
+  },
+);
+
 export const registerSchema = z.object({
   name,
   phone,
@@ -104,3 +144,12 @@ export const adminCartSchema = z.object({
 });
 
 export type AdminCartFormType = z.infer<typeof adminCartSchema>;
+
+export const menuSchema = z.object({
+  name: menuName,
+  price,
+  categoryId: menuCategoryId,
+  image: menuImage,
+});
+
+export type MenuFormType = z.infer<typeof menuSchema>;

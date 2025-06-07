@@ -1,0 +1,127 @@
+<div
+  class="flex flex-col h-screen px-2 xl:px-3 border-r-[1px] border-slate-300 bg-cart"
+>
+  <div
+    class="py-2 md:py-4 w-full flex items-center justify-between bg-transparent"
+  >
+    <div class="w-full">
+      <p class="font-bold text-lg">Tambah Menu</p>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="menuForm"
+    (ngSubmit)="onSubmit()"
+    class="w-full space-y-4 pb-4"
+  >
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on" class="w-full">
+        <input
+          type="text"
+          pInputText
+          class="border border-gray-300 text-gray-900 w-full"
+          formControlName="name"
+          id="name"
+        />
+        <label for="name">Nama</label>
+      </p-floatlabel>
+      <small
+        *ngIf="menuForm.get('name')?.invalid && menuForm.get('name')?.touched"
+        class="text-red-500"
+      >
+        {{ menuForm.get("name")?.errors?.["zod"] }}
+      </small>
+    </div>
+
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on" class="w-full">
+        <input
+          type="text"
+          pInputText
+          class="w-full"
+          pKeyFilter="num"
+          formControlName="price"
+          id="price"
+        />
+        <label for="price">Harga</label>
+      </p-floatlabel>
+      <small
+        *ngIf="menuForm.get('price')?.invalid && menuForm.get('price')?.touched"
+        class="text-red-500"
+      >
+        {{ menuForm.get("price")?.errors?.["zod"] }}
+      </small>
+    </div>
+
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on" class="w-full">
+        <p-select
+          class="border border-gray-300 text-gray-900 w-full"
+          [options]="categoriesMenu"
+          optionLabel="label"
+          optionValue="value"
+          formControlName="categoryId"
+          inputId="categoryId"
+        ></p-select>
+        <label for="categoryId">Pilih Kategori</label>
+      </p-floatlabel>
+      <small
+        *ngIf="
+          menuForm.get('categoryId')?.invalid &&
+          menuForm.get('categoryId')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ menuForm.get("categoryId")?.errors?.["zod"] }}
+      </small>
+    </div>
+
+    <div class="flex flex-col w-full">
+      <p-fileupload
+        name="image"
+        [auto]="true"
+        [multiple]="false"
+        accept="image/png,image/jpeg,image/jpg,image/webp"
+        maxFileSize="307200"
+        mode="advanced"
+        (uploadHandler)="onUpload($event)"
+        customUpload="true"
+        chooseLabel="Pilih Gambar"
+        uploadLabel="Unggah"
+        cancelLabel="Batal"
+      >
+        <ng-template pTemplate="header" let-chooseCallback="chooseCallback">
+          <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
+            <div class="flex gap-2">
+              <p-button
+                label="Pilih Gambar"
+                size="small"
+                type="button"
+                (click)="chooseCallback()"
+              />
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #empty>
+          <div class="flex items-center justify-center flex-col">
+            <i class="pi pi-cloud-upload !text-4xl !text-muted-color"></i>
+            <small class="">Drag and drop files to here to upload.</small>
+          </div>
+        </ng-template>
+      </p-fileupload>
+      <small
+        *ngIf="menuForm.get('image')?.invalid && menuForm.get('image')?.touched"
+        class="text-red-500"
+      >
+        {{ menuForm.get("image")?.errors?.["zod"] }}
+      </small>
+    </div>
+
+    <p-button
+      [label]="loading ? 'Loading' : 'Tambah'"
+      [styleClass]="'w-full'"
+      [disabled]="menuForm.invalid || loading"
+      type="submit"
+    />
+  </form>
+</div>

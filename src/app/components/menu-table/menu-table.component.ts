@@ -5,11 +5,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { createImgUrl } from '../../shared/utils/helper';
+import { Image } from 'primeng/image';
 
 @Component({
   selector: 'app-menu-table',
   standalone: true,
-  imports: [CommonModule, InputTextModule, ButtonModule, FormsModule],
+  imports: [CommonModule, InputTextModule, ButtonModule, FormsModule, Image],
   templateUrl: './menu-table.component.html',
 })
 export class MenuTableComponent {
