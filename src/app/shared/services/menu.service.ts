@@ -2,12 +2,21 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { menuApi } from '../api/menu.api';
+import { ModalService } from './modal.service';
 
 export interface MenuRequest {
   name: string;
   price: number;
   categoryId: string;
   image: File;
+}
+
+export interface MenuUpdateRequest {
+  id: string;
+  name: string;
+  price: number;
+  categoryId: string;
+  image?: any;
 }
 
 export interface PaginationResponse {
@@ -35,12 +44,14 @@ export interface Menu {
   name: string;
   price: number;
   category: string;
+  categoryId: string;
   image?: any;
 }
 
 interface MenusState {
   loading: boolean;
   menus: Menu[];
+  menuDetail: Menu | null;
   pagination: PaginationResponse | null;
 }
 
@@ -50,6 +61,7 @@ interface MenusState {
 export class MenuService {
   private state = new BehaviorSubject<MenusState>({
     menus: [],
+    menuDetail: null,
     loading: false,
     pagination: null,
   });
@@ -64,6 +76,7 @@ export class MenuService {
   );
 
   private readonly toastService = inject(HotToastService);
+  private readonly modalService = inject(ModalService);
 
   getLoading(): boolean {
     return this.state.value.loading;
@@ -101,26 +114,28 @@ export class MenuService {
         menus: [newMenu, ...currentMenus],
       });
       this.toastService.success('Menu berhasil dibuat!');
+      this.modalService.hideModal();
     } catch (error: any) {
       this.toastService.error(error.message || 'Gagal membuat menu');
       throw error;
     }
   }
 
-  async updateMenu(menu: Menu): Promise<void> {
+  async updateMenu(menu: MenuUpdateRequest): Promise<void> {
     try {
       const updatedMenu = await menuApi.updateMenu(menu);
       const currentMenus = this.state.value.menus;
-
       const updatedMenus = currentMenus.map((m) =>
         m.id === updatedMenu.id ? updatedMenu : m,
       );
 
       this.updateState({
         menus: updatedMenus,
+        menuDetail: null,
       });
 
       this.toastService.success('Menu berhasil diperbarui!');
+      this.modalService.hideModal();
     } catch (error: any) {
       this.toastService.error(error.message || 'Gagal memperbarui menu');
     }
@@ -138,6 +153,16 @@ export class MenuService {
     } catch (error: any) {
       this.toastService.error(error.message || 'Gagal menghapus menu');
     }
+  }
+
+  getMenuById(id: string): void {
+    const menus = this.state.value.menus;
+    const menu = menus.find((menu) => menu.id === id);
+    this.updateState({ menuDetail: menu });
+  }
+
+  resetMenuDetail(): void {
+    this.updateState({ menuDetail: null });
   }
 
   getState(): Observable<MenusState> {

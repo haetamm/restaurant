@@ -79,12 +79,7 @@ const menuImage = z.custom<File>(
       return false;
     }
 
-    const allowedMimeTypes = [
-      'image/png',
-      'image/jpeg',
-      'image/jpg',
-      'image/webp',
-    ];
+    const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
     if (!allowedMimeTypes.includes(value.type)) {
       return false;
     }
@@ -100,6 +95,34 @@ const menuImage = z.custom<File>(
     message: 'Harap unggah gambar (jpg/png/webp) dengan ukuran maksimal 300KB',
   },
 );
+
+const menuUpdateImage = z
+  .custom<File>(
+    (value) => {
+      if (!value) return true; // Tidak ada file, boleh karena opsional
+
+      if (!(value instanceof File)) {
+        return false;
+      }
+
+      const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      if (!allowedMimeTypes.includes(value.type)) {
+        return false;
+      }
+
+      const maxSizeInBytes = 307200;
+      if (value.size > maxSizeInBytes) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message:
+        'Harap unggah gambar (jpg/png/webp) dengan ukuran maksimal 300KB',
+    },
+  )
+  .optional();
 
 export const registerSchema = z.object({
   name,
@@ -153,3 +176,12 @@ export const menuSchema = z.object({
 });
 
 export type MenuFormType = z.infer<typeof menuSchema>;
+
+export const menuUpdateSchema = z.object({
+  name: menuName,
+  price,
+  categoryId: menuCategoryId,
+  image: menuUpdateImage,
+});
+
+export type MenuUpdateFormType = z.infer<typeof menuUpdateSchema>;

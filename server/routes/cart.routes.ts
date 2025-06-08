@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createServerAxiosInstance } from './axios-server-config';
+import { createServerAxiosInstance } from '../config/axios-server-config';
 
 const router = Router();
 

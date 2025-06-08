@@ -112,8 +112,18 @@
           </td>
           <td class="px-6 py-2.5 box-border truncate">
             <div class="flex space-x-2">
-              <p-button icon="pi pi-trash" size="small" severity="danger" />
-              <p-button icon="pi pi-pencil" size="small" severity="warn" />
+              <p-button
+                (click)="deleteMenuById(menu.id)"
+                icon="pi pi-trash"
+                size="small"
+                severity="danger"
+              />
+              <p-button
+                (click)="onHandleDetail(menu.id)"
+                icon="pi pi-pencil"
+                size="small"
+                severity="warn"
+              />
             </div>
           </td>
         </tr>
@@ -188,11 +198,13 @@
             <div class="flex justify-end space-x-2">
               <p-button
                 icon="pi pi-pencil"
+                (click)="onHandleDetail(menu.id)"
                 size="small"
                 severity="warn"
                 styleClass="!text-xs !px-2 !py-1"
               ></p-button>
               <p-button
+                (click)="deleteMenuById(menu.id)"
                 icon="pi pi-trash"
                 size="small"
                 severity="danger"

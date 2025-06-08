@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ModalSmallComponent } from '../modal-small/modal-small.component';
 import { ProfileService } from '../../shared/services/profile.service';
 import { BillDetailModalSectionComponent } from '../bill-detail-modal-section/bill-detail-modal-section.component';
+import { MenuFormModalSectionComponent } from '../menu-form-modal-section/menu-form-modal-section.component';
 
 @Component({
   selector: 'app-modal',
@@ -14,6 +15,7 @@ import { BillDetailModalSectionComponent } from '../bill-detail-modal-section/bi
     CommonModule,
     ModalSmallComponent,
     BillDetailModalSectionComponent,
+    MenuFormModalSectionComponent,
   ],
   templateUrl: './modal.component.html',
 })

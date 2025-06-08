@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { createImgUrl } from '../../shared/utils/helper';
 import { Image } from 'primeng/image';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-menu-table',
@@ -19,7 +20,10 @@ export class MenuTableComponent {
   loading: boolean = false;
   createImgUrl = createImgUrl;
 
-  constructor(private menuService: MenuService) {}
+  constructor(
+    private menuService: MenuService,
+    private modalService: ModalService,
+  ) {}
 
   ngOnInit() {
     this.coloumns = [
@@ -32,6 +36,17 @@ export class MenuTableComponent {
     this.menuService.getState().subscribe((state) => {
       this.menus = state.menus;
       this.loading = state.loading;
+    });
+  }
+
+  onHandleDetail(id: string) {
+    this.modalService.showMenuForm();
+    this.menuService.getMenuById(id);
+  }
+
+  deleteMenuById(menuId: string): void {
+    this.modalService.showDelete(async () => {
+      this.menuService.deleteMenu(menuId);
     });
   }
 }

@@ -7,6 +7,7 @@ export const MODAL_TYPES = {
   DELETE: 'delete',
   CART: 'cart',
   BILL_DETAIL: 'billDetail',
+  MENU_FORM: 'menuForm',
 } as const;
 
 // Interface untuk state modal
@@ -58,6 +59,17 @@ export class ModalService {
       this.modalState$.next({
         isVisible: true,
         type: MODAL_TYPES.BILL_DETAIL,
+        callback: null,
+        loading: false,
+      });
+    }
+  }
+
+  showMenuForm(): void {
+    if (window.innerWidth < 1024) {
+      this.modalState$.next({
+        isVisible: true,
+        type: MODAL_TYPES.MENU_FORM,
         callback: null,
         loading: false,
       });

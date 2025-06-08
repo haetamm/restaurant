@@ -29,7 +29,7 @@ export class CartAdminItemComponent {
     this.cartAdminService.updateItemQuantity(itemId, newQty);
   }
 
-  deleteByMenuId(menuId: string): void {
+  deleteMenuById(menuId: string): void {
     this.modalService.showDelete(async () => {
       this.cartAdminService.deleteItemByMenuId(menuId);
     });

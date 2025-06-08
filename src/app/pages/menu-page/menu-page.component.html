@@ -17,6 +17,7 @@
         icon="pi pi-plus"
         size="small"
         class="hidden md:block mr-[85px] md:mr-[50px] lg:mr-0 lg:hidden"
+        (click)="showMenuFormModal()"
       />
     </div>
     <app-menu-table />
@@ -34,6 +35,7 @@
 </div>
 <app-button-bottom>
   <p-button
+    (click)="showMenuFormModal()"
     label="Tambah"
     icon="pi pi-plus"
     class="w-full"

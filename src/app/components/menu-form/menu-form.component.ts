@@ -11,17 +11,22 @@ import {
 } from '@angular/forms';
 import { Select } from 'primeng/select';
 import { CategoryService } from '../../shared/services/category.service';
-import { categoriesMeta } from '../../shared/utils/helper';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { FileUploadHandlerEvent } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
-import { menuSchema } from '../../shared/utils/validation';
-import { MenuService, MenuRequest } from '../../shared/services/menu.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { menuSchema, menuUpdateSchema } from '../../shared/utils/validation';
+import {
+  MenuService,
+  MenuRequest,
+  Menu,
+  MenuUpdateRequest,
+} from '../../shared/services/menu.service';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-menu-form',
@@ -44,8 +49,7 @@ export class MenuFormComponent implements OnInit {
   categoriesMenu: any[] = [];
   uploadedFiles: File[] = [];
   menuForm: FormGroup;
-  imagePreviewUrl: SafeUrl | null = null; // Untuk pratinjau gambar
-
+  menuDetail: Menu | null = null;
   categorySubscription: Subscription | null = null;
 
   constructor(
@@ -54,40 +58,59 @@ export class MenuFormComponent implements OnInit {
     private menuService: MenuService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
+    private modalService: ModalService,
   ) {
+    // Inisialisasi form tanpa validator image awal
     this.menuForm = this.fb.group({
       name: ['', Validators.required],
       price: [null, Validators.required],
       categoryId: [null, Validators.required],
-      image: [null, Validators.required],
+      image: [null], // Tidak set validator awal
     });
-
-    setupZodValidation(
-      this.menuForm.controls as unknown as Record<string, AbstractControl>,
-      menuSchema,
-    );
   }
 
   ngOnInit(): void {
+    // Berlangganan ke state menu detail
+    this.menuService.getState().subscribe((state) => {
+      this.menuDetail = state.menuDetail;
+      // Terapkan skema validasi berdasarkan menuDetail
+      this.applyValidationSchema();
+      if (this.menuDetail) {
+        this.menuForm.patchValue({
+          name: this.menuDetail.name,
+          price: this.menuDetail.price,
+          categoryId: this.menuDetail.categoryId,
+        });
+        // Reset image agar opsional saat edit
+        this.menuForm.get('image')?.setValue(null);
+      }
+      this.cdr.detectChanges();
+    });
+
     // Berlangganan ke state categories menu
     this.categorySubscription = this.categoryService
       .getState()
       .subscribe((state) => {
         if (state.categories.length > 0) {
           this.categoriesMenu = [
-            ...state.categories.map((cat) => {
-              const match = categoriesMeta.find(
-                (meta) => meta.value === cat.name,
-              );
-              return {
-                label: match?.label || cat.name,
-                value: cat.id,
-              };
-            }),
+            ...state.categories.map((cat) => ({
+              label: cat.name,
+              value: cat.id,
+            })),
           ];
           this.cdr.detectChanges();
         }
       });
+  }
+
+  private applyValidationSchema(): void {
+    // Terapkan validasi Zod berdasarkan menuDetail
+    setupZodValidation(
+      this.menuForm.controls as unknown as Record<string, AbstractControl>,
+      this.menuDetail ? menuUpdateSchema : menuSchema,
+    );
+    // Perbarui status form
+    this.menuForm.updateValueAndValidity();
   }
 
   onUpload(event: FileUploadHandlerEvent) {
@@ -95,9 +118,7 @@ export class MenuFormComponent implements OnInit {
     if (file) {
       this.menuForm.patchValue({ image: file });
       this.menuForm.get('image')?.markAsTouched();
-      this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(
-        URL.createObjectURL(file),
-      );
+      this.menuForm.get('image')?.updateValueAndValidity();
     }
   }
 
@@ -109,17 +130,34 @@ export class MenuFormComponent implements OnInit {
 
     this.loading = true;
     try {
-      await this.menuService.createMenu(this.menuForm.value as MenuRequest);
-      this.resetForm();
-    } catch (error: any) {
+      if (this.menuDetail) {
+        const payload = {
+          id: this.menuDetail.id,
+          name: this.menuForm.value.name,
+          price: this.menuForm.value.price,
+          categoryId: this.menuForm.value.categoryId,
+          image: this.menuForm.value.image,
+        };
+        await this.menuService.updateMenu(payload as MenuUpdateRequest);
+        this.resetForm();
+      } else {
+        await this.menuService.createMenu(this.menuForm.value as MenuRequest);
+        this.resetForm();
+      }
     } finally {
       this.loading = false;
     }
   }
 
+  onCancel(): void {
+    this.menuService.resetMenuDetail();
+    this.menuForm.reset();
+    this.modalService.hideModal();
+  }
+
   private resetForm(): void {
     this.menuForm.reset();
-    this.imagePreviewUrl = null;
+    this.applyValidationSchema(); // Reapply schema setelah reset
   }
 
   ngOnDestroy(): void {

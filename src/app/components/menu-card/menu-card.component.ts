@@ -4,11 +4,12 @@ import { Menu } from '../../shared/services/menu.service';
 import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapPlusLg } from '@ng-icons/bootstrap-icons';
+import { Image } from 'primeng/image';
 
 @Component({
   selector: 'app-menu-card',
   standalone: true,
-  imports: [CommonModule, NgIcon],
+  imports: [CommonModule, NgIcon, Image],
   templateUrl: './menu-card.component.html',
   viewProviders: [provideIcons({ bootstrapPlusLg })],
 })

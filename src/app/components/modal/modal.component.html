@@ -40,6 +40,12 @@
         (onClose)="closeModal()"
         *ngIf="state.type === 'billDetail'"
       />
+
+      <!-- render menu form -->
+      <app-menu-form-modal-section
+        (onClose)="closeModal()"
+        *ngIf="state.type === 'menuForm'"
+      />
     </ng-container>
   </div>
 </div>

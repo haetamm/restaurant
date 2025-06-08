@@ -10,6 +10,7 @@ import { MenuTableComponent } from '../../components/menu-table/menu-table.compo
 import { ButtonModule } from 'primeng/button';
 import { ButtonBottomComponent } from '../../components/button-bottom/button-bottom.component';
 import { MenuFormComponent } from '../../components/menu-form/menu-form.component';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-menu-page',
@@ -31,6 +32,7 @@ export class MenuPageComponent {
     private menuService: MenuService,
     private route: ActivatedRoute,
     private router: Router,
+    private modalService: ModalService,
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class MenuPageComponent {
 
     // Set initialSearch berdasarkan name (jika ada)
     queryParams['name'] || '';
+    this.initialSearch = queryParams['name'] || '';
 
     // Panggil fetchMenus dengan query parameter
     const menus = this.menuService.getMenus();
@@ -78,5 +81,10 @@ export class MenuPageComponent {
 
   fetchMenus(queryParams: any) {
     this.menuService.fetchMenus(queryParams);
+  }
+
+  showMenuFormModal() {
+    this.menuService.resetMenuDetail();
+    this.modalService.showMenuForm();
   }
 }
