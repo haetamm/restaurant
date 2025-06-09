@@ -108,7 +108,14 @@
             Rp. {{ menu.price | number: "1.0-0" }}
           </td>
           <td class="px-6 py-2.5 box-border truncate">
-            {{ menu.category }}
+            <span
+              [pTooltip]="menu.categoryId"
+              [autoHide]="false"
+              tooltipPosition="top"
+              class="text-sm cursor-pointer"
+            >
+              {{ menu.category }}
+            </span>
           </td>
           <td class="px-6 py-2.5 box-border truncate">
             <div class="flex space-x-2">
@@ -192,7 +199,11 @@
             <p class="text-sm text-gray-600 dark:text-gray-300">
               Rp {{ menu.price | number: "1.0-0" }}
             </p>
-            <p class="text-sm text-gray-500 italic dark:text-gray-400">
+            <p
+              [pTooltip]="menu.categoryId"
+              tooltipPosition="top"
+              class="text-sm text-gray-500 italic dark:text-gray-400 select-none"
+            >
               {{ menu.category }}
             </p>
             <div class="flex justify-end space-x-2">

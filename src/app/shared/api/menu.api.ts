@@ -1,4 +1,8 @@
-import { MenuRequest, MenuUpdateRequest } from './../services/menu.service';
+import {
+  MenuBulkRequest,
+  MenuRequest,
+  MenuUpdateRequest,
+} from './../services/menu.service';
 import { createAxiosInstance } from './axios-config';
 import { errorHandle } from '../utils/helper';
 
@@ -11,6 +15,21 @@ export const menuApi = {
       const data = response.data;
       return data;
     } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  createMenuBulk: async (menus: MenuBulkRequest[]) => {
+    try {
+      const response = await axiosInstance.post('/api/menu/create/bulk', menus);
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      console.error(
+        'menuApi.createMenu error:',
+        error.message,
+        error.response?.data,
+      );
       errorHandle(error);
     }
   },

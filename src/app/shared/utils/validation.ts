@@ -92,7 +92,7 @@ const menuImage = z.custom<File>(
     return true;
   },
   {
-    message: 'Harap unggah gambar (jpg/png/webp) dengan ukuran maksimal 300KB',
+    message: 'Harap unggah gambar (jpg/png/jpeg) dengan ukuran maksimal 300KB',
   },
 );
 
@@ -119,10 +119,37 @@ const menuUpdateImage = z
     },
     {
       message:
-        'Harap unggah gambar (jpg/png/webp) dengan ukuran maksimal 300KB',
+        'Harap unggah gambar (jpg/png/jpeg) dengan ukuran maksimal 300KB',
     },
   )
   .optional();
+
+const menuFile = z.custom<File>(
+  (value) => {
+    if (!value || !(value instanceof File)) {
+      return false;
+    }
+
+    const allowedMimeTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+      'application/vnd.ms-excel', // .xls
+    ];
+
+    if (!allowedMimeTypes.includes(value.type)) {
+      return false;
+    }
+
+    const maxSizeInBytes = 1024 * 1024; // 1MB
+    if (value.size > maxSizeInBytes) {
+      return false;
+    }
+
+    return true;
+  },
+  {
+    message: 'Harap unggah file Excel (.xls/.xlsx) dengan ukuran maksimal 1MB',
+  },
+);
 
 export const registerSchema = z.object({
   name,
@@ -185,3 +212,9 @@ export const menuUpdateSchema = z.object({
 });
 
 export type MenuUpdateFormType = z.infer<typeof menuUpdateSchema>;
+
+export const menuBulkSchema = z.object({
+  file: menuFile,
+});
+
+export type MenuBulkFormType = z.infer<typeof menuBulkSchema>;

@@ -8,6 +8,7 @@ export const MODAL_TYPES = {
   CART: 'cart',
   BILL_DETAIL: 'billDetail',
   MENU_FORM: 'menuForm',
+  MENU_FORM_BULK: 'menuFormBulk',
 } as const;
 
 // Interface untuk state modal
@@ -74,6 +75,15 @@ export class ModalService {
         loading: false,
       });
     }
+  }
+
+  showMenuFormBulk(): void {
+    this.modalState$.next({
+      isVisible: true,
+      type: MODAL_TYPES.MENU_FORM_BULK,
+      callback: null,
+      loading: false,
+    });
   }
 
   hideModal(): void {

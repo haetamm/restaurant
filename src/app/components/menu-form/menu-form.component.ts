@@ -149,6 +149,10 @@ export class MenuFormComponent implements OnInit {
     }
   }
 
+  onShowMenuFormBulk() {
+    this.modalService.showMenuFormBulk();
+  }
+
   onCancel(): void {
     this.menuService.resetMenuDetail();
     this.menuForm.reset();

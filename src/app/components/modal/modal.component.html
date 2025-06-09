@@ -13,11 +13,11 @@
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <ng-container *ngIf="modalState$ | async as state">
       <!-- Render cart modal -->
-      <app-checkout-section *ngIf="state.type === 'cart'" />
+      <app-checkout-section *ngIf="state.type === MODAL_TYPES.CART" />
 
       <!-- Render small modal for logout -->
       <app-modal-small
-        *ngIf="state.type === 'logout'"
+        *ngIf="state.type === MODAL_TYPES.LOGOUT"
         title="Logout Confirmation"
         desc="Are you sure you want to logout?"
         buttonLabel="Logout"
@@ -27,7 +27,7 @@
 
       <!-- Render small modal for delete -->
       <app-modal-small
-        *ngIf="state.type === 'delete'"
+        *ngIf="state.type === MODAL_TYPES.DELETE"
         title="Delete Confirmation"
         desc="Are you sure you want to delete this item?"
         buttonLabel="Delete"
@@ -38,13 +38,17 @@
       <!-- render bill detail -->
       <app-bill-detail-modal-section
         (onClose)="closeModal()"
-        *ngIf="state.type === 'billDetail'"
+        *ngIf="state.type === MODAL_TYPES.BILL_DETAIL"
       />
 
       <!-- render menu form -->
       <app-menu-form-modal-section
         (onClose)="closeModal()"
-        *ngIf="state.type === 'menuForm'"
+        [type]="state.type"
+        *ngIf="
+          state.type === MODAL_TYPES.MENU_FORM ||
+          state.type === MODAL_TYPES.MENU_FORM_BULK
+        "
       />
     </ng-container>
   </div>

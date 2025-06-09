@@ -11,6 +11,12 @@ export interface MenuRequest {
   image: File;
 }
 
+export interface MenuBulkRequest {
+  name: string;
+  price: number;
+  categoryId: string;
+}
+
 export interface MenuUpdateRequest {
   id: string;
   name: string;
@@ -103,6 +109,21 @@ export class MenuService {
     } catch (error: any) {
       this.updateState({ menus: [], loading: false, pagination: null });
       this.toastService.error(error.message || 'Failed to load menu');
+    }
+  }
+
+  async createMenuBulk(menus: MenuBulkRequest[]): Promise<void> {
+    try {
+      const newMenu = await menuApi.createMenuBulk(menus);
+      const currentMenus = this.state.value.menus;
+      this.updateState({
+        menus: [...newMenu, ...currentMenus],
+      });
+      this.toastService.success('Menu berhasil dibuat!');
+      this.modalService.hideModal();
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Gagal membuat menu');
+      throw error;
     }
   }
 

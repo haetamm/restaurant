@@ -1,3 +1,4 @@
+import { MODAL_TYPES } from './../../shared/services/modal.service';
 import { Component, OnInit } from '@angular/core';
 import { CheckoutSectionComponent } from '../checkout-section/checkout-section.component';
 import { Observable } from 'rxjs';
@@ -25,6 +26,8 @@ export class ModalComponent implements OnInit {
     type: string;
     callback: (() => void) | null;
   }>;
+
+  MODAL_TYPES = MODAL_TYPES;
 
   constructor(
     private modalService: ModalService,

@@ -7,11 +7,19 @@ import { FormsModule } from '@angular/forms';
 import { createImgUrl } from '../../shared/utils/helper';
 import { Image } from 'primeng/image';
 import { ModalService } from '../../shared/services/modal.service';
+import { Tooltip } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-menu-table',
   standalone: true,
-  imports: [CommonModule, InputTextModule, ButtonModule, FormsModule, Image],
+  imports: [
+    CommonModule,
+    InputTextModule,
+    ButtonModule,
+    FormsModule,
+    Image,
+    Tooltip,
+  ],
   templateUrl: './menu-table.component.html',
 })
 export class MenuTableComponent {

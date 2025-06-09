@@ -2,13 +2,22 @@
   class="flex flex-col pb-1 md:pb-0 lg:h-screen px-2 xl:px-3 border-r-[1px] border-slate-300 bg-cart"
 >
   <div
-    class="py-2 md:py-4 w-full flex items-center justify-between bg-transparent"
+    class="py-2 md:py-4 w-full lg:space-y-3 xl:space-y-0 flex lg:inline-block xl:flex items-center bg-transparent justify-between"
   >
-    <div class="w-full">
-      <p class="font-bold text-lg">
-        {{ menuDetail ? "Update" : "Tambah" }} Menu
-      </p>
+    <div class="font-bold w-full text-lg">
+      {{ menuDetail ? "Update" : "Tambah" }} Menu
     </div>
+    <p-button
+      *ngIf="!menuDetail"
+      label="Tambah Sekaligus"
+      class="w-full"
+      [style]="{
+        width: '100%',
+      }"
+      type="button"
+      size="small"
+      (click)="onShowMenuFormBulk()"
+    />
   </div>
 
   <form
@@ -83,8 +92,6 @@
         name="image"
         [auto]="true"
         [multiple]="false"
-        accept="image/png,image/jpeg,image/jpg"
-        maxFileSize="307200"
         mode="advanced"
         (uploadHandler)="onUpload($event)"
         customUpload="true"
@@ -93,7 +100,7 @@
           <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
             <div class="flex gap-2">
               <p-button
-                [label]="menuDetail ? 'Update Gambar' : 'Pilih Gambar'"
+                [label]="menuDetail ? 'Update Gambar' : 'Pilih Gambar *'"
                 size="small"
                 type="button"
                 (click)="chooseCallback()"

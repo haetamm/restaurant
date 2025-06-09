@@ -1,0 +1,62 @@
+<div
+  class="flex flex-col pb-5 h-full px-2 xl:px-3 border-r-[1px] border-slate-300 bg-cart"
+>
+  <p class="text-xl">Upload file Excel</p>
+  <p class="text-sm mb-2">
+    Pilih atau letakkan file Excel (.xls/.xlsx) kamu di sini.
+    <span
+      (click)="downloadTemplate()"
+      class="underline text-blue-500 italic cursor-pointer"
+      >Template</span
+    >
+  </p>
+  <form [formGroup]="menuFormBulk" (ngSubmit)="submit()" class="space-y-4">
+    <div class="flex flex-col w-full">
+      <p-fileupload
+        name="file"
+        [auto]="true"
+        [multiple]="false"
+        mode="advanced"
+        (uploadHandler)="onFileChange($event)"
+        customUpload="true"
+        chooseLabel="Pilih File *"
+      >
+        <ng-template pTemplate="header" let-chooseCallback="chooseCallback">
+          <div class="flex gap-2">
+            <p-button
+              label="Pilih File *"
+              size="small"
+              type="button"
+              (click)="chooseCallback()"
+            />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="flex items-center justify-center flex-col">
+            <i class="pi pi-cloud-upload !text-4xl !text-muted-color"></i>
+            <small class="">Drag and drop files to here to upload.</small>
+          </div>
+        </ng-template>
+      </p-fileupload>
+      <small
+        *ngIf="
+          menuFormBulk.get('file')?.touched &&
+          menuFormBulk.get('file')?.errors?.['zod']
+        "
+        class="text-red-500"
+      >
+        {{ menuFormBulk.get("file")?.errors?.["zod"] }}
+      </small>
+    </div>
+    <div class="w-full flex space-x-2">
+      <p-button
+        [label]="loading ? 'Loading' : 'Submit'"
+        [disabled]="loading || menuFormBulk.invalid"
+        [styleClass]="'w-full'"
+        class="w-full"
+        size="small"
+        (click)="submit()"
+      />
+    </div>
+  </form>
+</div>

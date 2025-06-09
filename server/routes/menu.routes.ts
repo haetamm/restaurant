@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { createServerAxiosInstance } from '../config/axios-server-config';
 import multer from 'multer';
-import FormData from 'form-data';
 import { buildMenuFormData } from '../config/form-data-builder';
 
 const router = Router();
@@ -11,6 +10,19 @@ router.post('/all', async (req, res) => {
   try {
     const axiosInstance = createServerAxiosInstance(req);
     const response = await axiosInstance.get('/menus', { params: req.body });
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to load menus',
+    });
+  }
+});
+
+router.post('/create/bulk', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const { body } = req;
+    const response = await axiosInstance.post('/menus/bulk', body);
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
