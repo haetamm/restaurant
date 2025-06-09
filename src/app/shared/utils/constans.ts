@@ -13,6 +13,9 @@ export const urlPage = {
   TRANSACTION: '/on/transaction',
   MENU: '/on/menu',
   TABLE: '/on/table',
+  SETTINGS: '/on/settings',
+  SETTINGS_PROFILE: '/on/settings/profile',
+  SETTINGS_SECURITY: '/on/settings/security',
 };
 
 export const BASE_URL = environment.baseUrl;

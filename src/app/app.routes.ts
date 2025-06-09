@@ -16,6 +16,9 @@ import { MenuPageComponent } from './pages/menu-page/menu-page.component';
 import { DiningTablePageComponent } from './pages/dining-table-page/dining-table-page.component';
 import { mobileGuard } from './guards/mobile.guard';
 import { adminGuard } from './guards/admin.guard';
+import { SettingPageComponent } from './pages/setting-page/setting-page.component';
+import { SettingProfilePageComponent } from './pages/setting-profile-page/setting-profile-page.component';
+import { SettingSecurityPageComponent } from './pages/setting-security-page/setting-security-page.component';
 
 export const routes: Routes = [
   {
@@ -80,6 +83,25 @@ export const routes: Routes = [
       {
         path: 'customers',
         component: CustomerPageComponent,
+      },
+      {
+        path: 'settings',
+        component: SettingPageComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'profile',
+            pathMatch: 'full',
+          },
+          {
+            path: 'profile',
+            component: SettingProfilePageComponent,
+          },
+          {
+            path: 'security',
+            component: SettingSecurityPageComponent,
+          },
+        ],
       },
     ],
   },

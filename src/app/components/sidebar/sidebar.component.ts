@@ -55,7 +55,7 @@ export class SidebarComponent {
       },
       { label: 'Meja', icon: 'bootstrapCalendar2Check', link: urlPage.TABLE },
       { label: 'Customer', icon: 'heroUsers', link: urlPage.CUSTOMER },
-      { label: 'Settings', icon: 'bootstrapGear', link: '#' },
+      { label: 'Settings', icon: 'bootstrapGear', link: urlPage.SETTINGS },
     ];
 
     if (this.preload.isAdmin()) {
