@@ -13,20 +13,20 @@
             pInputText
             type="email"
             class="w-full"
-            id="email"
-            formControlName="email"
+            id="newEmail"
+            formControlName="newEmail"
             autocomplete="off"
           />
-          <label for="email">Email</label>
+          <label for="newEmail">Email</label>
         </p-floatlabel>
         <small
           *ngIf="
-            emailChangeForm.get('email')?.invalid &&
-            emailChangeForm.get('email')?.touched
+            emailChangeForm.get('newEmail')?.invalid &&
+            emailChangeForm.get('newEmail')?.touched
           "
           class="text-red-500"
         >
-          {{ emailChangeForm.get("email")?.errors?.["zod"] }}
+          {{ emailChangeForm.get("newEmail")?.errors?.["zod"] }}
         </small>
       </div>
       <div class="flex flex-col w-full">
@@ -35,20 +35,20 @@
             pInputText
             type="password"
             class="w-full"
-            id="password"
-            formControlName="password"
+            id="passwordConfirmation"
+            formControlName="passwordConfirmation"
             autocomplete="off"
           />
-          <label for="password">Password Confirmation</label>
+          <label for="passwordConfirmation">Konfirmasi Password</label>
         </p-floatlabel>
         <small
           *ngIf="
-            emailChangeForm.get('password')?.invalid &&
-            emailChangeForm.get('password')?.touched
+            emailChangeForm.get('passwordConfirmation')?.invalid &&
+            emailChangeForm.get('passwordConfirmation')?.touched
           "
           class="text-red-500"
         >
-          {{ emailChangeForm.get("password")?.errors?.["zod"] }}
+          {{ emailChangeForm.get("passwordConfirmation")?.errors?.["zod"] }}
         </small>
       </div>
     </div>
@@ -60,7 +60,7 @@
         [style]="{
           width: '100%',
         }"
-        label="Update"
+        [label]="loading ? 'Loading' : 'Update'"
         size="small"
         type="submit"
       />

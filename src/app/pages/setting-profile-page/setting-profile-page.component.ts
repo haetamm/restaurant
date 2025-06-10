@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
-  FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -32,19 +32,17 @@ import { TextareaModule } from 'primeng/textarea';
 })
 export class SettingProfilePageComponent {
   profile: Profile | null = null;
-  profileForm: FormGroup;
+  // profileForm: FormGroup;
   loading: boolean = false;
+  profileForm = new FormGroup({
+    name: new FormControl<string>('', [Validators.required]),
+    username: new FormControl<string>('', [Validators.required]),
+    phone: new FormControl<string>('', [Validators.required]),
+    address: new FormControl<string>('', [Validators.required]),
+  });
 
   private profileService = inject(ProfileService);
-  private fb = inject(FormBuilder);
   constructor() {
-    this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      username: ['', Validators.required],
-      phone: ['', Validators.required],
-      address: ['', Validators.required],
-    });
-
     setupZodValidation(
       this.profileForm.controls as unknown as Record<string, AbstractControl>,
       profileSchema,
@@ -63,19 +61,17 @@ export class SettingProfilePageComponent {
     }
   }
 
-  async onSubmit(formValue?: any) {
+  async onSubmit() {
     if (this.profileForm.invalid) {
+      console.log('ahllo');
       this.profileForm.markAllAsTouched();
       return;
     }
 
-    const { data } = profileSchema.safeParse(
-      formValue || this.profileForm.value,
-    );
-
-    if (!data) return;
+    const result = profileSchema.safeParse(this.profileForm.value);
+    if (!result.success) return;
     this.loading = true;
-    console.log(data);
+    await this.profileService.updateProfile(result.data);
     this.loading = false;
   }
 

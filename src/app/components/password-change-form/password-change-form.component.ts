@@ -1,5 +1,6 @@
+import { urlPage } from './../../shared/utils/constans';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,10 +10,11 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { Profile } from '../../shared/services/profile.service';
+import { ProfileService } from '../../shared/services/profile.service';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
-import { resetPasswordSchema } from '../../shared/utils/validation';
+import { passwordChangeSchema } from '../../shared/utils/validation';
 import { FloatLabel } from 'primeng/floatlabel';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-password-change-form',
@@ -22,17 +24,21 @@ import { FloatLabel } from 'primeng/floatlabel';
     CommonModule,
     ReactiveFormsModule,
     InputTextModule,
+    RouterModule,
   ],
   templateUrl: './password-change-form.component.html',
   styleUrl: './password-change-form.component.scss',
 })
 export class PasswordChangeFormComponent {
-  profile: Profile | null = null;
   passwordChangeForm = new FormGroup({
     password: new FormControl<string>('', [Validators.required]),
+    repeatPassword: new FormControl<string>('', [Validators.required]),
     passwordConfirmation: new FormControl<string>('', [Validators.required]),
   });
   loading: boolean = false;
+  urlPage = urlPage;
+
+  private profileService = inject(ProfileService);
 
   constructor() {
     setupZodValidation(
@@ -40,25 +46,23 @@ export class PasswordChangeFormComponent {
         string,
         AbstractControl
       >,
-      resetPasswordSchema,
+      passwordChangeSchema,
     );
   }
 
-  ngOnInit(): void {}
-
-  async onSubmit(formValue?: any) {
+  async onSubmit() {
     if (this.passwordChangeForm.invalid) {
       this.passwordChangeForm.markAllAsTouched();
       return;
     }
 
-    const { data } = resetPasswordSchema.safeParse(
-      formValue || this.passwordChangeForm.value,
+    const result = passwordChangeSchema.safeParse(
+      this.passwordChangeForm.value,
     );
-
-    if (!data) return;
+    if (!result.success) return;
     this.loading = true;
-    console.log(data);
+    await this.profileService.updateProfilePassword(result.data);
     this.loading = false;
+    this.passwordChangeForm.reset();
   }
 }

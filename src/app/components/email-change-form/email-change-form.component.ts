@@ -5,7 +5,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { Profile, ProfileService } from '../../shared/services/profile.service';
 import {
   AbstractControl,
-  FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -28,17 +28,14 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class EmailChangeFormComponent {
   profile: Profile | null = null;
-  emailChangeForm: FormGroup;
+  emailChangeForm = new FormGroup({
+    newEmail: new FormControl<string>('', [Validators.required]),
+    passwordConfirmation: new FormControl<string>('', [Validators.required]),
+  });
   loading: boolean = false;
 
   private profileService = inject(ProfileService);
-  private fb = inject(FormBuilder);
   constructor() {
-    this.emailChangeForm = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-
     setupZodValidation(
       this.emailChangeForm.controls as unknown as Record<
         string,
@@ -52,24 +49,27 @@ export class EmailChangeFormComponent {
     this.profile = this.profileService.getProfile();
     if (this.profile) {
       this.emailChangeForm.patchValue({
-        email: this.profile.email,
+        newEmail: this.profile.email,
       });
     }
   }
 
-  async onSubmit(formValue?: any) {
+  async onSubmit() {
     if (this.emailChangeForm.invalid) {
       this.emailChangeForm.markAllAsTouched();
       return;
     }
 
-    const { data } = emailChangeSchema.safeParse(
-      formValue || this.emailChangeForm.value,
-    );
-
-    if (!data) return;
+    const result = emailChangeSchema.safeParse(this.emailChangeForm.value);
+    if (!result.success) return;
     this.loading = true;
-    console.log(data);
-    this.loading = false;
+    try {
+      await this.profileService.updateProfileEmail(result.data);
+      this.emailChangeForm.patchValue({
+        passwordConfirmation: '',
+      });
+    } finally {
+      this.loading = false;
+    }
   }
 }

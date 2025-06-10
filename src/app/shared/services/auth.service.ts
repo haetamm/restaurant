@@ -46,7 +46,6 @@ export class AuthService {
     } catch (error: any) {
       this.toastService.error(error.message || 'Registration failed', {
         autoClose: false,
-        dismissible: true,
       });
     } finally {
       this.updateState({ loading: false });
@@ -63,7 +62,6 @@ export class AuthService {
     } catch (error: any) {
       this.toastService.error(error.message || 'Login failed', {
         autoClose: false,
-        dismissible: true,
       });
     } finally {
       this.updateState({ loading: false });
@@ -88,7 +86,6 @@ export class AuthService {
         error.message || 'Forgot password request failed',
         {
           autoClose: false,
-          dismissible: true,
         },
       );
     } finally {
@@ -111,7 +108,6 @@ export class AuthService {
     } catch (error: any) {
       this.toastService.error(error.message || 'Password reset failed', {
         autoClose: false,
-        dismissible: true,
       });
     } finally {
       this.updateState({ loading: false });
@@ -127,7 +123,6 @@ export class AuthService {
     } catch (error: any) {
       this.toastService.error(error.message || 'Account activation failed', {
         autoClose: false,
-        dismissible: true,
       });
     } finally {
       this.updateState({ loading: false });

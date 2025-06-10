@@ -47,12 +47,6 @@ const password = z
   .max(8, 'Password maksimal 8 karakter')
   .regex(/^[a-zA-Z0-9]+$/, 'Password hanya boleh berisi huruf dan angka');
 
-const passwordConfirmation = z
-  .string()
-  .trim()
-  .min(4, 'Password minimal 4 karakter')
-  .max(8, 'Password maksimal 8 karakter');
-
 const address = z
   .string()
   .trim()
@@ -170,7 +164,7 @@ export type ForgotPasswordFormType = z.infer<typeof forgotPasswordSchema>;
 export const resetPasswordSchema = z
   .object({
     password,
-    passwordConfirmation,
+    passwordConfirmation: passwordLogin,
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords don't match",
@@ -229,8 +223,21 @@ export const profileSchema = z.object({
 export type ProfileFormType = z.infer<typeof profileSchema>;
 
 export const emailChangeSchema = z.object({
-  email,
-  password,
+  newEmail: email,
+  passwordConfirmation: passwordLogin,
 });
 
 export type EmailChangeFormType = z.infer<typeof emailChangeSchema>;
+
+export const passwordChangeSchema = z
+  .object({
+    password,
+    repeatPassword: passwordLogin,
+    passwordConfirmation: passwordLogin,
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: "Passwords don't match",
+    path: ['repeatPassword'],
+  });
+
+export type PasswordChangeFormType = z.infer<typeof passwordChangeSchema>;

@@ -5,6 +5,24 @@ import { authApi } from '../api/auth.api';
 import { userApi } from '../api/user.api';
 import { urlPage } from '../utils/constans';
 
+export interface ProfileRequest {
+  name: string;
+  phone: string;
+  address: string;
+  username: string;
+}
+
+export interface UpdatePasswordRequest {
+  password: string;
+  repeatPassword: string;
+  passwordConfirmation: string;
+}
+
+export interface UpdateEmailRequest {
+  newEmail: string;
+  passwordConfirmation: string;
+}
+
 export interface Profile {
   name: string;
   phone: string;
@@ -52,6 +70,39 @@ export class ProfileService {
     } catch (error: any) {
       this.updateState({ profile: null, loading: false });
       this.toastService.error(error.message || 'Failed to load profile');
+    }
+  }
+
+  async updateProfile(profile: ProfileRequest): Promise<void> {
+    try {
+      const data = await userApi.updateOwnProfile(profile);
+      this.updateState({ profile: data });
+      this.toastService.success('Profile berhasil diupdate');
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Failed to update profile');
+      throw error;
+    }
+  }
+
+  async updateProfilePassword(profile: UpdatePasswordRequest): Promise<void> {
+    try {
+      await userApi.updateOwnProfilePassword(profile);
+      this.toastService.success('Password berhasil diupdate');
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Failed to update password');
+      throw error;
+    }
+  }
+
+  async updateProfileEmail(data: UpdateEmailRequest): Promise<void> {
+    try {
+      const result = await userApi.updateOwnProfileEmail(data);
+      this.toastService.success(result, {
+        autoClose: false,
+      });
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Failed to update password');
+      throw error;
     }
   }
 
