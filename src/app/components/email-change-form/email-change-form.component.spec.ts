@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingPageComponent } from './setting-page.component';
+import { EmailChangeFormComponent } from './email-change-form.component';
 
-describe('SettingPageComponent', () => {
-  let component: SettingPageComponent;
-  let fixture: ComponentFixture<SettingPageComponent>;
+describe('EmailChangeFormComponent', () => {
+  let component: EmailChangeFormComponent;
+  let fixture: ComponentFixture<EmailChangeFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingPageComponent]
+      imports: [EmailChangeFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SettingPageComponent);
+    fixture = TestBed.createComponent(EmailChangeFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

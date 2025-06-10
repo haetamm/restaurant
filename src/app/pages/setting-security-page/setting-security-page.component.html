@@ -1,1 +1,37 @@
-<div class="py-4">Secyrity Page</div>
+<p-tabs value="0">
+  <p-tablist>
+    <p-tab
+      [style]="{
+        fontSize: '16px',
+        fontWeight: '500',
+        paddingTop: '8px',
+        paddingBottom: '8px',
+      }"
+      value="0"
+      >Email</p-tab
+    >
+    <p-tab
+      [style]="{
+        fontSize: '16px',
+        fontWeight: '500',
+        paddingTop: '8px',
+        paddingBottom: '8px',
+      }"
+      value="1"
+      >Password</p-tab
+    >
+  </p-tablist>
+  <p-tabpanels
+    [style]="{
+      paddingRight: '0px',
+      paddingLeft: '0px',
+    }"
+  >
+    <p-tabpanel value="0">
+      <app-email-change-form />
+    </p-tabpanel>
+    <p-tabpanel value="1">
+      <app-password-change-form />
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -1,1 +1,139 @@
-<div class="py-4">Profile Page</div>
+<div class="space-y-2">
+  <p class="font-bold text-xl">My Profile</p>
+  <div
+    class="border-[1px] border-slate-300 rounded-lg p-3 flex space-x-4 items-center w-full"
+  >
+    <img
+      [src]="
+        'https://ui-avatars.com/api/?name=' + displayName + '&background=random'
+      "
+      [alt]="displayName"
+      class="rounded-full h-28 w-28"
+    />
+    <div
+      class="w-full flex flex-col space-y-2 md:space-y-0 md:flex-row items-center"
+    >
+      <p-button class="w-full md:w-[70px]" label="Ganti" size="small" />
+      <p-button
+        class="w-full md:w-[70px]"
+        [style]="{
+          backgroundColor: 'white',
+          color: 'black',
+        }"
+        label="Hapus"
+        size="small"
+      />
+    </div>
+  </div>
+  <div
+    class="border-[1px] border-slate-300 rounded-lg px-3 pt-5 pb-3 flex space-x-4 items-center w-full"
+  >
+    <form
+      [formGroup]="profileForm"
+      (ngSubmit)="onSubmit()"
+      class="w-full space-y-3"
+    >
+      <div class="space-y-5">
+        <div class="flex flex-col w-full">
+          <p-floatlabel variant="on">
+            <input
+              pInputText
+              class="w-full"
+              id="name"
+              formControlName="name"
+              autocomplete="off"
+            />
+            <label for="name">Nama</label>
+          </p-floatlabel>
+          <small
+            *ngIf="
+              profileForm.get('name')?.invalid &&
+              profileForm.get('name')?.touched
+            "
+            class="text-red-500"
+          >
+            {{ profileForm.get("name")?.errors?.["zod"] }}
+          </small>
+        </div>
+        <div class="flex flex-col w-full">
+          <p-floatlabel variant="on">
+            <input
+              pInputText
+              class="w-full"
+              id="username"
+              formControlName="username"
+              autocomplete="off"
+            />
+            <label for="username">Username</label>
+          </p-floatlabel>
+          <small
+            *ngIf="
+              profileForm.get('username')?.invalid &&
+              profileForm.get('username')?.touched
+            "
+            class="text-red-500"
+          >
+            {{ profileForm.get("username")?.errors?.["zod"] }}
+          </small>
+        </div>
+        <div class="flex flex-col w-full">
+          <p-floatlabel variant="on">
+            <input
+              pInputText
+              class="w-full"
+              id="phone"
+              formControlName="phone"
+              autocomplete="off"
+            />
+            <label for="phone">No. Hp.</label>
+          </p-floatlabel>
+          <small
+            *ngIf="
+              profileForm.get('phone')?.invalid &&
+              profileForm.get('phone')?.touched
+            "
+            class="text-red-500"
+          >
+            {{ profileForm.get("phone")?.errors?.["zod"] }}
+          </small>
+        </div>
+        <div class="flex flex-col w-full">
+          <p-floatlabel variant="on">
+            <textarea
+              pTextarea
+              id="address"
+              formControlName="address"
+              rows="3"
+              cols="30"
+              style="resize: none"
+              class="h-full w-full"
+            ></textarea>
+            <label for="address">Alamat</label>
+          </p-floatlabel>
+          <small
+            *ngIf="
+              profileForm.get('address')?.invalid &&
+              profileForm.get('address')?.touched
+            "
+            class="text-red-500"
+          >
+            {{ profileForm.get("address")?.errors?.["zod"] }}
+          </small>
+        </div>
+      </div>
+      <hr class="border-slate-300" />
+      <div class="flex justify-end">
+        <p-button
+          [disabled]="profileForm.invalid || loading"
+          class="w-full md:w-[120px]"
+          [style]="{
+            width: '100%',
+          }"
+          label="Update"
+          size="small"
+          type="submit"
+        />
+      </div>
+    </form>
+  </div>
+</div>

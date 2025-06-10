@@ -1,0 +1,60 @@
+<div class="min-h-screen bg-slate-200 md:bg-slate-100 p-2 lg:px-3 lg:py-4">
+  <p-button
+    [icon]="showSidebar ? 'pi pi-arrow-left' : 'pi pi-arrow-right'"
+    class="rounded-full lg:hidden"
+    [style]="{
+      top: '3px',
+      left: '3px',
+      backgroundColor: 'white',
+      border: 'none',
+      color: 'black',
+      padding: '6px',
+    }"
+    (onClick)="toggleSidebar()"
+  />
+
+  <div
+    class="grid grid-cols-5 gap-2 lg:gap-3 h-[calc(100vh-56px)] lg:h-[calc(100vh-32px)]"
+  >
+    <!-- Navigation -->
+    <div
+      [ngClass]="{
+        hidden: !showSidebar,
+        block: showSidebar,
+        'lg:block': true,
+      }"
+      class="bg-white mt-[15px] lg:mt-0 p-2 xl:px-4 rounded-sm xl:rounded-lg sticky top-0 z-10"
+    >
+      <nav class="py-4">
+        <ul class="space-y-2">
+          <li *ngFor="let item of navItems">
+            <a
+              [routerLink]="item.link"
+              [ngClass]="{
+                'bg-gray-100 text-orange-500': isActiveSubRoute(item.link),
+                'text-gray-600': !isActiveSubRoute(item.link),
+              }"
+              class="flex items-center justify-center lg:justify-start p-4 xs:p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+            >
+              <ng-icon [name]="item.icon" class="w-10 h-10 lg:mr-2 shrink-0" />
+              <p class="hidden lg:block">{{ item.label }}</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Content -->
+    <div
+      [ngClass]="{
+        'col-span-5': !showSidebar,
+        'col-span-4': showSidebar,
+        'lg:col-span-4': true,
+      }"
+      class="bg-white rounded-sm xl:rounded-lg mt-[15px] lg:mt-0 p-2 xl:px-4 overflow-y-auto no-scrollbar"
+      style="max-height: calc(100vh-56px)"
+    >
+      <router-outlet />
+    </div>
+  </div>
+</div>

@@ -16,9 +16,13 @@ import { MenuPageComponent } from './pages/menu-page/menu-page.component';
 import { DiningTablePageComponent } from './pages/dining-table-page/dining-table-page.component';
 import { mobileGuard } from './guards/mobile.guard';
 import { adminGuard } from './guards/admin.guard';
-import { SettingPageComponent } from './pages/setting-page/setting-page.component';
 import { SettingProfilePageComponent } from './pages/setting-profile-page/setting-profile-page.component';
 import { SettingSecurityPageComponent } from './pages/setting-security-page/setting-security-page.component';
+import { DashboardAdminPageComponent } from './pages/dashboard-admin-page/dashboard-admin-page.component';
+import { DashboardUserPageComponent } from './pages/dashboard-user-page/dashboard-user-page.component';
+import { userGuard } from './guards/user.guard';
+import { superAdminGuard } from './guards/super-admin.guard';
+import { AuthorizeLayoutComponent } from './layouts/authorize-layout/authorize-layout.component';
 
 export const routes: Routes = [
   {
@@ -81,12 +85,9 @@ export const routes: Routes = [
         component: DiningTablePageComponent,
       },
       {
-        path: 'customers',
-        component: CustomerPageComponent,
-      },
-      {
         path: 'settings',
-        component: SettingPageComponent,
+        canActivate: [userGuard],
+        component: AuthorizeLayoutComponent,
         children: [
           {
             path: '',
@@ -100,6 +101,31 @@ export const routes: Routes = [
           {
             path: 'security',
             component: SettingSecurityPageComponent,
+          },
+        ],
+      },
+      {
+        path: 'dashboard',
+        component: AuthorizeLayoutComponent,
+        canActivate: [adminGuard],
+        children: [
+          {
+            path: '',
+            redirectTo: 'user',
+            pathMatch: 'full',
+          },
+          {
+            path: 'user',
+            component: DashboardUserPageComponent,
+          },
+          {
+            path: 'customer',
+            component: CustomerPageComponent,
+          },
+          {
+            path: 'admin',
+            canActivate: [superAdminGuard],
+            component: DashboardAdminPageComponent,
           },
         ],
       },

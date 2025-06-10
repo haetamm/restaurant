@@ -54,15 +54,24 @@ export class SidebarComponent {
         link: urlPage.TRANSACTION,
       },
       { label: 'Meja', icon: 'bootstrapCalendar2Check', link: urlPage.TABLE },
-      { label: 'Customer', icon: 'heroUsers', link: urlPage.CUSTOMER },
-      { label: 'Settings', icon: 'bootstrapGear', link: urlPage.SETTINGS },
     ];
 
     if (this.preload.isAdmin()) {
-      baseItems.splice(3, 0, {
-        label: 'Menu',
-        icon: 'bootstrapClipboard2',
-        link: urlPage.MENU,
+      baseItems.push(
+        { label: 'Menu', icon: 'bootstrapClipboard2', link: urlPage.MENU },
+        {
+          label: 'Admin Panel',
+          icon: 'bootstrapGear',
+          link: urlPage.DASHBOARD,
+        },
+      );
+    }
+
+    if (this.preload.isUser()) {
+      baseItems.splice(4, 0, {
+        label: 'Settings',
+        icon: 'bootstrapGear',
+        link: urlPage.SETTINGS,
       });
     }
 

@@ -218,3 +218,19 @@ export const menuBulkSchema = z.object({
 });
 
 export type MenuBulkFormType = z.infer<typeof menuBulkSchema>;
+
+export const profileSchema = z.object({
+  name,
+  phone,
+  address,
+  username: usernameRegister,
+});
+
+export type ProfileFormType = z.infer<typeof profileSchema>;
+
+export const emailChangeSchema = z.object({
+  email,
+  password,
+});
+
+export type EmailChangeFormType = z.infer<typeof emailChangeSchema>;
