@@ -1,12 +1,12 @@
 <form
   [formGroup]="adminCartForm"
   (ngSubmit)="onSubmit()"
-  class="w-full space-y-3 lg:mb-1.5 xs:flex space-x-3 lg:inline-block lg:space-x-0 mb-3 xs:mb-0 xs:space-y-2 xl:space-y-3"
+  class="w-full mb-3 space-y-4 space-x-3 xs:flex xs:mb-0 xs:space-y-1 lg:space-y-3.5 lg:inline-block lg:space-x-0 xl:space-y-4"
 >
   <div
-    class="w-full flex space-x-3 lg:inline-block lg:space-y-3 xl:flex items-center xl:space-y-0 xl:space-x-3"
+    class="w-full flex space-x-3 lg:inline-block lg:space-y-3.5 xl:flex items-center xl:space-y-0 xl:space-x-3"
   >
-    <div class="flex flex-col w-full">
+    <div class="w-full">
       <p-floatlabel variant="on" class="w-full">
         <input
           type="text"
@@ -16,19 +16,21 @@
           [pKeyFilter]="alphaWithSpace"
           formControlName="customerName"
         />
-        <label for="customerName">Nama</label>
+        <label class="text-sm" for="customerName">Nama</label>
       </p-floatlabel>
-      <small
-        *ngIf="
-          adminCartForm.get('customerName')?.invalid &&
-          adminCartForm.get('customerName')?.touched
-        "
-        class="text-red-500"
-      >
-        {{ adminCartForm.get("customerName")?.errors?.["zod"] }}
-      </small>
+      <div class="h-3.5">
+        <small
+          *ngIf="
+            adminCartForm.get('customerName')?.invalid &&
+            adminCartForm.get('customerName')?.touched
+          "
+          class="text-red-500"
+        >
+          {{ adminCartForm.get("customerName")?.errors?.["zod"] }}
+        </small>
+      </div>
     </div>
-    <div class="flex flex-col w-full">
+    <div class="w-full">
       <p-floatlabel variant="on" class="w-full">
         <input
           type="text"
@@ -38,20 +40,22 @@
           pKeyFilter="num"
           formControlName="customerPhone"
         />
-        <label for="customerPhone">No. Hp</label>
+        <label class="text-sm" for="customerPhone">No. Hp</label>
       </p-floatlabel>
-      <small
-        *ngIf="
-          adminCartForm.get('customerPhone')?.invalid &&
-          adminCartForm.get('customerPhone')?.touched
-        "
-        class="text-red-500"
-      >
-        {{ adminCartForm.get("customerPhone")?.errors?.["zod"] }}
-      </small>
+      <div class="h-3.5">
+        <small
+          *ngIf="
+            adminCartForm.get('customerPhone')?.invalid &&
+            adminCartForm.get('customerPhone')?.touched
+          "
+          class="text-red-500"
+        >
+          {{ adminCartForm.get("customerPhone")?.errors?.["zod"] }}
+        </small>
+      </div>
     </div>
   </div>
-  <div class="flex flex-col w-full xs:w-[50%] lg:w-full">
+  <div class="w-full xs:w-[50%] lg:w-full">
     <p-floatlabel variant="on" class="w-full">
       <p-select
         [options]="tables"
@@ -70,16 +74,18 @@
           </div>
         </ng-template>
       </p-select>
-      <label for="tableName">Pilih Meja</label>
+      <label class="text-sm" for="tableName">Pilih Meja</label>
     </p-floatlabel>
-    <small
-      *ngIf="
-        adminCartForm.get('tableName')?.invalid &&
-        adminCartForm.get('tableName')?.touched
-      "
-      class="text-red-500"
-    >
-      {{ adminCartForm.get("tableName")?.errors?.["zod"] }}
-    </small>
+    <div class="h-3.5">
+      <small
+        *ngIf="
+          adminCartForm.get('tableName')?.invalid &&
+          adminCartForm.get('tableName')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ adminCartForm.get("tableName")?.errors?.["zod"] }}
+      </small>
+    </div>
   </div>
 </form>

@@ -54,4 +54,17 @@ router.put('/me/email', async (req, res) => {
   }
 });
 
+router.post('/me/confirm-email', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const { body } = req;
+    const response = await axiosInstance.post(`/user/confirm-email`, body);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to update email',
+    });
+  }
+});
+
 export default router;

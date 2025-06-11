@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-const username = z.string().trim().min(1, 'wajib diisi');
-const passwordLogin = z.string().trim().min(1, 'wajib diisi');
+const username = z.string().trim().min(1, 'Wajib diisi');
+const passwordLogin = z.string().trim().min(1, 'Wajib diisi');
 
 export const loginSchema = z.object({
   username,
@@ -13,59 +13,55 @@ export type LoginFormType = z.infer<typeof loginSchema>;
 const name = z
   .string()
   .trim()
-  .min(1, 'Nama wajib diisi')
-  .min(4, 'Nama minimal 4 karakter')
-  .max(23, 'Nama maksimal 23 karakter')
-  .regex(/^[a-zA-Z ]+$/, 'Nama hanya boleh berisi huruf dan spasi');
+  .min(1, 'Wajib diisi')
+  .min(4, 'Min. 4 karakter')
+  .max(23, 'Max. 23 karakter')
+  .regex(/^[a-zA-Z ]+$/, 'Hanya karakter alphabet');
 
 const phone = z
   .string()
   .trim()
-  .min(1, 'Nomor hp wajib diisi')
-  .max(25, 'Nomor hp maksimal 25 karakter')
-  .regex(/^[0-9 ]+$/, 'Nomor hp hanya boleh berisi angka dan spasi');
+  .min(1, 'Wajib diisi')
+  .max(25, 'Max. 25 karakter')
+  .regex(/^[0-9 ]+$/, 'Hanya karakter numerik');
 
-const email = z
-  .string()
-  .trim()
-  .min(1, 'Email wajib diisi')
-  .email('Masukkan email yang valid');
+const email = z.string().trim().min(1, 'Wajib diisi').email('Email invalid');
 
 const usernameRegister = z
   .string()
   .trim()
-  .min(1, 'Username wajib diisi')
-  .min(3, 'Username minimal 3 karakter')
-  .max(8, 'Username maksimal 8 karakter')
-  .regex(/^[a-zA-Z0-9]+$/, 'Username hanya boleh berisi huruf dan angka');
+  .min(1, 'Wajib diisi')
+  .min(3, 'Min. 3 karakter')
+  .max(8, 'Max. 8 karakter')
+  .regex(/^[a-zA-Z0-9]+$/, 'Hanya karakter alphanumerik');
 
 const password = z
   .string()
   .trim()
-  .min(1, 'Password wajib diisi')
-  .min(4, 'Password minimal 4 karakter')
-  .max(8, 'Password maksimal 8 karakter')
-  .regex(/^[a-zA-Z0-9]+$/, 'Password hanya boleh berisi huruf dan angka');
+  .min(1, 'Wajib diisi')
+  .min(4, 'Min. 4 karakter')
+  .max(8, 'Max. 8 karakter')
+  .regex(/^[a-zA-Z0-9]+$/, 'Hanya karakter alphanumerik');
 
 const address = z
   .string()
   .trim()
-  .min(1, 'Alamat wajib diisi')
-  .max(225, 'Alamat maksimal 225 karakter');
+  .min(1, 'Wajib diisi')
+  .max(225, 'Max. 225 karakter');
 
 const tableName = z.string().trim().min(1, 'Meja diisi');
 
 const menuName = z
   .string()
   .trim()
-  .min(1, 'Nama wajib diisi')
-  .max(50, 'Nama maksimal 50 karakter');
+  .min(1, 'Wajib diisi')
+  .max(50, 'Max. 50 karakter');
 
 const price = z.coerce
-  .number({ invalid_type_error: 'Harga harus berupa angka' })
-  .min(1, 'Harga wajib diisi');
+  .number({ invalid_type_error: 'Hanya karakter numerik' })
+  .min(1, 'Wajib diisi');
 
-const menuCategoryId = z.string().trim().min(1, 'Kategori wajib diisi');
+const menuCategoryId = z.string().trim().min(1, 'Wajib diisi');
 
 const menuImage = z.custom<File>(
   (value) => {
@@ -86,7 +82,7 @@ const menuImage = z.custom<File>(
     return true;
   },
   {
-    message: 'Harap unggah gambar (jpg/png/jpeg) dengan ukuran maksimal 300KB',
+    message: 'Harap unggah gambar (jpg/png/jpeg) dengan ukuran Max. 300KB',
   },
 );
 
@@ -112,8 +108,7 @@ const menuUpdateImage = z
       return true;
     },
     {
-      message:
-        'Harap unggah gambar (jpg/png/jpeg) dengan ukuran maksimal 300KB',
+      message: 'Harap unggah gambar (jpg/png/jpeg) dengan ukuran Max. 300KB',
     },
   )
   .optional();
@@ -141,9 +136,11 @@ const menuFile = z.custom<File>(
     return true;
   },
   {
-    message: 'Harap unggah file Excel (.xls/.xlsx) dengan ukuran maksimal 1MB',
+    message: 'Harap unggah file Excel (.xls/.xlsx) dengan ukuran Max. 1MB',
   },
 );
+
+const confirmationEmailToken = z.string().trim().min(1, 'Wajib diisi');
 
 export const registerSchema = z.object({
   name,
@@ -241,3 +238,9 @@ export const passwordChangeSchema = z
   });
 
 export type PasswordChangeFormType = z.infer<typeof passwordChangeSchema>;
+
+export const confirmEmailSchema = z.object({
+  confirmationEmailToken,
+});
+
+export type ConfirmEmailFormType = z.infer<typeof confirmEmailSchema>;

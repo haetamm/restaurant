@@ -4,6 +4,8 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { authApi } from '../api/auth.api';
 import { userApi } from '../api/user.api';
 import { urlPage } from '../utils/constans';
+import { ModalService } from './modal.service';
+import { CartAdminService } from './cart-admin.service';
 
 export interface ProfileRequest {
   name: string;
@@ -21,6 +23,10 @@ export interface UpdatePasswordRequest {
 export interface UpdateEmailRequest {
   newEmail: string;
   passwordConfirmation: string;
+}
+
+export interface ConfirmEmailRequest {
+  confirmationEmailToken: string;
 }
 
 export interface Profile {
@@ -52,6 +58,8 @@ export class ProfileService {
   );
 
   private readonly toastService = inject(HotToastService);
+  private readonly modalService = inject(ModalService);
+  private readonly cartAdminService = inject(CartAdminService);
 
   getLoading(): boolean {
     return this.state.value.loading;
@@ -97,11 +105,24 @@ export class ProfileService {
   async updateProfileEmail(data: UpdateEmailRequest): Promise<void> {
     try {
       const result = await userApi.updateOwnProfileEmail(data);
+      this.modalService.showConfirmEmailForm();
       this.toastService.success(result, {
         autoClose: false,
       });
     } catch (error: any) {
       this.toastService.error(error.message || 'Failed to update password');
+      throw error;
+    }
+  }
+
+  async confirmProfileEmail(data: ConfirmEmailRequest): Promise<void> {
+    try {
+      const result = await userApi.confirmEmail(data);
+      this.updateState({ profile: result });
+      this.toastService.success('Email berhasil diupdate');
+      this.modalService.hideModal();
+    } catch (error: any) {
+      this.toastService.error(error.message || 'Failed to update email');
       throw error;
     }
   }
@@ -121,6 +142,8 @@ export class ProfileService {
   logout() {
     authApi.removeAccessToken();
     this.updateState({ profile: null, loading: false });
+    this.cartAdminService.resetCart();
+    this.modalService.hideModal();
     window.location.href = urlPage.LOGIN;
   }
 }

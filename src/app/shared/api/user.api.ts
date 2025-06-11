@@ -1,7 +1,7 @@
 import { createAxiosInstance } from './axios-config';
 import { errorHandle } from '../utils/helper';
 import {
-  Profile,
+  ConfirmEmailRequest,
   ProfileRequest,
   UpdateEmailRequest,
   UpdatePasswordRequest,
@@ -44,6 +44,19 @@ export const userApi = {
   ): Promise<any> => {
     try {
       const response = await axiosInstance.put('/api/user/me/email', dataEmail);
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  confirmEmail: async (dataEmail: ConfirmEmailRequest): Promise<any> => {
+    try {
+      const response = await axiosInstance.post(
+        '/api/user/me/confirm-email',
+        dataEmail,
+      );
       const { data } = response.data;
       return data;
     } catch (error: any) {

@@ -34,7 +34,7 @@
           formControlName="name"
           id="name"
         />
-        <label for="name">Nama</label>
+        <label class="text-sm" for="name">Nama</label>
       </p-floatlabel>
       <small
         *ngIf="menuForm.get('name')?.invalid && menuForm.get('name')?.touched"
@@ -54,7 +54,7 @@
           formControlName="price"
           id="price"
         />
-        <label for="price">Harga</label>
+        <label class="text-sm" for="price">Harga</label>
       </p-floatlabel>
       <small
         *ngIf="menuForm.get('price')?.invalid && menuForm.get('price')?.touched"
@@ -74,7 +74,7 @@
           formControlName="categoryId"
           inputId="categoryId"
         ></p-select>
-        <label for="categoryId">Pilih Kategori</label>
+        <label class="text-sm" for="categoryId">Pilih Kategori</label>
       </p-floatlabel>
       <small
         *ngIf="

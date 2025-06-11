@@ -8,6 +8,7 @@ import { ModalSmallComponent } from '../modal-small/modal-small.component';
 import { ProfileService } from '../../shared/services/profile.service';
 import { BillDetailModalSectionComponent } from '../bill-detail-modal-section/bill-detail-modal-section.component';
 import { MenuFormModalSectionComponent } from '../menu-form-modal-section/menu-form-modal-section.component';
+import { ConfirmEmailModalSectionComponent } from '../confirm-email-modal-section/confirm-email-modal-section.component';
 
 @Component({
   selector: 'app-modal',
@@ -17,6 +18,7 @@ import { MenuFormModalSectionComponent } from '../menu-form-modal-section/menu-f
     ModalSmallComponent,
     BillDetailModalSectionComponent,
     MenuFormModalSectionComponent,
+    ConfirmEmailModalSectionComponent,
   ],
   templateUrl: './modal.component.html',
 })
@@ -48,6 +50,5 @@ export class ModalComponent implements OnInit {
 
   handleLogout() {
     this.profileService.logout();
-    this.closeModal();
   }
 }

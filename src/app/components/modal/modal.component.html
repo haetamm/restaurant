@@ -50,6 +50,11 @@
           state.type === MODAL_TYPES.MENU_FORM_BULK
         "
       />
+
+      <!-- render confirm email -->
+      <app-confirm-email-modal-section
+        *ngIf="state.type === MODAL_TYPES.CONFIRM_EMAIL_FORM"
+      />
     </ng-container>
   </div>
 </div>

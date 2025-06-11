@@ -9,6 +9,7 @@ export const MODAL_TYPES = {
   BILL_DETAIL: 'billDetail',
   MENU_FORM: 'menuForm',
   MENU_FORM_BULK: 'menuFormBulk',
+  CONFIRM_EMAIL_FORM: 'confirmEmailForm',
 } as const;
 
 // Interface untuk state modal
@@ -16,7 +17,7 @@ interface ModalState {
   isVisible: boolean;
   type: string;
   callback: (() => void | Promise<void>) | null; // Dukung async callback
-  loading: boolean; // State baru buat loading
+  loading: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -86,12 +87,21 @@ export class ModalService {
     });
   }
 
+  showConfirmEmailForm(): void {
+    this.modalState$.next({
+      isVisible: true,
+      type: MODAL_TYPES.CONFIRM_EMAIL_FORM,
+      callback: null,
+      loading: false,
+    });
+  }
+
   hideModal(): void {
     this.modalState$.next({
       isVisible: false,
       type: '',
       callback: null,
-      loading: false, // Reset loading pas modal ketutup
+      loading: false,
     });
   }
 

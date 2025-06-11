@@ -95,35 +95,36 @@ export class CartAdminService {
         };
       }
 
-      // Cek apakah item dengan id sudah ada
+      // Check if item with id already exists
       const existingItemIndex = cart.billRequest.findIndex(
         (item) => item.id === billRequestItem.id,
       );
 
-      // Jika item sudah ada, lanjutkan tanpa perubahan
       if (existingItemIndex !== -1) {
-        this.toastService.info('Menu telah tersedia di keranjang!');
-        return;
+        // Update the price of the existing item
+        cart.billRequest[existingItemIndex].price = billRequestItem.price;
+        this.toastService.info('Menu telah tersedia dikeranjang!');
+      } else {
+        // Add new item with qty: 1
+        const newItem: RequestMenu = {
+          id: billRequestItem.id,
+          name: billRequestItem.name,
+          price: billRequestItem.price,
+          qty: 1,
+          image: billRequestItem.image,
+        };
+        cart.billRequest.push(newItem);
+        this.toastService.success('Menu berhasil ditambahkan!');
       }
 
-      // Tambahkan item baru dengan qty: 1
-      const newItem: RequestMenu = {
-        id: billRequestItem.id,
-        name: billRequestItem.name,
-        price: billRequestItem.price,
-        qty: 1,
-        image: billRequestItem.image,
-      };
-
-      cart.billRequest.push(newItem);
-
+      // Save changes to IndexedDB
       await db.put('cart', cart);
+
+      // Update state
       this.updateState({
         cart,
         ...this.calculateTotals(cart.billRequest),
       });
-
-      this.toastService.success('menu berhasil ditambahkan!');
     } catch (error: any) {
       this.toastService.error(error.message || 'Gagal memperbarui menu');
     }
