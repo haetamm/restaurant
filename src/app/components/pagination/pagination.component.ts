@@ -12,6 +12,8 @@ import { PaginationResponse } from '../../shared/services/menu.service';
 export class PaginationComponent {
   pagination: PaginationResponse | null = null;
   pages: number[] = [];
+  displayedPages: number[] = [];
+  showButton: number = 0;
 
   @Input() fetchData: (queryParams: any) => void = () => {};
   @Output() pageChange = new EventEmitter<number>();
@@ -26,15 +28,33 @@ export class PaginationComponent {
     this.updatePagination();
   }
 
+  ngOnInit(): void {
+    this.showButton = window.innerWidth < 600 ? 3 : 5;
+  }
+
   private updatePagination() {
-    if (this.pagination) {
-      this.pages = Array.from(
-        { length: this.pagination.totalPages },
-        (_, i) => i + 1,
-      );
-    } else {
-      this.pages = [];
+    if (!this.pagination) {
+      this.displayedPages = [];
+      return;
     }
+
+    const currentPage = this.pagination.page;
+    const totalPages = this.pagination.totalPages;
+    const maxPagesToShow = 4;
+
+    const half = Math.floor(maxPagesToShow / 2);
+    let start = Math.max(currentPage - half, 1);
+    let end = start + maxPagesToShow - 1;
+
+    if (end > totalPages) {
+      end = totalPages;
+      start = Math.max(end - maxPagesToShow + 1, 1);
+    }
+
+    this.displayedPages = Array.from(
+      { length: end - start + 1 },
+      (_, i) => start + i,
+    );
   }
 
   changePage(page: number) {
@@ -78,5 +98,20 @@ export class PaginationComponent {
     if (this.pagination && this.pagination.hasNext) {
       this.changePage(this.pagination.page + 1);
     }
+  }
+
+  jumpForward() {
+    if (!this.pagination) return;
+    const newPage = Math.min(
+      this.pagination.page + 4,
+      this.pagination.totalPages,
+    );
+    this.changePage(newPage);
+  }
+
+  jumpBackward() {
+    if (!this.pagination) return;
+    const newPage = Math.max(this.pagination.page - 4, 1);
+    this.changePage(newPage);
   }
 }

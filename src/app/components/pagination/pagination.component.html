@@ -3,22 +3,30 @@
   class="flex justify-center items-center py-4 md:py-2 lg:py-4"
 >
   <button
-    (click)="previousPage()"
-    [disabled]="!pagination.hasPrevious"
-    class="h-10 w-10 cursor-pointer mx-1 bg-white shadow-md rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+    (click)="jumpBackward()"
+    [disabled]="pagination.page <= 4"
+    class="h-9 w-9 cursor-pointer mx-0.5 xs:mx-1 bg-white md:rounded-md rounded-sm border-[1px] border-slate-300 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
   >
     <<
   </button>
 
+  <button
+    (click)="previousPage()"
+    [disabled]="!pagination.hasPrevious"
+    class="h-9 w-9 cursor-pointer mx-0.5 xs:mx-1 bg-white md:rounded-md rounded-sm border-[1px] border-slate-300 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    <
+  </button>
+
   <div class="flex space-x-1">
     <button
-      *ngFor="let page of pages"
+      *ngFor="let page of displayedPages"
       (click)="changePage(page)"
       [class.bg-[#F86901]]="page === pagination.page"
       [class.text-white]="page === pagination.page"
-      class="h-9 w-9 mx-1 rounded-full cursor-pointer disabled:cursor-not-allowed"
+      class="h-9 w-9 mx-0.5 xs:mx-1 rounded-sm md:rounded-md border-[1px] border-slate-300 shrink-0 cursor-pointer disabled:cursor-not-allowed"
       [ngClass]="{
-        'bg-white shadow-md': page !== pagination.page,
+        'bg-white ': page !== pagination.page,
         'hover:bg-gray-300': page !== pagination.page,
       }"
     >
@@ -29,7 +37,15 @@
   <button
     (click)="nextPage()"
     [disabled]="!pagination.hasNext"
-    class="h-10 w-10 cursor-pointer mx-1 bg-white shadow-md rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+    class="h-9 w-9 cursor-pointer mx-0.5 xs:mx-1 bg-white md:rounded-md rounded-sm border-[1px] border-slate-300 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    >
+  </button>
+
+  <button
+    (click)="jumpForward()"
+    [disabled]="pagination.page > pagination.totalPages - 4"
+    class="h-9 w-9 cursor-pointer mx-0.5 xs:mx-1 bg-white md:rounded-md rounded-sm border-[1px] border-slate-300 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
   >
     >>
   </button>

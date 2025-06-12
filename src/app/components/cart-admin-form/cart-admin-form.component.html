@@ -1,61 +1,59 @@
 <form
   [formGroup]="adminCartForm"
   (ngSubmit)="onSubmit()"
-  class="w-full mb-3 space-y-4 space-x-3 xs:flex xs:mb-0 xs:space-y-1 lg:space-y-3.5 lg:inline-block lg:space-x-0 xl:space-y-4"
+  class="w-full mt-2 mb-3 grid gap-2 lg:gap-3 xs:grid-cols-3 xs:mb-0 lg:grid-cols-1"
 >
-  <div
-    class="w-full flex space-x-3 lg:inline-block lg:space-y-3.5 xl:flex items-center xl:space-y-0 xl:space-x-3"
-  >
-    <div class="w-full">
-      <p-floatlabel variant="on" class="w-full">
-        <input
-          type="text"
-          pInputText
-          id="customerName"
-          class="w-full"
-          [pKeyFilter]="alphaWithSpace"
-          formControlName="customerName"
-        />
-        <label class="text-sm" for="customerName">Nama</label>
-      </p-floatlabel>
-      <div class="h-3.5">
+  <div class="w-full col-span-1 xs:col-span-2 lg:col-span-1">
+    <div class="w-full grid grid-cols-2 gap-2 lg:gap-3">
+      <div class="w-full">
+        <p-floatlabel variant="on" class="w-full">
+          <input
+            type="text"
+            pInputText
+            id="customerName"
+            class="w-full"
+            [pKeyFilter]="alphaWithSpace"
+            formControlName="customerName"
+          />
+          <label class="text-sm" for="customerName">Nama</label>
+        </p-floatlabel>
         <small
           *ngIf="
             adminCartForm.get('customerName')?.invalid &&
             adminCartForm.get('customerName')?.touched
           "
-          class="text-red-500"
+          class="text-red-500 block mt-1"
         >
           {{ adminCartForm.get("customerName")?.errors?.["zod"] }}
         </small>
       </div>
-    </div>
-    <div class="w-full">
-      <p-floatlabel variant="on" class="w-full">
-        <input
-          type="text"
-          pInputText
-          id="customerPhone"
-          class="w-full"
-          pKeyFilter="num"
-          formControlName="customerPhone"
-        />
-        <label class="text-sm" for="customerPhone">No. Hp</label>
-      </p-floatlabel>
-      <div class="h-3.5">
+
+      <div class="w-full">
+        <p-floatlabel variant="on" class="w-full">
+          <input
+            type="text"
+            pInputText
+            id="customerPhone"
+            class="w-full"
+            pKeyFilter="num"
+            formControlName="customerPhone"
+          />
+          <label class="text-sm" for="customerPhone">No. Hp</label>
+        </p-floatlabel>
         <small
           *ngIf="
             adminCartForm.get('customerPhone')?.invalid &&
             adminCartForm.get('customerPhone')?.touched
           "
-          class="text-red-500"
+          class="text-red-500 block mt-1"
         >
           {{ adminCartForm.get("customerPhone")?.errors?.["zod"] }}
         </small>
       </div>
     </div>
   </div>
-  <div class="w-full xs:w-[50%] lg:w-full">
+
+  <div class="w-full col-span-1 xs:col-span-1">
     <p-floatlabel variant="on" class="w-full">
       <p-select
         [options]="tables"
@@ -76,16 +74,14 @@
       </p-select>
       <label class="text-sm" for="tableName">Pilih Meja</label>
     </p-floatlabel>
-    <div class="h-3.5">
-      <small
-        *ngIf="
-          adminCartForm.get('tableName')?.invalid &&
-          adminCartForm.get('tableName')?.touched
-        "
-        class="text-red-500"
-      >
-        {{ adminCartForm.get("tableName")?.errors?.["zod"] }}
-      </small>
-    </div>
+    <small
+      *ngIf="
+        adminCartForm.get('tableName')?.invalid &&
+        adminCartForm.get('tableName')?.touched
+      "
+      class="text-red-500 block mt-1"
+    >
+      {{ adminCartForm.get("tableName")?.errors?.["zod"] }}
+    </small>
   </div>
 </form>

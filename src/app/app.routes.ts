@@ -111,17 +111,18 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            redirectTo: 'user',
+            redirectTo: 'customer',
             pathMatch: 'full',
-          },
-          {
-            path: 'user',
-            component: DashboardUserPageComponent,
           },
           {
             path: 'customer',
             component: CustomerPageComponent,
           },
+          {
+            path: 'user',
+            component: DashboardUserPageComponent,
+          },
+
           {
             path: 'admin',
             canActivate: [superAdminGuard],

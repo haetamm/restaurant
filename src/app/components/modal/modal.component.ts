@@ -9,6 +9,7 @@ import { ProfileService } from '../../shared/services/profile.service';
 import { BillDetailModalSectionComponent } from '../bill-detail-modal-section/bill-detail-modal-section.component';
 import { MenuFormModalSectionComponent } from '../menu-form-modal-section/menu-form-modal-section.component';
 import { ConfirmEmailModalSectionComponent } from '../confirm-email-modal-section/confirm-email-modal-section.component';
+import { CustomerDetailModalSectionComponent } from '../customer-detail-modal-section/customer-detail-modal-section.component';
 
 @Component({
   selector: 'app-modal',
@@ -19,6 +20,7 @@ import { ConfirmEmailModalSectionComponent } from '../confirm-email-modal-sectio
     BillDetailModalSectionComponent,
     MenuFormModalSectionComponent,
     ConfirmEmailModalSectionComponent,
+    CustomerDetailModalSectionComponent,
   ],
   templateUrl: './modal.component.html',
 })

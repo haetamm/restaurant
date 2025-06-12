@@ -25,11 +25,6 @@ export const menuApi = {
       const { data } = response.data;
       return data;
     } catch (error: any) {
-      console.error(
-        'menuApi.createMenu error:',
-        error.message,
-        error.response?.data,
-      );
       errorHandle(error);
     }
   },
@@ -41,11 +36,6 @@ export const menuApi = {
       const { data } = response.data;
       return data;
     } catch (error: any) {
-      console.error(
-        'menuApi.createMenu error:',
-        error.message,
-        error.response?.data,
-      );
       errorHandle(error);
     }
   },

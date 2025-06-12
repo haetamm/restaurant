@@ -10,6 +10,7 @@ export const MODAL_TYPES = {
   MENU_FORM: 'menuForm',
   MENU_FORM_BULK: 'menuFormBulk',
   CONFIRM_EMAIL_FORM: 'confirmEmailForm',
+  CUSTOMER_DETAIL: 'customerDetail',
 } as const;
 
 // Interface untuk state modal
@@ -91,6 +92,15 @@ export class ModalService {
     this.modalState$.next({
       isVisible: true,
       type: MODAL_TYPES.CONFIRM_EMAIL_FORM,
+      callback: null,
+      loading: false,
+    });
+  }
+
+  showCustomerDetail(): void {
+    this.modalState$.next({
+      isVisible: true,
+      type: MODAL_TYPES.CUSTOMER_DETAIL,
       callback: null,
       loading: false,
     });

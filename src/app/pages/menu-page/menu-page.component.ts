@@ -41,14 +41,10 @@ export class MenuPageComponent {
       this.menuPagination = pagination;
     });
 
-    // Ambil query parameter dari URL saat ini
     const queryParams = this.route.snapshot.queryParams;
-
-    // Set initialSearch berdasarkan name (jika ada)
     queryParams['name'] || '';
     this.initialSearch = queryParams['name'] || '';
 
-    // Panggil fetchMenus dengan query parameter
     const menus = this.menuService.getMenus();
     if (!menus || menus.length < 10) {
       this.menuService.fetchMenus(queryParams);

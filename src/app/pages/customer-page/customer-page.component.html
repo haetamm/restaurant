@@ -1,1 +1,35 @@
-<div class="py-4">Customer Page</div>
+<div
+  class="flex flex-col md:h-[calc(100vh-80px)] lg:min-h-[calc(100vh-40px)] px-2 pt-2 lg:px-4"
+>
+  <div
+    class="space-y-3 px-1 xs:space-y-0 xs:flex justify-between py-1 items-center mb-3 sticky z-0"
+  >
+    <p class="font-bold text-2xl w-full">Pelanggan</p>
+    <div class="w-full flex space-x-2 items-center">
+      <app-searchbar
+        [initialSearch]="initialSearch"
+        placeholder="Search name"
+        (searchChange)="onSearch($event)"
+        class="w-full"
+      />
+      <button
+        class="w-12 h-9.5 bg-white border-[1px] border-slate-300 rounded-md lg:rounded-lg flex justify-center items-center cursor-pointer"
+        (click)="onSort()"
+      >
+        <ng-icon
+          [name]="
+            sortDirection === 'asc'
+              ? 'bootstrapSortAlphaDown'
+              : 'bootstrapSortAlphaDownAlt'
+          "
+        />
+      </button>
+    </div>
+  </div>
+  <app-customer-table />
+  <app-pagination
+    [paginationData]="customerPagination"
+    [fetchData]="fetchCustomers.bind(this)"
+    class="mt-auto"
+  />
+</div>

@@ -55,6 +55,12 @@
       <app-confirm-email-modal-section
         *ngIf="state.type === MODAL_TYPES.CONFIRM_EMAIL_FORM"
       />
+
+      <!-- render customer detail -->
+      <app-customer-detail-modal-section
+        (onClose)="closeModal()"
+        *ngIf="state.type === MODAL_TYPES.CUSTOMER_DETAIL"
+      />
     </ng-container>
   </div>
 </div>

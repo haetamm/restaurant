@@ -1,3 +1,4 @@
+import { isActiveRoute } from './../../shared/utils/helper';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -6,13 +7,14 @@ import {
   bootstrapShieldLockFill,
   bootstrapPersonFillGear,
   bootstrapPersonLinesFill,
-  bootstrapPersonHearts,
+  bootstrapPersonHeart,
 } from '@ng-icons/bootstrap-icons';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroUsers } from '@ng-icons/heroicons/outline';
 import { ButtonModule } from 'primeng/button';
 import { urlPage } from '../../shared/utils/constans';
 import { usePreload } from '../../shared/utils/use-preload';
+import { CustomerService } from '../../shared/services/customer.service';
 
 @Component({
   selector: 'app-authorize-layout',
@@ -25,7 +27,7 @@ import { usePreload } from '../../shared/utils/use-preload';
       bootstrapPersonFillGear,
       heroUsers,
       bootstrapPersonLinesFill,
-      bootstrapPersonHearts,
+      bootstrapPersonHeart,
     }),
   ],
 })
@@ -39,14 +41,14 @@ export class AuthorizeLayoutComponent {
     if (this.preload.isAdmin()) {
       baseItems.push(
         {
+          label: 'Pelanggan',
+          icon: 'bootstrapPersonHeart',
+          link: urlPage.CUSTOMER,
+        },
+        {
           label: 'Pengguna',
           icon: 'bootstrapPersonLinesFill',
           link: urlPage.DASHBOARD_USER,
-        },
-        {
-          label: 'Pelanggan',
-          icon: 'bootstrapPersonHearts',
-          link: urlPage.CUSTOMER,
         },
       );
     }
@@ -79,11 +81,13 @@ export class AuthorizeLayoutComponent {
 
   constructor(private router: Router) {}
 
-  isActiveSubRoute(route: string): boolean {
-    return this.router.url === route;
-  }
+  ngOnInit(): void {}
 
   toggleSidebar(): void {
     this.showSidebar = !this.showSidebar;
+  }
+
+  isRouteActive(path: string, exact: boolean = false): boolean {
+    return isActiveRoute(this.router, path, exact);
   }
 }
