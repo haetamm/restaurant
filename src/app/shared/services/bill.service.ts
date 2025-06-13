@@ -190,6 +190,10 @@ export class BillService {
     return this.state.value.billDetail;
   }
 
+  resetBillDetail(): void {
+    this.updateState({ billDetail: null });
+  }
+
   getPagination(): PaginationResponse | null {
     return this.state.value.pagination;
   }

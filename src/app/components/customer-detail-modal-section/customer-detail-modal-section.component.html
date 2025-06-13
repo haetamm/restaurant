@@ -13,7 +13,90 @@
           (click)="closeModal()"
         ></i>
       </div>
-      <app-customer-card [customer]="customerDetail" />
+      <div *ngIf="type === MODAL_TYPES.CUSTOMER_DETAIL">
+        <!-- Loading Skeleton -->
+        <ng-container *ngIf="loading || !customerTransDetail; else customer">
+          <div
+            class="bg-white border border-gray-200 dark:border-gray-700 p-4 mb-2 rounded-lg shadow animate-pulse"
+          >
+            <div class="space-y-3">
+              <!-- Name & Badge -->
+              <div class="flex justify-between items-center">
+                <div class="h-5 bg-gray-200 rounded w-1/3"></div>
+                <div class="h-5 bg-blue-200 rounded w-14"></div>
+              </div>
+
+              <!-- Phone -->
+              <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+
+              <!-- Address -->
+              <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #customer>
+          <div class="pb-5">
+            <app-customer-card [customer]="customerTransDetail" />
+
+            <!-- History Section -->
+            <div class="mt-4 px-2 xs:px-4">
+              <h3 class="text-lg font-semibold mb-2">Riwayat Transaksi</h3>
+
+              <!-- Jika tidak ada history -->
+              <div
+                *ngIf="customerTransDetail?.history?.length === 0"
+                class="text-gray-500 text-sm"
+              >
+                Belum ada riwayat transaksi.
+              </div>
+
+              <!-- Daftar transaksi  -->
+              <div class="mt-4" *ngIf="customerTransDetail?.history?.length">
+                <table
+                  class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden"
+                >
+                  <thead class="bg-gray-100 text-gray-700">
+                    <tr>
+                      <th class="px-2 py-2 border-b">Tanggal</th>
+                      <th class="px-2 py-2 border-b">Status</th>
+                      <th class="px-4 py-2 border-b">Total</th>
+                      <th class="px-2 py-2 border-b">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let trans of customerTransDetail?.history"
+                      class="hover:bg-gray-50"
+                    >
+                      <td class="px-2 py-2">
+                        {{ formatDate(trans.transDate) }}
+                      </td>
+                      <td class="px-2 py-2">
+                        {{ trans.transactionStatus }}
+                      </td>
+                      <td class="px-4 py-2">
+                        Rp. {{ trans.totalPayment | number: "1.0-0" }}
+                      </td>
+                      <td class="px-2 py-2">
+                        <button
+                          (click)="selectBillDetail(trans.billId)"
+                          class="text-blue-600 hover:underline cursor-pointer"
+                        >
+                          Detail
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div *ngIf="type === MODAL_TYPES.CUSTOMER_FORM" class="px-4 pt-1 pb-4">
+        <app-customer-form />
+      </div>
     </div>
   </div>
 </div>

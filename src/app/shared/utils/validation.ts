@@ -49,6 +49,16 @@ const address = z
   .min(1, 'Wajib diisi')
   .max(225, 'Max. 225 karakter');
 
+const addressOptional = z
+  .union([
+    z.string().trim().max(225, 'Max. 225 karakter'),
+    z.literal(''),
+    z.null(),
+    z.undefined(),
+  ])
+  .transform((val) => (val === '' || val === null ? undefined : val))
+  .optional();
+
 const tableName = z.string().trim().min(1, 'Meja diisi');
 
 const menuName = z
@@ -244,3 +254,11 @@ export const confirmEmailSchema = z.object({
 });
 
 export type ConfirmEmailFormType = z.infer<typeof confirmEmailSchema>;
+
+export const customerSchema = z.object({
+  name,
+  phoneNumber: phone,
+  address: addressOptional,
+});
+
+export type CustomerFormType = z.infer<typeof customerSchema>;

@@ -1,9 +1,6 @@
 import { createAxiosInstance } from './axios-config';
 import { errorHandle } from '../utils/helper';
-import {
-  CustomerRequest,
-  CustomerUpdateRequest,
-} from '../services/customer.service';
+import { CustomerUpdateRequest } from '../services/customer.service';
 
 const axiosInstance = createAxiosInstance();
 
@@ -12,19 +9,6 @@ export const customerApi = {
     try {
       const response = await axiosInstance.post('/api/customer/all', body);
       const data = response.data;
-      return data;
-    } catch (error: any) {
-      errorHandle(error);
-    }
-  },
-
-  createCustomer: async (customer: CustomerRequest) => {
-    try {
-      const response = await axiosInstance.post(
-        '/api/customer/create',
-        customer,
-      );
-      const { data } = response.data;
       return data;
     } catch (error: any) {
       errorHandle(error);
@@ -44,11 +28,9 @@ export const customerApi = {
     }
   },
 
-  deleteCustomer: async (body = {}) => {
+  getCustomer: async (id: string) => {
     try {
-      const response = await axiosInstance.delete('/api/menu/delete', {
-        data: body,
-      });
+      const response = await axiosInstance.post('/api/customer/detail', { id });
       const data = response.data;
       return data;
     } catch (error: any) {

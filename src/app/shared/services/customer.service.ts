@@ -9,6 +9,25 @@ export interface CustomerRequest {
   phoneNumber: string;
 }
 
+export interface Customer {
+  id: string;
+  name: string;
+  phoneNumber: string;
+  member: boolean;
+  address: string | null;
+}
+
+export interface TransDetail {
+  billId: string;
+  transDate: string;
+  transactionStatus: string;
+  totalPayment: number;
+}
+
+export interface CustomerTransDetail extends Customer {
+  history: TransDetail[];
+}
+
 export interface CustomerUpdateRequest {
   id: string;
   name: string;
@@ -33,18 +52,12 @@ export interface CustomerQueryParams {
   size?: number;
 }
 
-export interface Customer {
-  id: string;
-  name: string;
-  phoneNumber: string;
-  member: boolean;
-  address: string | null;
-}
-
 interface CustomersState {
   loading: boolean;
+  loadingDetail: boolean;
   customers: Customer[];
   customerDetail: Customer | null;
+  customerTransDetail: CustomerTransDetail | null;
   pagination: PaginationResponse | null;
 }
 
@@ -55,7 +68,9 @@ export class CustomerService {
   private state = new BehaviorSubject<CustomersState>({
     customers: [],
     customerDetail: null,
+    customerTransDetail: null,
     loading: false,
+    loadingDetail: false,
     pagination: null,
   });
   state$: Observable<CustomersState> = this.state.asObservable();
@@ -98,18 +113,23 @@ export class CustomerService {
     }
   }
 
-  async createCustomer(customer: CustomerRequest): Promise<void> {
+  async fetchCustomerTransDetail(id: string): Promise<void> {
+    this.updateState({ loadingDetail: true });
     try {
-      const newCustomer = await customerApi.createCustomer(customer);
-      const currentCustomers = this.state.value.customers;
+      const data = await customerApi.getCustomer(id);
+
       this.updateState({
-        customers: [newCustomer, ...currentCustomers],
+        customerTransDetail: data.data,
+        loadingDetail: false,
       });
-      this.toastService.success('Customer berhasil dibuat!');
-      this.modalService.hideModal();
     } catch (error: any) {
-      this.toastService.error(error.message || 'Gagal membuat customer');
-      throw error;
+      this.updateState({
+        loadingDetail: false,
+        customerTransDetail: null,
+      });
+      this.toastService.error(
+        error.message || 'Failed to load customer detail',
+      );
     }
   }
 
@@ -133,22 +153,6 @@ export class CustomerService {
     }
   }
 
-  async deleteCustomer(id: string): Promise<void> {
-    try {
-      await customerApi.deleteCustomer({ id });
-      const currentCustomers = this.state.value.customers;
-      const updatedCustomers = currentCustomers.filter(
-        (customer) => customer.id !== id,
-      );
-      this.updateState({
-        customers: updatedCustomers,
-      });
-      this.toastService.success('Customer berhasil dihapus!');
-    } catch (error: any) {
-      this.toastService.error(error.message || 'Gagal menghapus customer');
-    }
-  }
-
   getCustomerById(id: string): void {
     const customers = this.state.value.customers;
     const customer = customers.find((customer) => customer.id === id);
@@ -157,6 +161,10 @@ export class CustomerService {
 
   resetCustomerDetail(): void {
     this.updateState({ customerDetail: null });
+  }
+
+  resetCustomerTransDetail(): void {
+    this.updateState({ customerTransDetail: null });
   }
 
   getState(): Observable<CustomersState> {
@@ -169,6 +177,10 @@ export class CustomerService {
 
   getCustomerDetail(): Customer | null {
     return this.state.value.customerDetail;
+  }
+
+  getCustomerTransDetail(): CustomerTransDetail | null {
+    return this.state.value.customerTransDetail;
   }
 
   getPagination(): PaginationResponse | null {

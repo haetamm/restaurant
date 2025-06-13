@@ -1,3 +1,4 @@
+import { urlPage } from './../../shared/utils/constans';
 import {
   formatDate,
   getMenuNames,
@@ -8,11 +9,13 @@ import { BillResponse, BillService } from '../../shared/services/bill.service';
 import { CommonModule } from '@angular/common';
 import { BillCardComponent } from '../bill-card/bill-card.component';
 import { ModalService } from '../../shared/services/modal.service';
+import { Tooltip } from 'primeng/tooltip';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-bill-table',
   standalone: true,
-  imports: [CommonModule, BillCardComponent],
+  imports: [CommonModule, BillCardComponent, Tooltip, RouterModule],
   templateUrl: './bill-table.component.html',
 })
 export class BillTableComponent implements OnInit {
@@ -24,6 +27,7 @@ export class BillTableComponent implements OnInit {
   getMenuNames = getMenuNames;
   selectPayment = selectPayment;
   clickedBillId: string | null = null;
+  urlPage = urlPage;
 
   constructor(
     private billService: BillService,

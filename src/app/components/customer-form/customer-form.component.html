@@ -1,0 +1,87 @@
+<form
+  [formGroup]="customerForm"
+  (ngSubmit)="onSubmit()"
+  class="w-full space-y-3"
+>
+  <div class="space-y-5 text-sm">
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          [pKeyFilter]="alphaWithSpace"
+          class="w-full"
+          id="name"
+          formControlName="name"
+          autocomplete="off"
+        />
+        <label for="name">Nama</label>
+      </p-floatlabel>
+      <small
+        *ngIf="
+          customerForm.get('name')?.invalid && customerForm.get('name')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ customerForm.get("name")?.errors?.["zod"] }}
+      </small>
+    </div>
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          pKeyFilter="num"
+          class="w-full"
+          id="phoneNumber"
+          formControlName="phoneNumber"
+          autocomplete="off"
+        />
+        <label for="phoneNumber">No. Hp.</label>
+      </p-floatlabel>
+      <small
+        *ngIf="
+          customerForm.get('phoneNumber')?.invalid &&
+          customerForm.get('phoneNumber')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ customerForm.get("phoneNumber")?.errors?.["zod"] }}
+      </small>
+    </div>
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on">
+        <textarea
+          pTextarea
+          id="address"
+          formControlName="address"
+          rows="3"
+          cols="30"
+          style="resize: none"
+          class="h-full w-full"
+        ></textarea>
+        <label for="address">Alamat</label>
+      </p-floatlabel>
+      <small
+        *ngIf="
+          customerForm.get('address')?.invalid &&
+          customerForm.get('address')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ customerForm.get("address")?.errors?.["zod"] }}
+      </small>
+    </div>
+  </div>
+  <hr class="border-slate-300" />
+  <div class="flex justify-end">
+    <p-button
+      [disabled]="customerForm.invalid || loading"
+      class="w-full md:w-[120px]"
+      [style]="{
+        width: '100%',
+      }"
+      [label]="loading ? 'Loading' : 'Update'"
+      size="small"
+      type="submit"
+    />
+  </div>
+</form>

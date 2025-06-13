@@ -36,7 +36,12 @@ export class CustomerTableComponent {
   }
 
   handleDetail(id: string) {
-    this.customerService.getCustomerById(id);
+    this.customerService.fetchCustomerTransDetail(id);
     this.modalService.showCustomerDetail();
+  }
+
+  handleUpdate(id: string) {
+    this.customerService.getCustomerById(id);
+    this.modalService.showCustomerForm();
   }
 }

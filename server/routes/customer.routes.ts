@@ -17,19 +17,6 @@ router.post('/all', async (req, res) => {
   }
 });
 
-router.post('/create', async (req, res) => {
-  try {
-    const axiosInstance = createServerAxiosInstance(req);
-    const { body } = req;
-    const response = await axiosInstance.post('/customers', body);
-    res.json(response.data);
-  } catch (error: any) {
-    res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Failed to create customer',
-    });
-  }
-});
-
 router.put('/update', async (req, res) => {
   try {
     const axiosInstance = createServerAxiosInstance(req);
@@ -43,15 +30,15 @@ router.put('/update', async (req, res) => {
   }
 });
 
-router.delete('/delete', async (req, res) => {
+router.post('/detail', async (req, res) => {
   try {
     const axiosInstance = createServerAxiosInstance(req);
     const { id } = req.body;
-    const response = await axiosInstance.delete(`/customers/${id}`);
+    const response = await axiosInstance.get(`/customers/${id}`);
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Failed to delete customer',
+      message: error.response?.data?.message || 'Failed to update customer',
     });
   }
 });

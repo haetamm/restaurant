@@ -56,7 +56,26 @@
           class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
           <td class="px-6 py-4 box-border font-medium text-gray-900 truncate">
-            {{ isUser ? getMenuNames(bill) : bill.customerName }}
+            <ng-container *ngIf="!isUser; else justText">
+              <a
+                [routerLink]="[urlPage.CUSTOMER]"
+                [queryParams]="{ name: bill.customerName }"
+                class="hover:underline"
+              >
+                {{ bill.customerName }}
+              </a>
+            </ng-container>
+
+            <ng-template #justText>
+              <span
+                [pTooltip]="getMenuNames(bill)"
+                [autoHide]="false"
+                tooltipPosition="top"
+                class="text-sm"
+              >
+                {{ getMenuNames(bill) }}
+              </span>
+            </ng-template>
           </td>
           <td class="px-6 py-4 box-border truncate">
             {{ formatDate(bill.transDate) }}

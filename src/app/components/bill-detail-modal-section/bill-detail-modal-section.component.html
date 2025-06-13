@@ -4,8 +4,26 @@
   <div
     class="transform overflow-hidden rounded-lg text-left shadow-xl transition-all w-full max-w-[380px] bg-auth-layout pb-3"
   >
-    <div class="flex justify-center pt-3">
-      <ng-icon (click)="closeModal()" name="bootstrapXLg" size="24" />
+    <div
+      class="flex pt-3 '"
+      [ngClass]="
+        customerTransDetail ? 'justify-between px-4' : 'justify-center'
+      "
+    >
+      <ng-icon
+        *ngIf="customerTransDetail"
+        (click)="closeModal()"
+        name="bootstrapArrowLeft"
+        size="24"
+        (click)="handleBack(customerTransDetail.id)"
+        class="cursor-pointer"
+      />
+      <ng-icon
+        (click)="closeModal()"
+        name="bootstrapXLg"
+        size="24"
+        class="cursor-pointer"
+      />
     </div>
     <app-bill-detail-card />
   </div>

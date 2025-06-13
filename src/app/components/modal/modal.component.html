@@ -58,8 +58,12 @@
 
       <!-- render customer detail -->
       <app-customer-detail-modal-section
+        [type]="state.type"
         (onClose)="closeModal()"
-        *ngIf="state.type === MODAL_TYPES.CUSTOMER_DETAIL"
+        *ngIf="
+          state.type === MODAL_TYPES.CUSTOMER_DETAIL ||
+          state.type === MODAL_TYPES.CUSTOMER_FORM
+        "
       />
     </ng-container>
   </div>

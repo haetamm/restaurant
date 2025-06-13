@@ -10,6 +10,7 @@ import { BillDetailModalSectionComponent } from '../bill-detail-modal-section/bi
 import { MenuFormModalSectionComponent } from '../menu-form-modal-section/menu-form-modal-section.component';
 import { ConfirmEmailModalSectionComponent } from '../confirm-email-modal-section/confirm-email-modal-section.component';
 import { CustomerDetailModalSectionComponent } from '../customer-detail-modal-section/customer-detail-modal-section.component';
+import { BillService } from '../../shared/services/bill.service';
 
 @Component({
   selector: 'app-modal',
@@ -36,6 +37,7 @@ export class ModalComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private profileService: ProfileService,
+    private billService: BillService,
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class ModalComponent implements OnInit {
 
   closeModal(): void {
     this.modalService.hideModal();
+    this.billService.resetBillDetail();
   }
 
   async executeCallback(): Promise<void> {

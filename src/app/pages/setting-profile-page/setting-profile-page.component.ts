@@ -63,7 +63,6 @@ export class SettingProfilePageComponent {
 
   async onSubmit() {
     if (this.profileForm.invalid) {
-      console.log('ahllo');
       this.profileForm.markAllAsTouched();
       return;
     }

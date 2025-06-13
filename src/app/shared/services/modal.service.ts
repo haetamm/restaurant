@@ -11,6 +11,7 @@ export const MODAL_TYPES = {
   MENU_FORM_BULK: 'menuFormBulk',
   CONFIRM_EMAIL_FORM: 'confirmEmailForm',
   CUSTOMER_DETAIL: 'customerDetail',
+  CUSTOMER_FORM: 'customerForm',
 } as const;
 
 // Interface untuk state modal
@@ -68,6 +69,15 @@ export class ModalService {
     }
   }
 
+  showCustomerBillDetail(): void {
+    this.modalState$.next({
+      isVisible: true,
+      type: MODAL_TYPES.BILL_DETAIL,
+      callback: null,
+      loading: false,
+    });
+  }
+
   showMenuForm(): void {
     if (window.innerWidth < 1024) {
       this.modalState$.next({
@@ -101,6 +111,15 @@ export class ModalService {
     this.modalState$.next({
       isVisible: true,
       type: MODAL_TYPES.CUSTOMER_DETAIL,
+      callback: null,
+      loading: false,
+    });
+  }
+
+  showCustomerForm(): void {
+    this.modalState$.next({
+      isVisible: true,
+      type: MODAL_TYPES.CUSTOMER_FORM,
       callback: null,
       loading: false,
     });

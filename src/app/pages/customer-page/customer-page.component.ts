@@ -53,7 +53,7 @@ export class CustomerPageComponent {
     this.initialSearch = queryParams['name'] || '';
 
     const customers = this.customerService.getCustomers();
-    if (!customers || customers.length === 0) {
+    if (!customers || customers.length < 10 || this.initialSearch !== '') {
       this.customerService.fetchCustomers(queryParams);
     }
   }

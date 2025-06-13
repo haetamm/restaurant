@@ -8,9 +8,21 @@
     </div>
 
     <div class="flex flex-col w-1/2">
-      <span class="text-gray-700">{{
-        isUser ? getMenuNames(bill) : bill.customerName
-      }}</span>
+      <ng-container *ngIf="!isUser; else justText">
+        <a
+          [routerLink]="[urlPage.CUSTOMER]"
+          [queryParams]="{ name: bill.customerName }"
+          class="text-blue-600"
+        >
+          {{ bill.customerName }}
+        </a>
+      </ng-container>
+
+      <ng-template #justText>
+        <span class="text-sm">
+          {{ getMenuNames(bill) }}
+        </span>
+      </ng-template>
     </div>
 
     <div class="flex justify-between items-end">
