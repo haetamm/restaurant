@@ -171,7 +171,7 @@ export class CustomerService {
     return this.state$;
   }
 
-  getCustomers(): Customer[] | null {
+  getCustomers(): Customer[] | [] {
     return this.state.value.customers;
   }
 

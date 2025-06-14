@@ -7,10 +7,11 @@ import {
 } from '../../shared/services/customer.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { CustomerCardComponent } from '../customer-card/customer-card.component';
+import { Tooltip } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-customer-table',
-  imports: [ButtonModule, CommonModule, CustomerCardComponent],
+  imports: [ButtonModule, CommonModule, CustomerCardComponent, Tooltip],
   templateUrl: './customer-table.component.html',
 })
 export class CustomerTableComponent {

@@ -1,4 +1,5 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HotToastService } from '@ngxpert/hot-toast';
@@ -37,7 +38,7 @@ interface CartAdminState {
   providedIn: 'root',
 })
 export class CartAdminService {
-  private dbPromise: Promise<IDBPDatabase<CartDB>>;
+  private dbPromise: Promise<IDBPDatabase<CartDB>> | null = null;
   private state = new BehaviorSubject<CartAdminState>({
     loading: false,
     cart: null,
@@ -53,15 +54,18 @@ export class CartAdminService {
 
   private readonly toastService = inject(HotToastService);
 
-  constructor() {
-    this.dbPromise = openDB<CartDB>('cart-admin-db', 1, {
-      upgrade(db) {
-        db.createObjectStore('cart', { keyPath: 'key' });
-      },
-    });
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.dbPromise = openDB<CartDB>('cart-admin-db', 1, {
+        upgrade(db) {
+          db.createObjectStore('cart', { keyPath: 'key' });
+        },
+      });
+    }
   }
 
   async fetchCart(): Promise<void> {
+    if (!this.dbPromise) return;
     this.updateState({ loading: true });
     try {
       const db = await this.dbPromise;
@@ -84,6 +88,7 @@ export class CartAdminService {
   }
 
   async updateBillRequest(billRequestItem: Menu): Promise<void> {
+    if (!this.dbPromise) return;
     try {
       const db = await this.dbPromise;
       let cart = await db.get('cart', 'admin-cart');
@@ -95,17 +100,14 @@ export class CartAdminService {
         };
       }
 
-      // Check if item with id already exists
       const existingItemIndex = cart.billRequest.findIndex(
         (item) => item.id === billRequestItem.id,
       );
 
       if (existingItemIndex !== -1) {
-        // Update the price of the existing item
         cart.billRequest[existingItemIndex].price = billRequestItem.price;
         this.toastService.info('Menu telah tersedia dikeranjang!');
       } else {
-        // Add new item with qty: 1
         const newItem: RequestMenu = {
           id: billRequestItem.id,
           name: billRequestItem.name,
@@ -117,10 +119,7 @@ export class CartAdminService {
         this.toastService.success('Menu berhasil ditambahkan!');
       }
 
-      // Save changes to IndexedDB
       await db.put('cart', cart);
-
-      // Update state
       this.updateState({
         cart,
         ...this.calculateTotals(cart.billRequest),
@@ -131,29 +130,22 @@ export class CartAdminService {
   }
 
   async updateItemQuantity(itemId: string, newQty: number): Promise<void> {
+    if (!this.dbPromise) return;
     try {
       const db = await this.dbPromise;
       let cart = await db.get('cart', 'admin-cart');
 
-      if (!cart) {
-        throw new Error('Keranjang tidak ditemukan');
-      }
+      if (!cart) throw new Error('Keranjang tidak ditemukan');
 
-      // Cari item berdasarkan id
       const itemIndex = cart.billRequest.findIndex(
         (item) => item.id === itemId,
       );
-      if (itemIndex === -1) {
+      if (itemIndex === -1)
         throw new Error('Menu tidak ditemukan di keranjang');
-      }
 
-      // Perbarui qty item
       cart.billRequest[itemIndex].qty = newQty;
 
-      // Simpan perubahan ke IndexedDB
       await db.put('cart', cart);
-
-      // Perbarui state
       this.updateState({
         cart,
         ...this.calculateTotals(cart.billRequest),
@@ -164,37 +156,33 @@ export class CartAdminService {
   }
 
   async deleteItemByMenuId(itemId: string): Promise<void> {
+    if (!this.dbPromise) return;
     try {
       const db = await this.dbPromise;
       let cart = await db.get('cart', 'admin-cart');
 
-      if (!cart) {
-        throw new Error('Keranjang tidak ditemukan');
-      }
+      if (!cart) throw new Error('Keranjang tidak ditemukan');
 
-      // Cari item berdasarkan id
       const itemIndex = cart.billRequest.findIndex(
         (item) => item.id === itemId,
       );
-      if (itemIndex === -1) {
+      if (itemIndex === -1)
         throw new Error('Menu tidak ditemukan di keranjang');
-      }
 
       cart.billRequest.splice(itemIndex, 1);
 
       await db.put('cart', cart);
-
-      // Perbarui state
       this.updateState({
         cart,
         ...this.calculateTotals(cart.billRequest),
       });
     } catch (error: any) {
-      this.toastService.error(error.message || 'Gagal memperbarui jumlah menu');
+      this.toastService.error(error.message || 'Gagal menghapus menu');
     }
   }
 
   async resetCart(): Promise<void> {
+    if (!this.dbPromise) return;
     try {
       const db = await this.dbPromise;
       await db.delete('cart', 'admin-cart');

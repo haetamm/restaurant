@@ -1,0 +1,57 @@
+<div
+  class="bg-white rounded-md shadow-xs hover:shadow-md transition-all duration-200 border border-gray-100 mb-3 flex p-1"
+>
+  <!-- Left-aligned image with bottom gap -->
+  <div class="w-32 h-32 relative overflow-hidden shrink-0 m-2 self-center">
+    <p-image
+      [src]="createImgUrl(menu?.image?.id)"
+      [alt]="menu?.name"
+      [preview]="true"
+      width="128"
+      height="128"
+      class="w-full h-full object-cover rounded-md"
+    >
+      <ng-template #indicator>
+        <div
+          class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
+        >
+          <i class="pi pi-search text-white text-xl"></i>
+        </div>
+      </ng-template>
+    </p-image>
+  </div>
+
+  <!-- Content -->
+  <div class="p-3 flex-1 flex flex-col">
+    <!-- Menu info -->
+    <div class="mb-2">
+      <h3 class="text-lg font-semibold text-gray-900 line-clamp-1">
+        {{ menu?.name }}
+      </h3>
+      <p class="text-amber-600 font-bold text-lg">
+        Rp {{ menu?.price | number: "1.0-0" }}
+      </p>
+    </div>
+
+    <!-- Category and buttons -->
+    <div class="mt-auto flex justify-between items-center">
+      <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded-md">
+        {{ menu?.category }}
+      </span>
+      <div class="flex gap-2">
+        <button
+          (click)="onHandleUpdate()"
+          class="p-2 text-gray-700 hover:text-white hover:bg-blue-500 rounded-md transition-colors duration-200"
+        >
+          <i class="pi pi-pencil"></i>
+        </button>
+        <button
+          (click)="onHandleDelete()"
+          class="p-2 text-gray-700 hover:text-white hover:bg-red-500 rounded-md transition-colors duration-200"
+        >
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

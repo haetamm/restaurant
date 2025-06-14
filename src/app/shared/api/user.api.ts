@@ -63,4 +63,24 @@ export const userApi = {
       errorHandle(error);
     }
   },
+
+  getAllUser: async () => {
+    try {
+      const response = await axiosInstance.post('/api/user/all');
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  activateOrInactivateUser: async (id: string) => {
+    try {
+      const response = await axiosInstance.post('/api/user/status', { id });
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
 };

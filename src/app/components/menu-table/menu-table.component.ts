@@ -8,6 +8,7 @@ import { createImgUrl } from '../../shared/utils/helper';
 import { Image } from 'primeng/image';
 import { ModalService } from '../../shared/services/modal.service';
 import { Tooltip } from 'primeng/tooltip';
+import { MenuTableCardComponent } from '../menu-table-card/menu-table-card.component';
 
 @Component({
   selector: 'app-menu-table',
@@ -19,6 +20,7 @@ import { Tooltip } from 'primeng/tooltip';
     FormsModule,
     Image,
     Tooltip,
+    MenuTableCardComponent,
   ],
   templateUrl: './menu-table.component.html',
 })
@@ -47,12 +49,12 @@ export class MenuTableComponent {
     });
   }
 
-  onHandleDetail(id: string) {
+  handleUpdate(id: string) {
     this.modalService.showMenuForm();
     this.menuService.getMenuById(id);
   }
 
-  deleteMenuById(menuId: string): void {
+  handleDelete(menuId: string): void {
     this.modalService.showDelete(async () => {
       this.menuService.deleteMenu(menuId);
     });

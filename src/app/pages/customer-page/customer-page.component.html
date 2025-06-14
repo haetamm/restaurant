@@ -4,13 +4,13 @@
   <div
     class="space-y-3 px-1 xs:space-y-0 xs:flex justify-between py-1 items-center mb-3 sticky z-0"
   >
-    <p class="font-bold text-2xl w-full">Pelanggan</p>
-    <div class="w-full flex space-x-2 items-center">
+    <h2 class="w-full text-2xl font-bold text-gray-800">Pelanggan</h2>
+    <div class="w-full flex space-x-2 items-center justify-end">
       <app-searchbar
         [initialSearch]="initialSearch"
         placeholder="Search name"
         (searchChange)="onSearch($event)"
-        class="w-full"
+        class="w-full xl:w-1/2"
       />
       <button
         class="w-12 h-9.5 bg-white border-[1px] border-slate-300 rounded-md lg:rounded-lg flex justify-center items-center cursor-pointer"

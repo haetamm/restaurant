@@ -1,49 +1,62 @@
 <div
-  class="bg-white rounded-lg transition-all"
+  class="bg-white rounded-xl transition-all duration-200 overflow-hidden"
   [ngClass]="
     showButton
-      ? 'p-4 border shadow border-gray-200 md:rounded-none md:shadow-none md:border-none'
-      : 'p-2 xs:p-4'
+      ? 'shadow-sm hover:shadow-md border border-gray-100 md:shadow-none md:border-none'
+      : ''
   "
 >
-  <div class="flex space-x-4">
-    <div class="flex-1 space-y-2">
-      <div class="flex justify-between items-center">
-        <p class="font-bold text-lg text-black">
-          {{ customer?.name }}
-        </p>
-        <small
-          class="text-white p-0.5 rounded-sm flex justify-center items-center w-[60px]"
-          [ngClass]="customer?.member ? 'bg-yellow-600' : 'bg-green-600'"
-        >
-          {{ customer?.member ? "Member" : "Basic" }}
-        </small>
-      </div>
-      <p>
-        {{ customer?.phoneNumber || "-" }}
-      </p>
-      <p class="xs:w-1/2 md:w-full">
-        <span class="font-bold">Alamat :</span>
-        {{ customer?.address || "-" }}
-      </p>
+  <div [ngClass]="showButton ? 'p-5' : 'px-4 pt-3'">
+    <!-- Header Section -->
+    <div class="flex justify-between items-start mb-4">
+      <h3 class="text-xl font-bold text-gray-800 truncate max-w-[70%]">
+        {{ customer?.name }}
+      </h3>
+      <span
+        class="px-3 py-1 rounded-full text-xs font-semibold"
+        [ngClass]="
+          customer?.member
+            ? 'bg-amber-100 text-amber-800'
+            : 'bg-blue-100 text-blue-800'
+        "
+      >
+        {{ customer?.member ? "Member" : "Basic" }}
+      </span>
+    </div>
 
-      <div *ngIf="showButton" class="flex justify-end space-x-2">
-        <p-button
-          (click)="onDetail(customer!.id)"
-          icon="pi pi-eye"
-          size="small"
-          severity="info"
-          styleClass="!text-xs !px-2 !py-1"
-        />
-        <p-button
-          (click)="updateCustomer()"
-          [disabled]="customer?.member"
-          icon="pi pi-pencil"
-          size="small"
-          severity="warn"
-          styleClass="!text-xs !px-2 !py-1"
-        />
+    <!-- Customer Details -->
+    <div class="space-y-3 mb-5">
+      <div class="flex items-center">
+        <i class="pi pi-phone mr-2 text-gray-500"></i>
+        <p class="text-gray-600">{{ customer?.phoneNumber || "-" }}</p>
       </div>
+
+      <div class="flex">
+        <i class="pi pi-map-marker mr-2 text-gray-500 mt-1"></i>
+        <p class="text-gray-600 flex-1">
+          <span class="font-medium">Alamat:</span>
+          {{ customer?.address || "-" }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div *ngIf="showButton" class="flex justify-end space-x-3">
+      <button
+        (click)="onDetail(customer!.id)"
+        class="flex items-center px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors"
+      >
+        <i class="pi pi-eye mr-2"></i>
+        <span>Detail</span>
+      </button>
+      <button
+        (click)="updateCustomer()"
+        [disabled]="customer?.member"
+        class="flex items-center px-4 py-2 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <i class="pi pi-pencil mr-2"></i>
+        <span>Edit</span>
+      </button>
     </div>
   </div>
 </div>

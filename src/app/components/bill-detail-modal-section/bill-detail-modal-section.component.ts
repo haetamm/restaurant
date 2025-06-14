@@ -37,7 +37,9 @@ export class BillDetailModalSectionComponent {
   }
 
   handleBack(id: string) {
-    this.customerService.fetchCustomerTransDetail(id);
+    if (!this.customerTransDetail) {
+      this.customerService.fetchCustomerTransDetail(id);
+    }
     this.modalService.showCustomerDetail();
   }
 }

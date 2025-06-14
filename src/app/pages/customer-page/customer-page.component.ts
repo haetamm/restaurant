@@ -53,7 +53,7 @@ export class CustomerPageComponent {
     this.initialSearch = queryParams['name'] || '';
 
     const customers = this.customerService.getCustomers();
-    if (!customers || customers.length < 10 || this.initialSearch !== '') {
+    if (customers.length < 10 || this.initialSearch !== '') {
       this.customerService.fetchCustomers(queryParams);
     }
   }
@@ -76,7 +76,6 @@ export class CustomerPageComponent {
       ...this.route.snapshot.queryParams,
       page: 1,
       direction: this.sortDirection,
-      sortBy: 'name',
     };
 
     this.navigateWithParams(queryParams);

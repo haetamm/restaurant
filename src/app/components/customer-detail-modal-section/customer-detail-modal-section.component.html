@@ -39,7 +39,7 @@
             <app-customer-card [customer]="customerTransDetail" />
 
             <!-- History Section -->
-            <div class="mt-4 px-2 xs:px-4">
+            <div class="px-3 xs:px-4">
               <h3 class="text-lg font-semibold mb-2">Riwayat Transaksi</h3>
 
               <!-- Jika tidak ada history -->
@@ -51,7 +51,7 @@
               </div>
 
               <!-- Daftar transaksi  -->
-              <div class="mt-4" *ngIf="customerTransDetail?.history?.length">
+              <div class="mt-1" *ngIf="customerTransDetail?.history?.length">
                 <table
                   class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden"
                 >

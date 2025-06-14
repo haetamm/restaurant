@@ -1,0 +1,111 @@
+<div class="bg-white">
+  <div class="flex justify-between mb-1 lg:mb-3 items-center">
+    <h2 class="text-2xl font-bold text-gray-800 w-full">Pengguna</h2>
+    <div class="w-full lg:w-1/2">
+      <div class="flex">
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            pInputText
+            type="text"
+            class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg bg-gray-50 transition-all duration-200 outline-none"
+            [(ngModel)]="searchText"
+            placeholder="Search users..."
+          />
+        </p-iconfield>
+      </div>
+    </div>
+  </div>
+
+  <p-table
+    [columns]="cols"
+    [value]="filteredUsers"
+    [paginator]="true"
+    [rows]="rows"
+    [first]="first"
+    [totalRecords]="filteredUsers.length"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    (onPage)="onPageChange($event)"
+    styleClass="w-full hidden md:block"
+    [scrollable]="true"
+    [scrollHeight]="'calc(100vh - 190px)'"
+    stripedRows
+    [loading]="loading"
+  >
+    <ng-template #header let-columns>
+      <tr class="bg-gray-50">
+        <th
+          *ngFor="let col of cols"
+          class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="loading" let-loading>
+      <tr style="height: 46px">
+        <td *ngFor="let col of cols; let even = even">
+          <p-skeleton
+            [ngStyle]="{
+              width: even ? (col.field === 'email' ? '30%' : '40%') : '60%',
+            }"
+          />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr class="border-b border-gray-100">
+        <td class="px-2 py-2 text-wrap">
+          <div class="text-sm font-medium text-gray-900">
+            {{ user.name }}
+          </div>
+          <div class="text-xs text-gray-500">{{ user.username }}</div>
+        </td>
+        <td class="px-2 py-2 text-wrap break-all text-sm text-gray-500">
+          {{ user.email }}
+        </td>
+        <td class="px-2 py-2 text-wrap break-all text-sm text-gray-500">
+          {{ user.phone }}
+        </td>
+
+        <td class="px-2 py-2 text-wrap text-sm text-gray-500">
+          {{ formatDate(user.createdAt) }}
+        </td>
+        <td class="px-1 py-2 text-sm font-medium">
+          <div class="flex space-x-1">
+            <button
+              pButton
+              pTooltip="View details"
+              tooltipPosition="top"
+              icon="pi pi-eye"
+              class="p-button-rounded p-button-text p-button-sm !text-blue-500 hover:!bg-blue-50"
+              (click)="viewUser(user)"
+            ></button>
+            <button
+              pButton
+              pTooltip="Inactivate user"
+              tooltipPosition="top"
+              icon="pi pi-ban"
+              class="p-button-rounded p-button-text p-button-sm !text-red-500 hover:!bg-red-50"
+              (click)="deleteUser(user)"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+          @if (searchText) {
+            No users found matching "{{ searchText }}"
+          } @else {
+            No users available
+          }
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

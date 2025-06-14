@@ -67,4 +67,29 @@ router.post('/me/confirm-email', async (req, res) => {
   }
 });
 
+router.post('/all', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const response = await axiosInstance.get(`/user/all`);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to load profile',
+    });
+  }
+});
+
+router.put('/status', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const { body } = req;
+    const response = await axiosInstance.put(`/user/${body.id}`);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to load profile',
+    });
+  }
+});
+
 export default router;

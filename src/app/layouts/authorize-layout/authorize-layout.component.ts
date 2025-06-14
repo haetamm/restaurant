@@ -81,8 +81,6 @@ export class AuthorizeLayoutComponent {
 
   constructor(private router: Router) {}
 
-  ngOnInit(): void {}
-
   toggleSidebar(): void {
     this.showSidebar = !this.showSidebar;
   }
