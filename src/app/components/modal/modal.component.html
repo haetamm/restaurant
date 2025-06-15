@@ -65,6 +65,22 @@
           state.type === MODAL_TYPES.CUSTOMER_FORM
         "
       />
+
+      <!-- render user detail -->
+      <app-user-modal-section
+        (onClose)="closeModal()"
+        *ngIf="state.type === MODAL_TYPES.USER_DETAIL"
+      />
+
+      <!-- Render small modal for activate or inactivate -->
+      <app-modal-small
+        *ngIf="state.type === MODAL_TYPES.USER_ACTIVATE_INACTIVATE"
+        [title]="getModalButtonLabel()"
+        [desc]="`Are you sure you want to ${getModalButtonLabel()} this user?`"
+        [buttonLabel]="getModalButtonLabel()"
+        (onSubmit)="executeCallback()"
+        (onClose)="closeModal()"
+      />
     </ng-container>
   </div>
 </div>

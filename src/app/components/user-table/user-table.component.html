@@ -30,12 +30,12 @@
     (onPage)="onPageChange($event)"
     styleClass="w-full hidden md:block"
     [scrollable]="true"
-    [scrollHeight]="'calc(100vh - 190px)'"
+    [scrollHeight]="'calc(100vh - 175px)'"
     stripedRows
-    [loading]="loading"
+    paginatorStyleClass="custom-paginator"
   >
     <ng-template #header let-columns>
-      <tr class="bg-gray-50">
+      <tr class="bg-gray-50 w-full">
         <th
           *ngFor="let col of cols"
           class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -44,36 +44,33 @@
         </th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="loading" let-loading>
-      <tr style="height: 46px">
-        <td *ngFor="let col of cols; let even = even">
-          <p-skeleton
-            [ngStyle]="{
-              width: even ? (col.field === 'email' ? '30%' : '40%') : '60%',
-            }"
-          />
-        </td>
-      </tr>
-    </ng-template>
     <ng-template pTemplate="body" let-user>
-      <tr class="border-b border-gray-100">
-        <td class="px-2 py-2 text-wrap">
+      <tr class="border-b border-gray-100 text-sm">
+        <td *ngIf="!loading; else loaded" class="px-2 py-2 text-wrap">
           <div class="text-sm font-medium text-gray-900">
             {{ user.name }}
           </div>
           <div class="text-xs text-gray-500">{{ user.username }}</div>
         </td>
-        <td class="px-2 py-2 text-wrap break-all text-sm text-gray-500">
+        <td
+          *ngIf="!loading; else loaded"
+          class="px-2 py-2 text-wrap break-all text-gray-500"
+        >
           {{ user.email }}
         </td>
-        <td class="px-2 py-2 text-wrap break-all text-sm text-gray-500">
+        <td
+          *ngIf="!loading; else loaded"
+          class="px-2 py-2 text-wrap text-gray-500"
+        >
           {{ user.phone }}
         </td>
-
-        <td class="px-2 py-2 text-wrap text-sm text-gray-500">
+        <td
+          *ngIf="!loading; else loaded"
+          class="px-2 py-2 text-wrap text-gray-500"
+        >
           {{ formatDate(user.createdAt) }}
         </td>
-        <td class="px-1 py-2 text-sm font-medium">
+        <td *ngIf="!loading; else loaded" class="px-1 py-2 font-medium">
           <div class="flex space-x-1">
             <button
               pButton
@@ -81,18 +78,24 @@
               tooltipPosition="top"
               icon="pi pi-eye"
               class="p-button-rounded p-button-text p-button-sm !text-blue-500 hover:!bg-blue-50"
-              (click)="viewUser(user)"
+              (click)="viewUser(user.id)"
             ></button>
             <button
               pButton
-              pTooltip="Inactivate user"
+              [disabled]="!IsSuperAdmin"
+              [pTooltip]="getUserTooltip(user)"
               tooltipPosition="top"
-              icon="pi pi-ban"
-              class="p-button-rounded p-button-text p-button-sm !text-red-500 hover:!bg-red-50"
-              (click)="deleteUser(user)"
+              [icon]="getUserIcon(user)"
+              [ngClass]="getUserIconClass(user)"
+              class="p-button-rounded p-button-text p-button-sm hover:!bg-red-50 disabled:bg-white"
+              (click)="activateOrInactivateUser(user.id)"
             ></button>
           </div>
         </td>
+
+        <ng-template #loaded>
+          <td><p-skeleton></p-skeleton></td>
+        </ng-template>
       </tr>
     </ng-template>
 

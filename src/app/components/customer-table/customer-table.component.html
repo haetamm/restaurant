@@ -81,7 +81,7 @@
             <div class="flex space-x-2">
               <button
                 pButton
-                pTooltip="Lihat Pelanggan"
+                pTooltip="View Details"
                 tooltipPosition="top"
                 icon="pi pi-eye"
                 class="p-button-rounded p-button-text p-button-sm !text-blue-500 hover:!bg-blue-50"
@@ -89,10 +89,12 @@
               ></button>
               <button
                 pButton
-                pTooltip="Update Pelanggan"
+                [disabled]="customer.member"
+                [pTooltip]="customer.member ? '' : 'Update'"
                 tooltipPosition="top"
                 icon="pi pi-pencil"
-                class="p-button-rounded p-button-text p-button-sm !text-red-500 hover:!bg-red-50"
+                class="p-button-rounded p-button-text p-button-sm !text-red-500"
+                [ngClass]="customer.member ? '' : 'hover:!bg-red-50'"
                 (click)="customer.member ? null : handleUpdate(customer.id)"
               ></button>
             </div>

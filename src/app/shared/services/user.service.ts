@@ -11,6 +11,7 @@ export interface User {
   address: string;
   email: string;
   username: string;
+  isEnable: boolean;
   roles: Array<string>;
   createdAt: string;
   updatedAt: string;
@@ -19,6 +20,7 @@ export interface User {
 interface UsersState {
   loading: boolean;
   users: User[];
+  userDetail: User | null;
 }
 
 @Injectable({
@@ -28,6 +30,7 @@ export class UserService {
   private state = new BehaviorSubject<UsersState>({
     users: [],
     loading: false,
+    userDetail: null,
   });
   state$: Observable<UsersState> = this.state.asObservable();
 
@@ -60,14 +63,14 @@ export class UserService {
     try {
       const updatedUser = await userApi.activateOrInactivateUser(id);
       const currentUsers = this.state.value.users;
-      const updatedUsers = currentUsers.map((m) =>
-        m.id === updatedUser.id ? updatedUser : m,
+      const updatedUsers = currentUsers.map((user) =>
+        user.id === id ? { ...user, isEnable: !user.isEnable } : user,
       );
 
       this.updateState({
         users: updatedUsers,
       });
-      this.toastService.success('User berhasil diupdate!');
+      this.toastService.success(updatedUser);
     } catch (error: any) {
       this.toastService.error(error.message || 'Gagal mengupdate user');
     }
@@ -77,8 +80,18 @@ export class UserService {
     return this.state$;
   }
 
+  getUserById(id: string): void {
+    const users = this.state.value.users;
+    const user = users.find((user) => user.id === id);
+    this.updateState({ userDetail: user });
+  }
+
   getUsers(): User[] | [] {
     return this.state.value.users;
+  }
+
+  getUserDetail(): User | null {
+    return this.state.value.userDetail;
   }
 
   private updateState(newState: Partial<UsersState>): void {

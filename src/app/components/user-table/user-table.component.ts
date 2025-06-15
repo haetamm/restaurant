@@ -11,19 +11,10 @@ import { TooltipModule } from 'primeng/tooltip';
 import { formatDate } from './../../shared/utils/helper';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
-import { UserService } from '../../shared/services/user.service';
-
-interface User {
-  id: string;
-  name: string;
-  phone: string;
-  address: string;
-  email: string;
-  username: string;
-  roles: string[];
-  createdAt: string;
-  updatedAt: string;
-}
+import { User, UserService } from '../../shared/services/user.service';
+import { Skeleton } from 'primeng/skeleton';
+import { ModalService } from '../../shared/services/modal.service';
+import { usePreload } from '../../shared/utils/use-preload';
 
 interface Column {
   field: string;
@@ -44,10 +35,13 @@ interface Column {
     TooltipModule,
     IconField,
     InputIcon,
+    Skeleton,
   ],
   templateUrl: './user-table.component.html',
+  styleUrl: './user-table.component.scss',
 })
 export class UserTableComponent {
+  preload = usePreload(false);
   users: User[] = [];
   loading: boolean = false;
   searchText: string = '';
@@ -57,6 +51,7 @@ export class UserTableComponent {
   cols!: Column[];
 
   private userService = inject(UserService);
+  private modalService = inject(ModalService);
 
   ngOnInit(): void {
     this.userService.getState().subscribe((state) => {
@@ -67,8 +62,8 @@ export class UserTableComponent {
     this.cols = [
       { field: 'name', header: 'Nama' },
       { field: 'email', header: 'Email' },
-      { field: 'phone', header: 'No. Hp.' },
-      { field: 'createdAt', header: 'Bergabung' },
+      { field: 'phone', header: 'Telpon' },
+      { field: 'createdAt', header: 'Terdaftar' },
       { field: 'action', header: 'Action' },
     ];
   }
@@ -91,13 +86,36 @@ export class UserTableComponent {
     this.rows = event.rows;
   }
 
-  viewUser(user: User): void {
-    console.log('View user:', user);
-    // Implement view logic here
+  viewUser(id: string): void {
+    this.userService.getUserById(id);
+    this.modalService.showUserDetail();
   }
 
-  deleteUser(user: User): void {
-    console.log('Delete user:', user);
-    // Implement delete logic here
+  activateOrInactivateUser(id: string): void {
+    if (this.IsSuperAdmin) {
+      this.userService.getUserById(id);
+      this.modalService.showUserAcitvateOrInactivate(async () => {
+        this.userService.activateOrInactivateUser(id);
+      });
+    }
+  }
+
+  get IsSuperAdmin() {
+    return this.preload.isSuperAdmin();
+  }
+
+  getUserTooltip(user: User): string {
+    if (!this.IsSuperAdmin) {
+      return 'Access Denied';
+    }
+    return user.isEnable ? 'Inactivate' : 'Activate';
+  }
+
+  getUserIcon(user: User): string {
+    return user.isEnable ? 'pi pi-verified' : 'pi pi-ban';
+  }
+
+  getUserIconClass(user: User): string {
+    return user.isEnable ? '!text-green-500' : '!text-red-500';
   }
 }

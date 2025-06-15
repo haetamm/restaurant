@@ -76,7 +76,7 @@ export const userApi = {
 
   activateOrInactivateUser: async (id: string) => {
     try {
-      const response = await axiosInstance.post('/api/user/status', { id });
+      const response = await axiosInstance.put('/api/user/status', { id });
       const { data } = response.data;
       return data;
     } catch (error: any) {

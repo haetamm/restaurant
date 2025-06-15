@@ -11,6 +11,8 @@ import { MenuFormModalSectionComponent } from '../menu-form-modal-section/menu-f
 import { ConfirmEmailModalSectionComponent } from '../confirm-email-modal-section/confirm-email-modal-section.component';
 import { CustomerDetailModalSectionComponent } from '../customer-detail-modal-section/customer-detail-modal-section.component';
 import { BillService } from '../../shared/services/bill.service';
+import { UserModalSectionComponent } from '../user-modal-section/user-modal-section.component';
+import { User, UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-modal',
@@ -22,6 +24,7 @@ import { BillService } from '../../shared/services/bill.service';
     MenuFormModalSectionComponent,
     ConfirmEmailModalSectionComponent,
     CustomerDetailModalSectionComponent,
+    UserModalSectionComponent,
   ],
   templateUrl: './modal.component.html',
 })
@@ -31,6 +34,7 @@ export class ModalComponent implements OnInit {
     type: string;
     callback: (() => void) | null;
   }>;
+  user: User | null = null;
 
   MODAL_TYPES = MODAL_TYPES;
 
@@ -38,10 +42,14 @@ export class ModalComponent implements OnInit {
     private modalService: ModalService,
     private profileService: ProfileService,
     private billService: BillService,
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
     this.modalState$ = this.modalService.getModalState();
+    this.userService.getState().subscribe((state) => {
+      this.user = state.userDetail;
+    });
   }
 
   closeModal(): void {
@@ -55,5 +63,10 @@ export class ModalComponent implements OnInit {
 
   handleLogout() {
     this.profileService.logout();
+  }
+
+  getModalButtonLabel(): string {
+    if (!this.user) return '';
+    return this.user.isEnable ? 'Inactivate' : 'Activate';
   }
 }

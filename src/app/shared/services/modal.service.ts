@@ -12,6 +12,8 @@ export const MODAL_TYPES = {
   CONFIRM_EMAIL_FORM: 'confirmEmailForm',
   CUSTOMER_DETAIL: 'customerDetail',
   CUSTOMER_FORM: 'customerForm',
+  USER_DETAIL: 'userDetail',
+  USER_ACTIVATE_INACTIVATE: 'userActivateOrInactivate',
 } as const;
 
 // Interface untuk state modal
@@ -121,6 +123,24 @@ export class ModalService {
       isVisible: true,
       type: MODAL_TYPES.CUSTOMER_FORM,
       callback: null,
+      loading: false,
+    });
+  }
+
+  showUserDetail(): void {
+    this.modalState$.next({
+      isVisible: true,
+      type: MODAL_TYPES.USER_DETAIL,
+      callback: null,
+      loading: false,
+    });
+  }
+
+  showUserAcitvateOrInactivate(callback: () => void | Promise<void>): void {
+    this.modalState$.next({
+      isVisible: true,
+      type: MODAL_TYPES.USER_ACTIVATE_INACTIVATE,
+      callback,
       loading: false,
     });
   }
