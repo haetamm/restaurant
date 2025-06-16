@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { BASE_URL } from './constans';
 import { BillResponse } from '../services/bill.service';
+import { User } from '../services/user.service';
 
 export const errorHandle = (error: any) => {
   const errorMessage = error.response?.data?.message;
@@ -94,4 +95,19 @@ export const selectPayment = (urlRedirect: string): void => {
     'paymentPopup',
     `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=no`,
   );
+};
+
+export const getUserTooltip = (isEnable: boolean, isAdmin: boolean): string => {
+  if (!isAdmin) {
+    return 'Access Denied';
+  }
+  return isEnable ? 'Inactivate' : 'Activate';
+};
+
+export const getUserIcon = (isEnable: boolean): string => {
+  return isEnable ? 'pi pi-verified' : 'pi pi-ban';
+};
+
+export const getUserIconClass = (isEnable: boolean): string => {
+  return isEnable ? '!text-green-500' : '!text-red-500';
 };

@@ -3,8 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   ForgotPasswordFormType,
-  LoginFormType,
-  RegisterFormType,
   ResetPasswordFormType,
 } from '../utils/validation';
 import { HotToastService } from '@ngxpert/hot-toast';
@@ -16,6 +14,24 @@ import { authApi } from '../api/auth.api';
 
 interface AuthState {
   loading: boolean;
+}
+
+export interface LoginUser {
+  username: string;
+  password: string;
+}
+
+export interface ResetPass {
+  password: string;
+  token: string;
+}
+
+export interface RegisterUser {
+  name: string;
+  phone: string;
+  email: string;
+  username: string;
+  password: string;
 }
 
 @Injectable({
@@ -37,10 +53,10 @@ export class AuthService {
     return this.state.value.loading;
   }
 
-  async register(data: RegisterFormType): Promise<void> {
+  async register(payload: RegisterUser): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const message = await authApi.register(data);
+      const message = await authApi.register(payload);
       this.toastService.success(message);
       await this.router.navigate([urlPage.LOGIN]);
     } catch (error: any) {
@@ -52,12 +68,12 @@ export class AuthService {
     }
   }
 
-  async login(data: LoginFormType): Promise<void> {
+  async login(payload: LoginUser): Promise<void> {
     this.updateState({ loading: true });
     try {
-      const token = await authApi.login(data);
+      const token = await authApi.login(payload);
       authApi.putAccessToken(token);
-      this.toastService.success(`Welcome, ${data.username}!`);
+      this.toastService.success(`Welcome, ${payload.username}!`);
       await this.router.navigate([urlPage.HOME]);
     } catch (error: any) {
       this.toastService.error(error.message || 'Login failed', {

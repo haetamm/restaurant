@@ -74,7 +74,32 @@ router.post('/all', async (req, res) => {
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Failed to load profile',
+      message: error.response?.data?.message || 'Failed to load users',
+    });
+  }
+});
+
+router.post('/admin', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const response = await axiosInstance.get(`/user/admin`);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to load admin',
+    });
+  }
+});
+
+router.put('/admin', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const { body } = req;
+    const response = await axiosInstance.put(`/user/admin/${body.id}`, body);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to load admin',
     });
   }
 });

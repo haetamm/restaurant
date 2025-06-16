@@ -1,5 +1,5 @@
 <div
-  class="w-full flex min-h-full items-center justify-center p-3 sm:items-center"
+  class="w-full flex min-h-full items-center justify-center p-3.5 sm:items-center"
 >
   <div
     class="transform overflow-hidden rounded-xl text-left transition-all w-full max-w-[360px] lg:max-w-md bg-white"
@@ -23,12 +23,14 @@
       </div>
 
       <!-- Content -->
-      <div class="p-6 space-y-4">
+      <div class="p-4 space-y-4">
         <div class="flex items-start">
           <div class="flex-shrink-0 text-purple-600">
             <i class="pi pi-envelope text-lg"></i>
           </div>
-          <p class="ml-3 text-gray-700">{{ user?.email }}/p></p>
+          <p class="ml-3 text-gray-700 wrap-text break-all">
+            {{ user?.email }}
+          </p>
         </div>
 
         <div class="flex items-start">

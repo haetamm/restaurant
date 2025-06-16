@@ -1,6 +1,8 @@
 import { createAxiosInstance } from './axios-config';
 import { errorHandle } from '../utils/helper';
 import Cookies from 'js-cookie';
+import { RegisterUser, ResetPass } from '../services/auth.service';
+import { RegisterAdminRequest } from '../services/admin.service';
 
 const axiosInstance = createAxiosInstance();
 
@@ -24,27 +26,22 @@ export const authApi = {
     }
   },
 
-  register: async ({
-    name,
-    phone,
-    email,
-    username,
-    password,
-  }: {
-    name: string;
-    phone: string;
-    email: string;
-    username: string;
-    password: string;
-  }) => {
+  register: async (payload: RegisterUser) => {
     try {
-      const response = await axiosInstance.post('/api/auth/register', {
-        name,
-        phone,
-        email,
-        username,
-        password,
-      });
+      const response = await axiosInstance.post('/api/auth/register', payload);
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  registerAdmin: async (payload: RegisterAdminRequest) => {
+    try {
+      const response = await axiosInstance.post(
+        '/api/auth/register/admin',
+        payload,
+      );
       const { data } = response.data;
       return data;
     } catch (error: any) {
@@ -64,18 +61,12 @@ export const authApi = {
     }
   },
 
-  resetPassword: async ({
-    password,
-    token,
-  }: {
-    password: string;
-    token: string;
-  }) => {
+  resetPassword: async (payload: ResetPass) => {
     try {
-      const response = await axiosInstance.post('/api/auth/reset-password', {
-        token,
-        password,
-      });
+      const response = await axiosInstance.post(
+        '/api/auth/reset-password',
+        payload,
+      );
       const { data } = response.data;
       return data;
     } catch (error: any) {

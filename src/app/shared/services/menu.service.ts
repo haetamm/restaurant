@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { menuApi } from '../api/menu.api';
 import { ModalService } from './modal.service';
+import { PaginationResponse } from '../utils/types';
 
 export interface MenuRequest {
   name: string;
@@ -23,15 +24,6 @@ export interface MenuUpdateRequest {
   price: number;
   categoryId: string;
   image?: any;
-}
-
-export interface PaginationResponse {
-  totalPages: number;
-  totalElement: number;
-  page: number;
-  size: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
 }
 
 export interface MenuQueryParams {

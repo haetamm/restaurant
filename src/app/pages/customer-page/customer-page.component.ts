@@ -1,10 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  CustomerService,
-  PaginationResponse,
-} from '../../shared/services/customer.service';
+import { CustomerService } from '../../shared/services/customer.service';
 import { provideIcons, NgIcon } from '@ng-icons/core';
 import {
   bootstrapSortAlphaDown,
@@ -14,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CustomerTableComponent } from '../../components/customer-table/customer-table.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { PaginationResponse } from '../../shared/utils/types';
 
 @Component({
   selector: 'app-customer-page',

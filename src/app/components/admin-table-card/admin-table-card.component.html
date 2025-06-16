@@ -1,0 +1,58 @@
+<div
+  class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
+>
+  <!-- Header with username and status -->
+  <div class="flex justify-between items-start mb-2">
+    <div>
+      <h3 class="font-medium text-gray-900 text-base">
+        {{ admin.username }}
+      </h3>
+      <p class="text-gray-500 text-sm">{{ admin.email }}</p>
+    </div>
+    <span
+      class="text-xs px-2 py-1 rounded-full"
+      [ngClass]="
+        admin.isEnable ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+      "
+    >
+      {{ admin.isEnable ? "Active" : "Inactive" }}
+    </span>
+  </div>
+
+  <!-- Admin Details -->
+  <div class="space-y-2 mt-3">
+    <div class="flex items-center">
+      <i class="pi pi-calendar text-gray-400 mr-2 text-sm"></i>
+      <span class="text-gray-600 text-sm"
+        >Bergabung: {{ formatDate(admin.createdAt) }}</span
+      >
+    </div>
+    <div class="flex items-center">
+      <i class="pi pi-history text-gray-400 mr-2 text-sm"></i>
+      <span class="text-gray-600 text-sm"
+        >Diperbarui: {{ formatDate(admin.updatedAt) }}</span
+      >
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-between mt-3 pt-2 border-t border-gray-100">
+    <button
+      pButton
+      [disabled]="!IsSuperAdmin"
+      tooltipPosition="top"
+      [icon]="getUserIcon(admin.isEnable)"
+      [ngClass]="getUserIconClass(admin.isEnable)"
+      class="p-button-rounded p-button-text p-button-sm hover:!bg-red-50 disabled:bg-white"
+      (click)="activateOrInactivateUser(admin.id)"
+    ></button>
+    <button
+      pButton
+      pTooltip="Update Admin"
+      tooltipPosition="top"
+      icon="pi pi-pencil"
+      class="p-button-rounded p-button-text p-button-sm !text-yellow-500 hover:!bg-blue-50"
+      (click)="updateAdmin(admin.id)"
+    ></button>
+  </div>
+</div>

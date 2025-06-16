@@ -1,0 +1,81 @@
+<form [formGroup]="adminForm" (ngSubmit)="onSubmit()" class="w-full space-y-3">
+  <div class="space-y-5 text-sm">
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          class="w-full"
+          id="username"
+          formControlName="username"
+          autocomplete="off"
+        />
+        <label for="username">Username</label>
+      </p-floatlabel>
+      <small
+        *ngIf="
+          adminForm.get('username')?.invalid &&
+          adminForm.get('username')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ adminForm.get("username")?.errors?.["zod"] }}
+      </small>
+    </div>
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          type="email"
+          class="w-full"
+          id="email"
+          formControlName="email"
+          autocomplete="off"
+        />
+        <label for="email">Email</label>
+      </p-floatlabel>
+      <small
+        *ngIf="
+          adminForm.get('email')?.invalid && adminForm.get('email')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ adminForm.get("email")?.errors?.["zod"] }}
+      </small>
+    </div>
+    <div class="flex flex-col w-full">
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          type="password"
+          class="w-full"
+          id="password"
+          formControlName="password"
+          autocomplete="off"
+        />
+        <label for="password">Password Baru</label>
+      </p-floatlabel>
+      <small
+        *ngIf="
+          adminForm.get('password')?.invalid &&
+          adminForm.get('password')?.touched
+        "
+        class="text-red-500"
+      >
+        {{ adminForm.get("password")?.errors?.["zod"] }}
+      </small>
+    </div>
+  </div>
+  <hr class="border-slate-300" />
+  <div class="flex justify-end">
+    <p-button
+      [disabled]="adminForm.invalid || loading"
+      class="w-full md:w-[120px]"
+      [style]="{
+        width: '100%',
+      }"
+      [label]="loading ? 'Loading' : adminDetail ? 'Update' : 'Tambah'"
+      size="small"
+      type="submit"
+    />
+  </div>
+</form>

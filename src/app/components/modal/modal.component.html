@@ -66,6 +66,12 @@
         "
       />
 
+      <!-- render customer detail -->
+      <app-admin-modal-section
+        (onClose)="closeModal()"
+        *ngIf="state.type === MODAL_TYPES.ADMIN_FORM"
+      />
+
       <!-- render user detail -->
       <app-user-modal-section
         (onClose)="closeModal()"

@@ -14,6 +14,7 @@ export const MODAL_TYPES = {
   CUSTOMER_FORM: 'customerForm',
   USER_DETAIL: 'userDetail',
   USER_ACTIVATE_INACTIVATE: 'userActivateOrInactivate',
+  ADMIN_FORM: 'adminForm',
 } as const;
 
 // Interface untuk state modal
@@ -33,116 +34,73 @@ export class ModalService {
     loading: false,
   });
 
-  showLogout(): void {
+  // 🔁 Fungsi umum untuk menampilkan modal
+  private showModal(
+    type: string,
+    callback: (() => void | Promise<void>) | null = null,
+  ): void {
     this.modalState$.next({
       isVisible: true,
-      type: MODAL_TYPES.LOGOUT,
-      callback: null,
-      loading: false,
-    });
-  }
-
-  showDelete(callback: () => void | Promise<void>): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.DELETE,
+      type,
       callback,
       loading: false,
     });
   }
 
+  showLogout(): void {
+    this.showModal(MODAL_TYPES.LOGOUT);
+  }
+
+  showDelete(callback: () => void | Promise<void>): void {
+    this.showModal(MODAL_TYPES.DELETE, callback);
+  }
+
   showCart(): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.CART,
-      callback: null,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.CART);
   }
 
   showBillDetail(): void {
     if (window.innerWidth < 1024) {
-      this.modalState$.next({
-        isVisible: true,
-        type: MODAL_TYPES.BILL_DETAIL,
-        callback: null,
-        loading: false,
-      });
+      this.showModal(MODAL_TYPES.BILL_DETAIL);
     }
   }
 
   showCustomerBillDetail(): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.BILL_DETAIL,
-      callback: null,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.BILL_DETAIL);
   }
 
   showMenuForm(): void {
     if (window.innerWidth < 1024) {
-      this.modalState$.next({
-        isVisible: true,
-        type: MODAL_TYPES.MENU_FORM,
-        callback: null,
-        loading: false,
-      });
+      this.showModal(MODAL_TYPES.MENU_FORM);
     }
   }
 
   showMenuFormBulk(): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.MENU_FORM_BULK,
-      callback: null,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.MENU_FORM_BULK);
   }
 
   showConfirmEmailForm(): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.CONFIRM_EMAIL_FORM,
-      callback: null,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.CONFIRM_EMAIL_FORM);
   }
 
   showCustomerDetail(): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.CUSTOMER_DETAIL,
-      callback: null,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.CUSTOMER_DETAIL);
   }
 
   showCustomerForm(): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.CUSTOMER_FORM,
-      callback: null,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.CUSTOMER_FORM);
   }
 
   showUserDetail(): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.USER_DETAIL,
-      callback: null,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.USER_DETAIL);
   }
 
   showUserAcitvateOrInactivate(callback: () => void | Promise<void>): void {
-    this.modalState$.next({
-      isVisible: true,
-      type: MODAL_TYPES.USER_ACTIVATE_INACTIVATE,
-      callback,
-      loading: false,
-    });
+    this.showModal(MODAL_TYPES.USER_ACTIVATE_INACTIVATE, callback);
+  }
+
+  showAdminForm(): void {
+    this.showModal(MODAL_TYPES.ADMIN_FORM);
   }
 
   hideModal(): void {

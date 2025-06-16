@@ -1,0 +1,11 @@
+::ng-deep .custom-paginator {
+  margin-top: 3px;
+  padding: 2px 4px !important;
+  font-size: 12px !important;
+}
+
+::ng-deep .custom-paginator .p-paginator-page,
+::ng-deep .custom-paginator .p-dropdown {
+  padding: 2px 6px !important;
+  font-size: 12px !important;
+}

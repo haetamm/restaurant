@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { ModalService } from './modal.service';
 import { userApi } from '../api/user.api';
 
 export interface User {
@@ -39,7 +38,6 @@ export class UserService {
   );
 
   private readonly toastService = inject(HotToastService);
-  private readonly modalService = inject(ModalService);
 
   getLoading(): boolean {
     return this.state.value.loading;
@@ -69,6 +67,7 @@ export class UserService {
 
       this.updateState({
         users: updatedUsers,
+        userDetail: null,
       });
       this.toastService.success(updatedUser);
     } catch (error: any) {
@@ -92,6 +91,10 @@ export class UserService {
 
   getUserDetail(): User | null {
     return this.state.value.userDetail;
+  }
+
+  resetUserDetail(): void {
+    this.updateState({ userDetail: null });
   }
 
   private updateState(newState: Partial<UsersState>): void {

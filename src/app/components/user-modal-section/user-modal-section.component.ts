@@ -19,6 +19,7 @@ export class UserModalSectionComponent {
   }
 
   closeModal() {
+    this.userService.resetUserDetail();
     this.onClose.emit();
   }
 }

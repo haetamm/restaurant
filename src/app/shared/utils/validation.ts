@@ -43,6 +43,20 @@ const password = z
   .max(8, 'Max. 8 karakter')
   .regex(/^[a-zA-Z0-9]+$/, 'Hanya karakter alphanumerik');
 
+const passwordOptional = z
+  .string()
+  .trim()
+  .transform((val) => (val === '' ? undefined : val))
+  .optional()
+  .refine(
+    (val) =>
+      !val ||
+      (/^[a-zA-Z0-9]+$/.test(val) && val.length >= 4 && val.length <= 8),
+    {
+      message: 'Password harus 4-8 karakter dan hanya alphanumerik',
+    },
+  );
+
 const address = z
   .string()
   .trim()
@@ -262,3 +276,19 @@ export const customerSchema = z.object({
 });
 
 export type CustomerFormType = z.infer<typeof customerSchema>;
+
+export const registerAdminSchema = z.object({
+  username: usernameRegister,
+  email,
+  password: password,
+});
+
+export type RegisterAdminFormType = z.infer<typeof registerAdminSchema>;
+
+export const updateAdminSchema = z.object({
+  username: usernameRegister,
+  email,
+  password: passwordOptional,
+});
+
+export type UpdateAdminFormType = z.infer<typeof updateAdminSchema>;

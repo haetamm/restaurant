@@ -1,4 +1,3 @@
-// user-table.component.ts
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
@@ -8,18 +7,19 @@ import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
-import { formatDate } from './../../shared/utils/helper';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
+import {
+  formatDate,
+  getUserIcon,
+  getUserIconClass,
+  getUserTooltip,
+} from './../../shared/utils/helper';
 import { User, UserService } from '../../shared/services/user.service';
-import { Skeleton } from 'primeng/skeleton';
 import { ModalService } from '../../shared/services/modal.service';
 import { usePreload } from '../../shared/utils/use-preload';
-
-interface Column {
-  field: string;
-  header: string;
-}
+import { Skeleton } from 'primeng/skeleton';
+import { UserTableHeaderComponent } from '../user-table-header/user-table-header.component';
+import { Column } from '../../shared/utils/types';
+import { UserTableCardComponent } from '../user-table-card/user-table-card.component';
 
 @Component({
   selector: 'app-user-table',
@@ -33,9 +33,9 @@ interface Column {
     FormsModule,
     ButtonModule,
     TooltipModule,
-    IconField,
-    InputIcon,
     Skeleton,
+    UserTableHeaderComponent,
+    UserTableCardComponent,
   ],
   templateUrl: './user-table.component.html',
   styleUrl: './user-table.component.scss',
@@ -49,6 +49,9 @@ export class UserTableComponent {
   rows: number = 10;
   formatDate = formatDate;
   cols!: Column[];
+  getUserTooltip = getUserTooltip;
+  getUserIcon = getUserIcon;
+  getUserIconClass = getUserIconClass;
 
   private userService = inject(UserService);
   private modalService = inject(ModalService);
@@ -102,20 +105,5 @@ export class UserTableComponent {
 
   get IsSuperAdmin() {
     return this.preload.isSuperAdmin();
-  }
-
-  getUserTooltip(user: User): string {
-    if (!this.IsSuperAdmin) {
-      return 'Access Denied';
-    }
-    return user.isEnable ? 'Inactivate' : 'Activate';
-  }
-
-  getUserIcon(user: User): string {
-    return user.isEnable ? 'pi pi-verified' : 'pi pi-ban';
-  }
-
-  getUserIconClass(user: User): string {
-    return user.isEnable ? '!text-green-500' : '!text-red-500';
   }
 }

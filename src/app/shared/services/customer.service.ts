@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { ModalService } from './modal.service';
 import { customerApi } from '../api/customer.api';
+import { PaginationResponse } from '../utils/types';
 
 export interface CustomerRequest {
   name: string;
@@ -33,15 +34,6 @@ export interface CustomerUpdateRequest {
   name: string;
   phoneNumber: string;
   address: string | null;
-}
-
-export interface PaginationResponse {
-  totalPages: number;
-  totalElement: number;
-  page: number;
-  size: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
 }
 
 export interface CustomerQueryParams {

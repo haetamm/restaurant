@@ -5,10 +5,10 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { billApi } from '../api/bill.api';
 import { ModalService } from './modal.service';
 import { CartService } from './cart.service';
-import { PaginationResponse } from './menu.service';
 import { selectPayment } from '../utils/helper';
 import { usePreload } from '../utils/use-preload';
 import { CartAdminService } from './cart-admin.service';
+import { PaginationResponse } from '../utils/types';
 
 export interface BillRequest {
   menuId: string;

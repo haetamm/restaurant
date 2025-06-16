@@ -104,7 +104,13 @@ export class MenuFormComponent implements OnInit {
   }
 
   private applyValidationSchema(): void {
-    // Terapkan validasi Zod berdasarkan menuDetail
+    const passwordControl = this.menuForm.get('image');
+    if (this.menuDetail) {
+      passwordControl?.setValidators([]); // update mode: password opsional
+    } else {
+      passwordControl?.setValidators([Validators.required]); // create mode: password wajib
+    }
+
     setupZodValidation(
       this.menuForm.controls as unknown as Record<string, AbstractControl>,
       this.menuDetail ? menuUpdateSchema : menuSchema,

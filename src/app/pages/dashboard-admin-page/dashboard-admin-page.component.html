@@ -1,1 +1,14 @@
-<div class="p-2 xl:p-4">Admin Page</div>
+<div class="p-2 lg:p-4">
+  <app-admin-table />
+</div>
+<app-button-bottom>
+  <p-button
+    (click)="showAdminFormModal()"
+    label="Tambah"
+    icon="pi pi-plus"
+    class="w-full"
+    [style]="{
+      width: '100%',
+    }"
+  />
+</app-button-bottom>

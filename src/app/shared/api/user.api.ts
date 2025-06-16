@@ -6,6 +6,7 @@ import {
   UpdateEmailRequest,
   UpdatePasswordRequest,
 } from '../services/profile.service';
+import { UpdateAdminRequest } from '../services/admin.service';
 
 const axiosInstance = createAxiosInstance();
 export const userApi = {
@@ -67,6 +68,26 @@ export const userApi = {
   getAllUser: async () => {
     try {
       const response = await axiosInstance.post('/api/user/all');
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  getAdminUser: async () => {
+    try {
+      const response = await axiosInstance.post('/api/user/admin');
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  updateAdminUser: async (payload: UpdateAdminRequest) => {
+    try {
+      const response = await axiosInstance.put('/api/user/admin', payload);
       const { data } = response.data;
       return data;
     } catch (error: any) {

@@ -1,17 +1,15 @@
 import { Router } from 'express';
 import axios from 'axios';
 import { BASE_URL } from '../../src/app/shared/utils/constans';
+import { createServerAxiosInstance } from '../config/axios-server-config';
 
 const router = Router();
 
 // Route untuk login
 router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const response = await axios.post(`${BASE_URL}/auth/login`, {
-      username,
-      password,
-    });
+    const { body } = req;
+    const response = await axios.post(`${BASE_URL}/auth/login`, body);
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
@@ -22,14 +20,8 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const { name, phone, email, username, password } = req.body;
-    const response = await axios.post(`${BASE_URL}/auth/reg/user`, {
-      name,
-      phone,
-      email,
-      username,
-      password,
-    });
+    const { body } = req;
+    const response = await axios.post(`${BASE_URL}/auth/reg/user`, body);
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({
@@ -38,12 +30,23 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.post('/register/admin', async (req, res) => {
+  try {
+    const axiosInstance = createServerAxiosInstance(req);
+    const { body } = req;
+    const response = await axiosInstance.post('/auth/reg/admin', body);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Failed to delete menu',
+    });
+  }
+});
+
 router.post('/forgot-password', async (req, res) => {
   try {
-    const { email } = req.body;
-    const response = await axios.post(`${BASE_URL}/auth/forgot-password`, {
-      email,
-    });
+    const { body } = req;
+    const response = await axios.post(`${BASE_URL}/auth/forgot-password`, body);
     res.json(response.data);
   } catch (error: any) {
     res.status(error.response?.status || 500).json({

@@ -1,0 +1,23 @@
+<div class="flex justify-between mt-2 md:mt-0 mb-1 lg:mb-3 items-center">
+  <h2 class="text-2xl font-bold text-gray-800 w-full hidden md:block">
+    {{ placeholder || "Pengguna" }}
+  </h2>
+  <div class="w-full">
+    <div class="flex items-center gap-x-2">
+      <p-iconfield iconPosition="left" class="ml-auto">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input
+          pInputText
+          type="search"
+          class="w-full border-[1px] border-slate-300 bg-white text-gray-900 text-sm rounded-md lg:rounded-lg block pl-10 px-2.5 py-2 focus:outline-none placeholder:text-slate-300"
+          [(ngModel)]="searchText"
+          (ngModelChange)="searchTextChange.emit($event)"
+          [placeholder]="`Search ${placeholder || 'User'}`"
+        />
+      </p-iconfield>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

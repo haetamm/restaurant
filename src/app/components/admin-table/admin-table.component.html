@@ -1,17 +1,29 @@
-<div class="bg-white">
+<div class="bg-white pb-[56px] md:pb-0">
   <app-user-table-header
     [searchText]="searchText"
+    placeholder="Admin"
     (searchTextChange)="searchText = $event"
-  />
-
-  <!-- table dekstop md:block -->
+  >
+    <p-button
+      class="hidden md:block w-full md:w-[120px]"
+      [style]="{
+        width: '100%',
+        padding: '8px',
+      }"
+      icon="pi pi-plus"
+      label="Tambah"
+      type="submit"
+      size="small"
+      (click)="addAdmin()"
+    />
+  </app-user-table-header>
   <p-table
     [columns]="cols"
-    [value]="filteredUsers"
+    [value]="filteredAdmins"
     [paginator]="true"
     [rows]="rows"
     [first]="first"
-    [totalRecords]="filteredUsers.length"
+    [totalRecords]="filteredAdmins.length"
     [rowsPerPageOptions]="[5, 10, 20]"
     (onPage)="onPageChange($event)"
     styleClass="w-full hidden md:block"
@@ -30,51 +42,51 @@
         </th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-user>
+    <ng-template pTemplate="body" let-admin>
       <tr class="border-b border-gray-100 text-sm">
-        <td *ngIf="!loading; else loaded" class="px-2 py-2 text-wrap">
-          <div class="text-sm font-medium text-gray-900">
-            {{ user.name }}
-          </div>
-          <div class="text-xs text-gray-500">{{ user.username }}</div>
+        <td
+          *ngIf="!loading; else loaded"
+          class="px-2 py-2 text-wrap break-all text-gray-500"
+        >
+          {{ admin.username }}
         </td>
         <td
           *ngIf="!loading; else loaded"
           class="px-2 py-2 text-wrap break-all text-gray-500"
         >
-          {{ user.email }}
-        </td>
-        <td
-          *ngIf="!loading; else loaded"
-          class="px-2 py-2 text-wrap break-all text-gray-500"
-        >
-          {{ user.phone }}
+          {{ admin.email }}
         </td>
         <td
           *ngIf="!loading; else loaded"
           class="px-2 py-2 text-wrap text-gray-500"
         >
-          {{ formatDate(user.createdAt) }}
+          {{ formatDate(admin.createdAt) }}
         </td>
-        <td *ngIf="!loading; else loaded" class="px-1 py-2 font-medium">
+        <td
+          *ngIf="!loading; else loaded"
+          class="px-2 py-2 text-wrap text-gray-500"
+        >
+          {{ formatDate(admin.updatedAt) }}
+        </td>
+        <td *ngIf="!loading; else loaded" class="px-0 py-2 font-medium">
           <div class="flex space-x-1">
             <button
               pButton
-              pTooltip="View details"
+              pTooltip="Update Admin"
               tooltipPosition="top"
-              icon="pi pi-eye"
-              class="p-button-rounded p-button-text p-button-sm !text-blue-500 hover:!bg-blue-50"
-              (click)="viewUser(user.id)"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-sm !text-yellow-500 hover:!bg-blue-50"
+              (click)="updateAdmin(admin.id)"
             ></button>
             <button
               pButton
               [disabled]="!IsSuperAdmin"
-              [pTooltip]="getUserTooltip(user.id, IsSuperAdmin)"
+              [pTooltip]="getUserTooltip(admin.isEnable, IsSuperAdmin)"
               tooltipPosition="top"
-              [icon]="getUserIcon(user.isEnable)"
-              [ngClass]="getUserIconClass(user.isEnable)"
+              [icon]="getUserIcon(admin.isEnable)"
+              [ngClass]="getUserIconClass(admin.isEnable)"
               class="p-button-rounded p-button-text p-button-sm hover:!bg-red-50 disabled:bg-white"
-              (click)="activateOrInactivateUser(user.id)"
+              (click)="activateOrInactivateUser(admin.id)"
             ></button>
           </div>
         </td>
@@ -89,23 +101,23 @@
       <tr>
         <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
           @if (searchText) {
-            No users found matching "{{ searchText }}"
+            No admin found matching "{{ searchText }}"
           } @else {
-            No users available
+            No admin available
           }
         </td>
       </tr>
     </ng-template>
   </p-table>
 
-  <!-- Mobile table md:hidden -->
+  <!-- table mobile md:hidden -->
   <div class="block md:hidden">
     <p-table
-      [value]="filteredUsers"
+      [value]="filteredAdmins"
       [paginator]="true"
       [rows]="rows"
       [first]="first"
-      [totalRecords]="filteredUsers.length"
+      [totalRecords]="filteredAdmins.length"
       [rowsPerPageOptions]="[5, 10, 20]"
       (onPage)="onPageChange($event)"
       styleClass="w-full"
@@ -116,21 +128,21 @@
           <th
             class="py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider"
           >
-            User Details
+            Admin Details
           </th>
         </tr>
       </ng-template>
 
-      <ng-template pTemplate="body" let-user>
+      <ng-template pTemplate="body" let-admin>
         <tr class="border-b border-gray-100">
           <td
             *ngIf="!loading; else loaded"
             class="py-3 px-0 border-b border-gray-100"
             [style]="{ padding: '20px 5px 20px 5px' }"
           >
-            <app-user-table-card
-              [user]="user"
-              (view)="viewUser($event)"
+            <app-admin-table-card
+              [admin]="admin"
+              (update)="updateAdmin($event)"
               (activateOrInactivate)="activateOrInactivateUser($event)"
             />
           </td>
@@ -147,9 +159,9 @@
         <tr>
           <td class="px-6 py-4 text-center text-sm text-gray-500">
             @if (searchText) {
-              No user found matching "{{ searchText }}"
+              No admin found matching "{{ searchText }}"
             } @else {
-              No user available
+              No admin available
             }
           </td>
         </tr>

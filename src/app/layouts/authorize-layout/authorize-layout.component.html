@@ -1,10 +1,10 @@
-<div class="min-h-screen bg-slate-200 md:bg-slate-100 p-2 lg:py-4">
+<div class="min-h-screen bg-slate-200 md:bg-slate-100 md:p-2 lg:py-4">
   <p-button
     [icon]="showSidebar ? 'pi pi-arrow-left' : 'pi pi-arrow-right'"
     class="rounded-full lg:hidden"
     [style]="{
-      top: '3px',
-      left: '3px',
+      top: '6px',
+      left: '6px',
       backgroundColor: 'white',
       border: 'none',
       color: 'black',
@@ -14,7 +14,7 @@
   />
 
   <div
-    class="grid grid-cols-6 gap-2 lg:gap-3 h-[calc(100vh-56px)] lg:h-[calc(100vh-32px)]"
+    class="grid grid-cols-6 gap-2 lg:gap-3 h-[calc(100vh-40px)] md:h-[calc(100vh-55px)] lg:h-[calc(100vh-32px)]"
   >
     <!-- Navigation -->
     <div
@@ -23,7 +23,7 @@
         block: showSidebar,
         'lg:block': true,
       }"
-      class="bg-white mt-[15px] lg:mt-0 p-2 lg:px-1.5 xl:px-4 rounded-sm xl:rounded-lg sticky top-0 z-10"
+      class="bg-white mt-[15px] lg:mt-0 p-2 lg:px-1.5 xl:px-4 md:rounded-sm xl:rounded-lg sticky top-0 z-10"
     >
       <nav class="py-4">
         <ul class="space-y-2">
@@ -53,7 +53,7 @@
         'col-span-5': showSidebar,
         'lg:col-span-5': true,
       }"
-      class="bg-white rounded-sm xl:rounded-lg mt-[15px] lg:mt-0 overflow-y-auto no-scrollbar"
+      class="bg-white md:rounded-sm xl:rounded-lg mt-[15px] lg:mt-0 overflow-y-auto no-scrollbar"
     >
       <router-outlet />
     </div>
