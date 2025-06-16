@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { BillService } from '../../shared/services/bill.service';
 import { BillTableComponent } from '../../components/bill-table/bill-table.component';
-import { PaginationResponse } from '../../shared/services/menu.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { BillFilterbarComponent } from '../../components/bill-filterbar/bill-filterbar.component';
 import { usePreload } from '../../shared/utils/use-preload';
 import { BillDetailCardComponent } from '../../components/bill-detail-card/bill-detail-card.component';
+import { PaginationResponse } from '../../shared/utils/types';
 
 @Component({
   selector: 'app-transaction-page',

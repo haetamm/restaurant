@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaginationResponse } from '../../shared/services/menu.service';
+import { PaginationResponse } from '../../shared/utils/types';
 
 @Component({
   selector: 'app-pagination',

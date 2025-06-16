@@ -4,10 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { CategorybarComponent } from '../../components/categorybar/categorybar.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import {
-  MenuService,
-  PaginationResponse,
-} from '../../shared/services/menu.service';
+import { MenuService } from '../../shared/services/menu.service';
 import { take } from 'rxjs/operators';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { CartComponent } from '../../components/cart/cart.component';
@@ -15,6 +12,7 @@ import { usePreload } from '../../shared/utils/use-preload';
 import { ToggleFilterComponent } from '../../components/toggle-filter/toggle-filter.component';
 import { MenuListComponent } from '../../components/menu-list/menu-list.component';
 import { CartAdminComponent } from '../../components/cart-admin/cart-admin.component';
+import { PaginationResponse } from '../../shared/utils/types';
 
 @Component({
   selector: 'app-home-page',

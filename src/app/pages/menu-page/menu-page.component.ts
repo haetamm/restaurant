@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
-import {
-  MenuService,
-  PaginationResponse,
-} from '../../shared/services/menu.service';
+import { MenuService } from '../../shared/services/menu.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchbarComponent } from '../../components/searchbar/searchbar.component';
 import { MenuTableComponent } from '../../components/menu-table/menu-table.component';
@@ -11,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { ButtonBottomComponent } from '../../components/button-bottom/button-bottom.component';
 import { MenuFormComponent } from '../../components/menu-form/menu-form.component';
 import { ModalService } from '../../shared/services/modal.service';
+import { PaginationResponse } from '../../shared/utils/types';
 
 @Component({
   selector: 'app-menu-page',
