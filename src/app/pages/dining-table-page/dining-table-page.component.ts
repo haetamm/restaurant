@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { Table, TableService } from '../../shared/services/table.service';
 import { usePreload } from '../../shared/utils/use-preload';
 import { DiningTableListComponent } from '../../components/dining-table-list/dining-table-list.component';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-dining-table-page',
@@ -29,9 +30,22 @@ export class DiningTablePageComponent implements OnInit, OnDestroy {
 
   private tableService = inject(TableService);
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private seoService: SeoService,
+  ) {}
 
   ngOnInit(): void {
+    if (this.seoService) {
+      this.seoService.setMetaTags({
+        title: 'Table | Warmakth',
+        description: 'Explore our awesome app!',
+        url: 'https://your-app.com/home',
+        keywords: 'table, warmakth, restaurant',
+        image: 'https://your-app.com/assets/default-image.jpg',
+      });
+    }
+
     this.tableSubscription = this.tableService.getState().subscribe((state) => {
       this.tables = state.tables;
       this.loading = state.loading;

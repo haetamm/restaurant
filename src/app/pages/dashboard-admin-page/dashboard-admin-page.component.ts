@@ -4,6 +4,7 @@ import { AdminTableComponent } from '../../components/admin-table/admin-table.co
 import { ButtonBottomComponent } from '../../components/button-bottom/button-bottom.component';
 import { ButtonModule } from 'primeng/button';
 import { ModalService } from '../../shared/services/modal.service';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-dashboard-admin-page',
@@ -14,9 +15,20 @@ export class DashboardAdminPageComponent {
   constructor(
     private adminService: AdminService,
     private modalService: ModalService,
+    private seoService: SeoService,
   ) {}
 
   ngOnInit(): void {
+    if (this.seoService) {
+      this.seoService.setMetaTags({
+        title: 'Admin | Warmakth',
+        description: 'Explore our awesome app!',
+        url: '-',
+        keywords: '-',
+        image: 'https://your-app.com/assets/default-image.jpg',
+      });
+    }
+
     this.adminService.fetchAdmins();
   }
 

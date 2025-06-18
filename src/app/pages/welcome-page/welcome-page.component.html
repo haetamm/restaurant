@@ -1,10 +1,10 @@
 <div class="w-full flex justify-center">
-  <div class="pt-[70px] w-full max-w-[1440px] px-2 md:px-6">
-    <p>home-page works!</p>
-    @if (profile) {
-      <h2 class="font-bold">{{ profile.email }}</h2>
-      <p>ID: {{ profile.username }}</p>
-      <p>Body: {{ profile.roles.join(", ") }}</p>
-    }
+  <div
+    class="w-full pt-[40px] xs:pt-[70px] md:pt-[50px] lg:pt-[30px] max-w-[1440px] px-2.5 xs:px-4 md:px-6 py-6"
+  >
+    <app-hero-section id="home" />
+    <app-service-section id="services" />
+    <app-landing-page-menu-section id="menu" />
+    <app-contact-section id="contact" />
   </div>
 </div>

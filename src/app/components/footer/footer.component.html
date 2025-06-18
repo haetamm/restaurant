@@ -1,0 +1,37 @@
+<footer class="bg-cart shadow md:shadow-2xl py-3 md:px-3 lg:px-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Logo and Navigation -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center border-b border-gray-700 pb-8 mb-8"
+    >
+      <div class="flex items-center space-x-2 xs:mb-1 md:mb-0">
+        <img src="/img/logo.png" alt="" class="h-12 w-12" />
+        <div class="text-3xl font-bold">Warmakth</div>
+      </div>
+      <nav class="flex flex-wrap justify-center gap-6 md:gap-8 mt-2 md:mt-0">
+        <div
+          *ngFor="let link of navigationLinks"
+          class="hover:text-orange-400 transition-colors cursor-pointer select-none"
+          (click)="scrollTo(link.id)"
+        >
+          {{ link.label }}
+        </div>
+      </nav>
+    </div>
+
+    <!-- Copyright and Legal Links -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="text-gray-400 text-sm">
+        Copyright © 2025 Warmakth. All Right Reserved
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4 md:gap-6 select-none">
+        <span
+          *ngFor="let link of ['Security', 'Privacy', 'Terms']"
+          class="text-gray-400 hover:text-white text-sm transition-colors"
+          >{{ link }}</span
+        >
+      </div>
+    </div>
+  </div>
+</footer>

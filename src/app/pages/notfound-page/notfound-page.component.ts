@@ -19,10 +19,10 @@ export class NotfoundPageComponent {
   ) {}
   ngOnInit(): void {
     this.seoService.setMetaTags({
-      title: 'Not Found | Restaurant',
+      title: 'Not Found | Warmakth',
       description: 'Explore our awesome app!',
       url: '',
-      keywords: 'not found, app, angular',
+      keywords: 'not found, warmakth, restaurant',
       image: 'https://your-app.com/assets/default-image.jpg',
     });
   }

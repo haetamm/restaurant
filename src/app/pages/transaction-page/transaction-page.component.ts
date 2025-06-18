@@ -8,6 +8,7 @@ import { BillFilterbarComponent } from '../../components/bill-filterbar/bill-fil
 import { usePreload } from '../../shared/utils/use-preload';
 import { BillDetailCardComponent } from '../../components/bill-detail-card/bill-detail-card.component';
 import { PaginationResponse } from '../../shared/utils/types';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-transaction-page',
@@ -29,6 +30,7 @@ export class TransactionPageComponent implements OnInit {
     private billService: BillService,
     private route: ActivatedRoute,
     private router: Router,
+    private seoService: SeoService,
   ) {}
 
   get isUser() {
@@ -40,6 +42,16 @@ export class TransactionPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.seoService) {
+      this.seoService.setMetaTags({
+        title: 'Transaction | Warmakth',
+        description: 'Explore our awesome app!',
+        url: 'https://your-app.com/home',
+        keywords: 'transaction, warmakth, restaurant',
+        image: 'https://your-app.com/assets/default-image.jpg',
+      });
+    }
+
     // Subscribe ke perubahan pagination
     this.billService.pagination$.subscribe((pagination) => {
       this.billPagination = pagination;

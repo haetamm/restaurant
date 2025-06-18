@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 import { BASE_URL } from './constans';
 import { BillResponse } from '../services/bill.service';
-import { User } from '../services/user.service';
 
 export const errorHandle = (error: any) => {
   const errorMessage = error.response?.data?.message;
@@ -111,3 +110,10 @@ export const getUserIcon = (isEnable: boolean): string => {
 export const getUserIconClass = (isEnable: boolean): string => {
   return isEnable ? '!text-green-500' : '!text-red-500';
 };
+
+export const navigationLinks = [
+  { id: 'home', label: 'Home' },
+  { id: 'services', label: 'Services' },
+  { id: 'menu', label: 'Menu' },
+  { id: 'contact', label: 'Contact' },
+];

@@ -42,10 +42,10 @@ export class ForgotPasswordPageComponent {
 
   ngOnInit(): void {
     this.seoService.setMetaTags({
-      title: 'Forgot Password | Restaurant',
+      title: 'Forgot Password | Warmakth',
       description: 'Explore our awesome app!',
       url: 'https://your-app.com/guest/forgot-password',
-      keywords: 'forgot password, app, angular',
+      keywords: 'forgot password, warmakth, restaurant',
       image: 'https://your-app.com/assets/default-image.jpg',
     });
   }

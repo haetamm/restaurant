@@ -1,31 +1,69 @@
-<div class="w-full flex justify-center fixed shadow bg-white z-100">
+<div
+  class="w-full flex justify-center fixed z-200 transition-colors duration-300"
+  [ngClass]="isScrolled ? 'bg-white shadow-md' : 'bg-transparent'"
+>
   <div
-    class="w-full max-w-[1440px] h-[56px] flex justify-end md:justify-between items-center px-2 lg:px-6 xl:py-1"
+    class="w-full max-w-[1440px] h-[56px] flex justify-end xs:justify-between items-center px-2 lg:px-6 xl:py-1 relative"
   >
-    <a [routerLink]="urlPage.HOME" class="hidden md:block">
-      <img src="/img/logo.jpg" class="w-10 h-10" />
+    <a
+      [routerLink]="urlPage.HOME"
+      class="hidden md:flex md:space-x-2 items-center"
+    >
+      <img src="/img/logo.png" class="w-10 h-10" />
+      <p class="text-xl font-semibold text-[#F86901]">Warmakth</p>
     </a>
 
-    <div class="flex items-center space-x-6">
+    <div class="xs:flex space-x-3 items-center hidden">
+      <div
+        *ngFor="let link of navigationLinks"
+        class="px-4 hover:text-[#F86901] cursor-pointer"
+        [ngClass]="{ 'text-[#F86901] font-bold': activeSection === link.id }"
+        (click)="scrollTo(link.id)"
+      >
+        {{ link.label }}
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2">
       @if (profile) {
-        <a [routerLink]="urlPage.HOME" class="font-semibold text-[#F86901]">
+        <a
+          [routerLink]="urlPage.HOME"
+          class="font-semibold text-[#F86901] mx-6"
+        >
           Masuk
         </a>
-        <button
-          (click)="handleLogout()"
-          class="bg-[#F86901] px-6 py-1 rounded-md text-white cursor-pointer"
-        >
-          Logout
-        </button>
       } @else {
-        <a [routerLink]="urlPage.REGISTER">Register</a>
         <a
           [routerLink]="urlPage.LOGIN"
-          class="bg-[#F86901] px-6 py-1 rounded-md text-white"
+          class="bg-[#F86901] px-6 py-1 rounded-full text-white"
         >
           Login
         </a>
       }
+      <button
+        class="xs:hidden bg-white shadow-sm rounded-full flex justify-center items-center h-9 w-9 cursor-pointer"
+        (click)="toggleDropdown()"
+      >
+        <ng-icon
+          [name]="isDropdownOpen ? 'bootstrapXLg' : 'bootstrapFilterRight'"
+          class="w-8 h-8"
+        />
+      </button>
+    </div>
+
+    <!-- Dropdown -->
+    <div
+      *ngIf="isDropdownOpen"
+      class="xs:hidden absolute top-[56px] right-2 bg-white shadow-md rounded-md w-40 py-2 z-300"
+    >
+      <div
+        *ngFor="let link of navigationLinks"
+        class="px-4 py-2 hover:text-[#F86901] cursor-pointer text-left"
+        [ngClass]="{ 'text-[#F86901] font-bold': activeSection === link.id }"
+        (click)="scrollTo(link.id)"
+      >
+        {{ link.label }}
+      </div>
     </div>
   </div>
 </div>

@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { CustomerTableComponent } from '../../components/customer-table/customer-table.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { PaginationResponse } from '../../shared/utils/types';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-customer-page',
@@ -40,8 +41,19 @@ export class CustomerPageComponent {
   private customerService = inject(CustomerService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private seoService = inject(SeoService);
 
   ngOnInit(): void {
+    if (this.seoService) {
+      this.seoService.setMetaTags({
+        title: 'Customers | Warmakth',
+        description: 'Explore our awesome app!',
+        url: '-',
+        keywords: '-',
+        image: 'https://your-app.com/assets/default-image.jpg',
+      });
+    }
+
     this.customerService.pagination$.subscribe((pagination) => {
       this.customerPagination = pagination;
     });

@@ -1,4 +1,7 @@
-<app-loading [isLoading]="(preload.isLoading$ | async) ?? false" />
-<app-navbar />
-<router-outlet />
+<div class="bg-default-layout min-h-screen overflow-auto small-scrollbar">
+  <app-loading [isLoading]="(preload.isLoading$ | async) ?? false" />
+  <app-navbar />
+  <router-outlet />
+  <app-footer />
+</div>
 <app-modal />

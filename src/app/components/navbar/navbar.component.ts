@@ -1,25 +1,49 @@
+import { navigationLinks } from './../../shared/utils/helper';
 import { urlPage } from './../../shared/utils/constans';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { bootstrapAlexa } from '@ng-icons/bootstrap-icons';
-import { provideIcons } from '@ng-icons/core';
+import { provideIcons, NgIcon } from '@ng-icons/core';
 import { Profile, ProfileService } from '../../shared/services/profile.service';
 import { CommonModule } from '@angular/common';
-import { ModalService } from '../../shared/services/modal.service';
+import { ScrollService } from '../../shared/services/scroll.service';
+import { bootstrapFilterRight, bootstrapXLg } from '@ng-icons/bootstrap-icons';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule, CommonModule],
+  standalone: true,
+  imports: [NgIcon, RouterModule, CommonModule],
   templateUrl: './navbar.component.html',
-  viewProviders: [provideIcons({ bootstrapAlexa })],
+  viewProviders: [provideIcons({ bootstrapFilterRight, bootstrapXLg })],
 })
 export class NavbarComponent implements OnInit {
   urlPage = urlPage;
   profile: Profile | null = null;
+  isScrolled = false;
+  activeSection: string = '';
+  navigationLinks = navigationLinks;
+  isDropdownOpen = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 30;
+
+    const sectionIds = ['home', 'services', 'menu', 'contact'];
+
+    for (const id of sectionIds) {
+      const element = document.getElementById(id);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        if (rect.top <= 60 && rect.bottom > 60) {
+          this.activeSection = id;
+          break;
+        }
+      }
+    }
+  }
 
   constructor(
     private profileService: ProfileService,
-    private modalService: ModalService,
+    private scrollService: ScrollService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +52,12 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  handleLogout() {
-    this.modalService.showLogout();
+  scrollTo(section: string) {
+    this.scrollService.scrollTo(section);
+    this.isDropdownOpen = false;
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 }

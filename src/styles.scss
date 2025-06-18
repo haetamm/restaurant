@@ -32,6 +32,14 @@ body {
   }
 }
 
+@media (min-height: 920px) {
+  .container-guest {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 .bg-cart {
   background: #ffffff;
   background: linear-gradient(
@@ -47,6 +55,17 @@ body {
     150deg,
     rgba(253, 245, 241, 1) 21%,
     rgba(252, 251, 252, 1) 37%
+  );
+}
+
+.bg-default-layout {
+  background: #ffc6b8;
+  background: linear-gradient(
+    131deg,
+    rgba(255, 198, 184, 0.41) 0%,
+    rgba(255, 255, 255, 0.88) 28%,
+    rgba(255, 255, 255, 0.94) 71%,
+    rgba(255, 198, 184, 0.33) 100%
   );
 }
 

@@ -1,4 +1,5 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { menuApi } from '../api/menu.api';
@@ -68,28 +69,31 @@ export class MenuService {
   loading$: Observable<boolean> = this.state.pipe(
     map((state) => state.loading),
   );
-
   pagination$: Observable<PaginationResponse | null> = this.state.pipe(
     map((state) => state.pagination),
   );
 
   private readonly toastService = inject(HotToastService);
   private readonly modalService = inject(ModalService);
+  private readonly platformId = inject(PLATFORM_ID);
+
+  private showToastSuccess(message: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.toastService.success(message);
+    }
+  }
+
+  private showToastError(message: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.toastService.error(message);
+    }
+  }
 
   getLoading(): boolean {
     return this.state.value.loading;
   }
 
-  async fetchMenus(params?: {
-    category?: string;
-    name?: string;
-    minPrice?: number;
-    maxPrice?: number;
-    direction?: 'asc' | 'desc';
-    sortBy?: string;
-    page?: number;
-    size?: number;
-  }): Promise<void> {
+  async fetchMenus(params?: MenuQueryParams): Promise<void> {
     this.updateState({ loading: true });
     try {
       const data = await menuApi.getMenus(params);
@@ -100,7 +104,7 @@ export class MenuService {
       });
     } catch (error: any) {
       this.updateState({ menus: [], loading: false, pagination: null });
-      this.toastService.error(error.message || 'Failed to load menu');
+      this.showToastError(error.message || 'Failed to load menu');
     }
   }
 
@@ -111,10 +115,10 @@ export class MenuService {
       this.updateState({
         menus: [...newMenu, ...currentMenus],
       });
-      this.toastService.success('Menu berhasil dibuat!');
+      this.showToastSuccess('Menu berhasil dibuat!');
       this.modalService.hideModal();
     } catch (error: any) {
-      this.toastService.error(error.message || 'Gagal membuat menu');
+      this.showToastError(error.message || 'Gagal membuat menu');
       throw error;
     }
   }
@@ -126,10 +130,10 @@ export class MenuService {
       this.updateState({
         menus: [newMenu, ...currentMenus],
       });
-      this.toastService.success('Menu berhasil dibuat!');
+      this.showToastSuccess('Menu berhasil dibuat!');
       this.modalService.hideModal();
     } catch (error: any) {
-      this.toastService.error(error.message || 'Gagal membuat menu');
+      this.showToastError(error.message || 'Gagal membuat menu');
       throw error;
     }
   }
@@ -147,10 +151,10 @@ export class MenuService {
         menuDetail: null,
       });
 
-      this.toastService.success('Menu berhasil diperbarui!');
+      this.showToastSuccess('Menu berhasil diperbarui!');
       this.modalService.hideModal();
     } catch (error: any) {
-      this.toastService.error(error.message || 'Gagal memperbarui menu');
+      this.showToastError(error.message || 'Gagal memperbarui menu');
     }
   }
 
@@ -162,9 +166,9 @@ export class MenuService {
       this.updateState({
         menus: updatedMenus,
       });
-      this.toastService.success('Menu berhasil dihapus!');
+      this.showToastSuccess('Menu berhasil dihapus!');
     } catch (error: any) {
-      this.toastService.error(error.message || 'Gagal menghapus menu');
+      this.showToastError(error.message || 'Gagal menghapus menu');
     }
   }
 

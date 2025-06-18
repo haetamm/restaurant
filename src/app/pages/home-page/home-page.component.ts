@@ -50,10 +50,10 @@ export class HomePageComponent implements OnInit {
 
     if (this.seoService) {
       this.seoService.setMetaTags({
-        title: 'Dashboard | Restaurant',
+        title: 'Home | Warmakth',
         description: 'Explore our awesome app!',
         url: 'https://your-app.com/home',
-        keywords: 'home, app, angular',
+        keywords: 'home, warmakth, restaurant',
         image: 'https://your-app.com/assets/default-image.jpg',
       });
     }

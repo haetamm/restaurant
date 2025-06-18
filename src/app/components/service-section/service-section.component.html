@@ -1,0 +1,50 @@
+<div [attr.id]="id" class="mt-10">
+  <div class="flex flex-col items-center space-y-2">
+    <p
+      class="text-3xl md:text-4xl lg:text-5xl xs:w-[70%] xl:w-1/2 text-center font-bold"
+    >
+      How we serve you and deliver your favorite food
+    </p>
+    <p class="text-sm lg:text-lg xs:w-[70%] xl:w-[40%] text-center">
+      We are committed to giving you the best service—whether you're dining in
+      or ordering from home, your favorite meals will always arrive fresh and
+      fast.
+    </p>
+  </div>
+  <div
+    class="w-full grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8 mt-8 px-4 sm:px-6 lg:px-8"
+  >
+    <!-- Card Loop -->
+    <div class="mx-auto" *ngFor="let card of cards">
+      <div
+        class="flex flex-col max-w-[320px] bg-gradient-to-br {{
+          card.colors.bgFrom
+        }} {{
+          card.colors.bgTo
+        }} rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border {{
+          card.colors.border
+        }}"
+      >
+        <div class="p-6 pb-0">
+          <p
+            class="text-xl font-bold {{
+              card.colors.textTitle
+            }} mb-4 flex items-center gap-3"
+          >
+            {{ card.title }}
+          </p>
+        </div>
+        <img
+          [src]="card.image"
+          [alt]="card.title"
+          class="w-full h-48 object-cover object-center"
+        />
+        <div class="p-6 pt-4">
+          <p class="{{ card.colors.textDesc }}">
+            {{ card.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

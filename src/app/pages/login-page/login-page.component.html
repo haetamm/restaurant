@@ -1,12 +1,12 @@
 <div class="w-full h-screen container-guest">
-  <h1 class="text-xl md:text-2xl font-bold leading-tight pt-10 md:pt-20">
+  <h1 class="text-xl md:text-2xl font-bold leading-tight pt-10 md:pt-10">
     Masuk ke akun Anda
   </h1>
 
   <form
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
-    class="mt-6 w-[290px] xl:w-[310px]"
+    class="mt-6 w-[290px] xs:w-[400px] md:w-[360px] lg:w-[310px]"
     novalidate
   >
     @for (field of loginFields; track field.name; let i = $index) {

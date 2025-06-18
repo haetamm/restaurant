@@ -47,10 +47,10 @@ export class RegisterPageComponent {
 
   ngOnInit(): void {
     this.seoService.setMetaTags({
-      title: 'Register | Restaurant',
+      title: 'Register | Warmakth',
       description: 'Explore our awesome app!',
       url: 'https://your-app.com/guest/register',
-      keywords: 'regiser, app, angular',
+      keywords: 'Register, Warmakth, restaurant',
       image: 'https://your-app.com/assets/default-image.jpg',
     });
   }

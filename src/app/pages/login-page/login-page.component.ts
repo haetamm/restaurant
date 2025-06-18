@@ -43,10 +43,10 @@ export class LoginPageComponent {
 
   ngOnInit(): void {
     this.seoService.setMetaTags({
-      title: 'Login | Restaurant',
+      title: 'Login | Warmakth',
       description: 'Explore our awesome app!',
       url: 'https://your-app.com/guest/login',
-      keywords: 'login, app, angular',
+      keywords: 'Login, Warmakth, restaurant',
       image: 'https://your-app.com/assets/default-image.jpg',
     });
   }

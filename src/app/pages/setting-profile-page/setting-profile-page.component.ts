@@ -15,6 +15,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
 import { profileSchema } from '../../shared/utils/validation';
 import { TextareaModule } from 'primeng/textarea';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-setting-profile-page',
@@ -42,6 +43,7 @@ export class SettingProfilePageComponent {
   });
 
   private profileService = inject(ProfileService);
+  private seoService = inject(SeoService);
   constructor() {
     setupZodValidation(
       this.profileForm.controls as unknown as Record<string, AbstractControl>,
@@ -50,6 +52,16 @@ export class SettingProfilePageComponent {
   }
 
   ngOnInit(): void {
+    if (this.seoService) {
+      this.seoService.setMetaTags({
+        title: 'Profile | Warmakth',
+        description: 'Explore our awesome app!',
+        url: '-',
+        keywords: '-',
+        image: 'https://your-app.com/assets/default-image.jpg',
+      });
+    }
+
     this.profile = this.profileService.getProfile();
     if (this.profile) {
       this.profileForm.patchValue({

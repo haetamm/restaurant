@@ -9,6 +9,7 @@ import { ButtonBottomComponent } from '../../components/button-bottom/button-bot
 import { MenuFormComponent } from '../../components/menu-form/menu-form.component';
 import { ModalService } from '../../shared/services/modal.service';
 import { PaginationResponse } from '../../shared/utils/types';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-menu-page',
@@ -31,9 +32,20 @@ export class MenuPageComponent {
     private route: ActivatedRoute,
     private router: Router,
     private modalService: ModalService,
+    private seoService: SeoService,
   ) {}
 
   ngOnInit(): void {
+    if (this.seoService) {
+      this.seoService.setMetaTags({
+        title: 'Menu | Warmakth',
+        description: 'Explore our awesome app!',
+        url: '-',
+        keywords: '-',
+        image: 'https://your-app.com/assets/default-image.jpg',
+      });
+    }
+
     // Subscribe ke perubahan pagination
     this.menuService.pagination$.subscribe((pagination) => {
       this.menuPagination = pagination;
