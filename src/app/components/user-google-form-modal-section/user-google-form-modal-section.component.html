@@ -1,0 +1,149 @@
+<div
+  class="w-full flex md:min-h-full items-end justify-center p-3 sm:items-center"
+>
+  <div
+    class="transform overflow-hidden rounded-lg text-left shadow-xl transition-all w-full max-w-[360px] lg:max-w-sm bg-white"
+  >
+    <div class="p-3">
+      <div class="flex justify-end mb-3">
+        <ng-icon
+          (click)="closeModal()"
+          name="bootstrapXLg"
+          size="24"
+          class="cursor-pointer"
+        />
+      </div>
+      <form
+        [formGroup]="userGoogleForm"
+        (ngSubmit)="onSubmit()"
+        class="w-full space-y-3"
+      >
+        <div class="space-y-5 text-sm">
+          <div class="flex flex-col w-full">
+            <p-floatlabel variant="on">
+              <input
+                pInputText
+                [pKeyFilter]="alphaWithSpace"
+                class="w-full"
+                id="name"
+                formControlName="name"
+                autocomplete="off"
+              />
+              <label for="name">Nama</label>
+            </p-floatlabel>
+            <small
+              *ngIf="
+                userGoogleForm.get('name')?.invalid &&
+                userGoogleForm.get('name')?.touched
+              "
+              class="text-red-500"
+            >
+              {{ userGoogleForm.get("name")?.errors?.["zod"] }}
+            </small>
+          </div>
+          <div class="flex flex-col w-full">
+            <p-floatlabel variant="on">
+              <input
+                pInputText
+                class="w-full"
+                id="username"
+                formControlName="username"
+                autocomplete="off"
+              />
+              <label for="username">Username</label>
+            </p-floatlabel>
+            <small
+              *ngIf="
+                userGoogleForm.get('username')?.invalid &&
+                userGoogleForm.get('username')?.touched
+              "
+              class="text-red-500"
+            >
+              {{ userGoogleForm.get("username")?.errors?.["zod"] }}
+            </small>
+          </div>
+          <div class="flex flex-col w-full">
+            <p-floatlabel variant="on">
+              <input
+                readonly
+                pInputText
+                type="email"
+                class="w-full"
+                id="email"
+                formControlName="email"
+                autocomplete="off"
+              />
+              <label for="email">Email</label>
+            </p-floatlabel>
+            <small
+              *ngIf="
+                userGoogleForm.get('email')?.invalid &&
+                userGoogleForm.get('email')?.touched
+              "
+              class="text-red-500"
+            >
+              {{ userGoogleForm.get("email")?.errors?.["zod"] }}
+            </small>
+          </div>
+          <div class="flex flex-col w-full">
+            <p-floatlabel variant="on">
+              <input
+                pInputText
+                pKeyFilter="num"
+                class="w-full"
+                id="phone"
+                formControlName="phone"
+                autocomplete="off"
+              />
+              <label for="phone">No. Hp.</label>
+            </p-floatlabel>
+            <small
+              *ngIf="
+                userGoogleForm.get('phone')?.invalid &&
+                userGoogleForm.get('phone')?.touched
+              "
+              class="text-red-500"
+            >
+              {{ userGoogleForm.get("phone")?.errors?.["zod"] }}
+            </small>
+          </div>
+          <div class="flex flex-col w-full">
+            <p-floatlabel variant="on">
+              <input
+                pInputText
+                type="password"
+                class="w-full"
+                id="password"
+                formControlName="password"
+                autocomplete="off"
+              />
+              <label for="password">Password</label>
+            </p-floatlabel>
+            <small
+              *ngIf="
+                userGoogleForm.get('password')?.invalid &&
+                userGoogleForm.get('password')?.touched
+              "
+              class="text-red-500"
+            >
+              {{ userGoogleForm.get("password")?.errors?.["zod"] }}
+            </small>
+          </div>
+        </div>
+        <hr class="border-slate-300" />
+        <div class="flex justify-end">
+          <p-button
+            [disabled]="userGoogleForm.invalid || loading"
+            class="w-full md:w-[120px]"
+            [style]="{
+              width: '100%',
+            }"
+            [label]="loading ? 'Loading' : 'Register'"
+            size="small"
+            type="submit"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

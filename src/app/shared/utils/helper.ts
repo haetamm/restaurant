@@ -1,5 +1,12 @@
 import { Router } from '@angular/router';
-import { BASE_URL } from './constans';
+import {
+  ACCESS_TYPE,
+  BASE_URL,
+  CLIENT_ID,
+  GOOGLE_REDIRECT_URI,
+  GOOGLE_SCOPE,
+  RESPONSE_TYPE,
+} from './constans';
 import { BillResponse } from '../services/bill.service';
 
 export const errorHandle = (error: any) => {
@@ -74,15 +81,15 @@ export const getMenuNames = (bill: BillResponse): string => {
   return 'Tidak ada menu';
 };
 
-export const selectPayment = (urlRedirect: string): void => {
+export const openPopup = (
+  urlRedirect: string,
+  width: number = 500,
+  height: number = 700,
+): void => {
   if (!urlRedirect) {
     console.error('URL redirect tidak valid');
     return;
   }
-
-  // Tentukan ukuran pop-up
-  const width = 500;
-  const height = 700;
 
   // Hitung posisi tengah
   const left = (screen.width - width) / 2;
@@ -117,3 +124,13 @@ export const navigationLinks = [
   { id: 'menu', label: 'Menu' },
   { id: 'contact', label: 'Contact' },
 ];
+
+export const generateGoogleAuthUrl = () => {
+  const redirectUri = GOOGLE_REDIRECT_URI;
+  const clientId = CLIENT_ID;
+  const scope = encodeURIComponent(GOOGLE_SCOPE);
+  const responseType = RESPONSE_TYPE;
+  const accessType = ACCESS_TYPE;
+
+  return `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${redirectUri}&response_type=${responseType}&client_id=${clientId}&scope=${scope}&access_type=${accessType}`;
+};

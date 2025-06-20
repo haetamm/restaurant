@@ -15,6 +15,7 @@ export const MODAL_TYPES = {
   USER_DETAIL: 'userDetail',
   USER_ACTIVATE_INACTIVATE: 'userActivateOrInactivate',
   ADMIN_FORM: 'adminForm',
+  USER_GOOGLE_FORM: 'userGoogleForm',
 } as const;
 
 // Interface untuk state modal
@@ -101,6 +102,10 @@ export class ModalService {
 
   showAdminForm(): void {
     this.showModal(MODAL_TYPES.ADMIN_FORM);
+  }
+
+  showUserGoogleForm(): void {
+    this.showModal(MODAL_TYPES.USER_GOOGLE_FORM);
   }
 
   hideModal(): void {

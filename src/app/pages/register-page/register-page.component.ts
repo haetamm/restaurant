@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapGoogle } from '@ng-icons/bootstrap-icons';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -16,13 +14,18 @@ import { AuthService } from '../../shared/services/auth.service';
 import { registerFields } from '../../shared/utils/fields';
 import { urlPage } from '../../shared/utils/constans';
 import { SeoService } from '../../shared/services/seo.service';
+import { ButtonGoogleComponent } from '../../components/button-google/button-google.component';
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [NgIcon, ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    ButtonGoogleComponent,
+  ],
   templateUrl: './register-page.component.html',
-  viewProviders: [provideIcons({ bootstrapGoogle })],
 })
 export class RegisterPageComponent {
   registerForm = new FormGroup({

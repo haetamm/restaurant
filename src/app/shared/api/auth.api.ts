@@ -1,7 +1,12 @@
 import { createAxiosInstance } from './axios-config';
 import { errorHandle } from '../utils/helper';
 import Cookies from 'js-cookie';
-import { RegisterUser, ResetPass } from '../services/auth.service';
+import {
+  RegisterUser,
+  RegisterUserGoogle,
+  ResetPass,
+  SocialiteRequest,
+} from '../services/auth.service';
 import { RegisterAdminRequest } from '../services/admin.service';
 
 const axiosInstance = createAxiosInstance();
@@ -21,6 +26,29 @@ export const authApi = {
       });
       const { data } = response.data;
       return data.token;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  socialite: async (payload: SocialiteRequest) => {
+    try {
+      const response = await axiosInstance.post('/api/auth/socialite', payload);
+      const { data } = response.data;
+      return data;
+    } catch (error: any) {
+      errorHandle(error);
+    }
+  },
+
+  registerUserGoogle: async (payload: RegisterUserGoogle) => {
+    try {
+      const response = await axiosInstance.post(
+        '/api/auth/register/user-google',
+        payload,
+      );
+      const { data } = response.data;
+      return data;
     } catch (error: any) {
       errorHandle(error);
     }

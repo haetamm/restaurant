@@ -68,6 +68,8 @@ export class EmailChangeFormComponent {
       this.emailChangeForm.patchValue({
         passwordConfirmation: '',
       });
+    } catch (err) {
+      console.error('[Submit Error]', err);
     } finally {
       this.loading = false;
     }

@@ -2,7 +2,7 @@ import { urlPage } from './../../shared/utils/constans';
 import {
   formatDate,
   getMenuNames,
-  selectPayment,
+  openPopup,
 } from './../../shared/utils/helper';
 import { Component, Input, OnInit } from '@angular/core';
 import { BillResponse, BillService } from '../../shared/services/bill.service';
@@ -25,7 +25,7 @@ export class BillTableComponent implements OnInit {
   loading: boolean = false;
   formatDate = formatDate;
   getMenuNames = getMenuNames;
-  selectPayment = selectPayment;
+  selectPayment = openPopup;
   clickedBillId: string | null = null;
   urlPage = urlPage;
 

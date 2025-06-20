@@ -22,3 +22,8 @@ export const urlPage = {
 };
 
 export const BASE_URL = environment.baseUrl;
+export const GOOGLE_REDIRECT_URI = environment.googleRedirectUri;
+export const CLIENT_ID = environment.googleClientId;
+export const GOOGLE_SCOPE = environment.googleScope;
+export const RESPONSE_TYPE = environment.googleResponseType;
+export const ACCESS_TYPE = environment.googleAccessType;

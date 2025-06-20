@@ -15,6 +15,7 @@ import { UserModalSectionComponent } from '../user-modal-section/user-modal-sect
 import { User, UserService } from '../../shared/services/user.service';
 import { Admin, AdminService } from '../../shared/services/admin.service';
 import { AdminModalSectionComponent } from '../admin-modal-section/admin-modal-section.component';
+import { UserGoogleFormModalSectionComponent } from '../user-google-form-modal-section/user-google-form-modal-section.component';
 
 @Component({
   selector: 'app-modal',
@@ -28,6 +29,7 @@ import { AdminModalSectionComponent } from '../admin-modal-section/admin-modal-s
     CustomerDetailModalSectionComponent,
     UserModalSectionComponent,
     AdminModalSectionComponent,
+    UserGoogleFormModalSectionComponent,
   ],
   templateUrl: './modal.component.html',
 })

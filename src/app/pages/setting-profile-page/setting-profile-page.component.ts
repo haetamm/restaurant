@@ -33,7 +33,6 @@ import { SeoService } from '../../shared/services/seo.service';
 })
 export class SettingProfilePageComponent {
   profile: Profile | null = null;
-  // profileForm: FormGroup;
   loading: boolean = false;
   profileForm = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),

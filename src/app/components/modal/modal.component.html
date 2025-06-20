@@ -87,6 +87,12 @@
         (onSubmit)="executeCallback()"
         (onClose)="closeModal()"
       />
+
+      <!-- Render user google form -->
+      <app-user-google-form-modal-section
+        *ngIf="state.type === MODAL_TYPES.USER_GOOGLE_FORM"
+        (onClose)="closeModal()"
+      />
     </ng-container>
   </div>
 </div>

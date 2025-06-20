@@ -1,5 +1,5 @@
 import { urlPage } from './../../shared/utils/constans';
-import { selectPayment, formatDate } from './../../shared/utils/helper';
+import { formatDate, openPopup } from './../../shared/utils/helper';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { getMenuNames } from '../../shared/utils/helper';
@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
 })
 export class BillCardComponent {
   @Input() isUser: boolean = false;
-  selectPayment = selectPayment;
+  selectPayment = openPopup;
   @Input() bill: any;
   formatDate = formatDate;
   getMenuNames = getMenuNames;

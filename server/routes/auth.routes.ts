@@ -84,4 +84,31 @@ router.post('/confirm', async (req, res) => {
   }
 });
 
+router.post('/socialite', async (req, res) => {
+  try {
+    const { code, scope } = req.body;
+    const response = await axios.post(
+      `${BASE_URL}/auth/socialite?code=${encodeURIComponent(code)}&scope=${encodeURIComponent(scope)}`,
+    );
+
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Activation account failed',
+    });
+  }
+});
+
+router.post('/register/user-google', async (req, res) => {
+  try {
+    const { body } = req;
+    const response = await axios.post(`${BASE_URL}/auth/reg/user-google`, body);
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data?.message || 'Register failed',
+    });
+  }
+});
+
 export default router;

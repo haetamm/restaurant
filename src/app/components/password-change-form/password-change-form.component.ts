@@ -61,8 +61,14 @@ export class PasswordChangeFormComponent {
     );
     if (!result.success) return;
     this.loading = true;
-    await this.profileService.updateProfilePassword(result.data);
-    this.loading = false;
-    this.passwordChangeForm.reset();
+
+    try {
+      await this.profileService.updateProfilePassword(result.data);
+      this.passwordChangeForm.reset();
+    } catch (err) {
+      console.error('error');
+    } finally {
+      this.loading = false;
+    }
   }
 }

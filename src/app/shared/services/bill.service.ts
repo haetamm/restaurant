@@ -5,10 +5,10 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { billApi } from '../api/bill.api';
 import { ModalService } from './modal.service';
 import { CartService } from './cart.service';
-import { selectPayment } from '../utils/helper';
 import { usePreload } from '../utils/use-preload';
 import { CartAdminService } from './cart-admin.service';
 import { PaginationResponse } from '../utils/types';
+import { openPopup } from '../utils/helper';
 
 export interface BillRequest {
   menuId: string;
@@ -104,7 +104,7 @@ export class BillService {
       this.modalService.hideModal();
       this.cartService.resetCart();
       this.toastService.success('Transaksi berhasil dibuat');
-      selectPayment(bill.payment.redirectUrl);
+      openPopup(bill.payment.redirectUrl);
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(error.message || 'Gagal membuat transaksi', {
@@ -119,7 +119,7 @@ export class BillService {
       const bill = await billApi.createDineInBill(payload);
       this.cartAdminService.resetCart();
       this.toastService.success('Transaksi berhasil dibuat');
-      selectPayment(bill.payment.redirectUrl);
+      openPopup(bill.payment.redirectUrl);
     } catch (error: any) {
       this.updateState({ loading: false });
       this.toastService.error(error.message || 'Gagal membuat transaksi', {

@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapGoogle } from '@ng-icons/bootstrap-icons';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -9,19 +7,25 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { setupZodValidation } from '../../shared/utils/zod-validation.helper';
 import { AuthService } from '../../shared/services/auth.service';
 import { loginFields, LoginFormControls } from '../../shared/utils/fields';
 import { loginSchema } from '../../shared/utils/validation';
 import { urlPage } from '../../shared/utils/constans';
 import { SeoService } from '../../shared/services/seo.service';
+import { ButtonGoogleComponent } from '../../components/button-google/button-google.component';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-login-page',
-  imports: [NgIcon, ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    ButtonGoogleComponent,
+  ],
   templateUrl: './login-page.component.html',
-  viewProviders: [provideIcons({ bootstrapGoogle })],
 })
 export class LoginPageComponent {
   loginForm = new FormGroup<LoginFormControls>({
@@ -34,6 +38,10 @@ export class LoginPageComponent {
   constructor(
     private authService: AuthService,
     private seoService: SeoService,
+    private route: ActivatedRoute,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private modalService: ModalService,
   ) {
     setupZodValidation(
       this.loginForm.controls as unknown as Record<string, AbstractControl>,
@@ -48,6 +56,29 @@ export class LoginPageComponent {
       url: 'https://your-app.com/guest/login',
       keywords: 'Login, Warmakth, restaurant',
       image: 'https://your-app.com/assets/default-image.jpg',
+    });
+
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('message', async (event) => {
+        const data = event.data;
+        if (data.googleLoginSuccess && data.token) {
+          await this.router.navigate([urlPage.HOME]);
+        }
+        if (data.googleLoginSuccess && data.tokenAccess) {
+          this.authService.setGoogleInfo(data.result);
+          this.modalService.showUserGoogleForm();
+        }
+      });
+    }
+
+    this.route.queryParams.subscribe((params) => {
+      const code = params['code'];
+      const scope = params['scope'];
+
+      if (code && scope) {
+        const payload = { code: code, scope: scope };
+        this.authService.loginWithGoogle(payload);
+      }
     });
   }
 

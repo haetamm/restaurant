@@ -292,3 +292,15 @@ export const updateAdminSchema = z.object({
 });
 
 export type UpdateAdminFormType = z.infer<typeof updateAdminSchema>;
+
+export const registerUserGoogleSchema = z.object({
+  name,
+  username: usernameRegister,
+  email,
+  phone,
+  password: passwordOptional,
+});
+
+export type RegisterUserGoogleFormType = z.infer<
+  typeof registerUserGoogleSchema
+>;
