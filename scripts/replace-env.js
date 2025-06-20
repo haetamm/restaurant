@@ -33,4 +33,10 @@ console.log(
   "Updated environment.prod.ts with GOOGLE_REDIRECT_URI:",
   googleRedirectUri,
 );
-console.log("Updated environment.prod.ts with CLIENT_ID:", baseUrl);
+console.log("Updated environment.prod.ts with CLIENT_ID:", googleClientId);
+console.log("Updated environment.prod.ts with GOOGLE_SCOPE:", googleScope);
+console.log(
+  "Updated environment.prod.ts with RESPONSE_TYPE:",
+  googleResponseType,
+);
+console.log("Updated environment.prod.ts with ACCESS_TYPE:", googleAccessType);
