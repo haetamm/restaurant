@@ -19,6 +19,7 @@ export const urlPage = {
   DASHBOARD_ADMIN: '/on/dashboard/admin',
   DASHBOARD_USER: '/on/dashboard/user',
   CUSTOMER: '/on/dashboard/customer',
+  NOTIFICATION: '/on/notification',
 };
 
 export const BASE_URL = environment.baseUrl;

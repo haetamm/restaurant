@@ -12,6 +12,8 @@ import { ModalComponent } from '../../components/modal/modal.component';
 import { TableService } from '../../shared/services/table.service';
 import { CartAdminService } from '../../shared/services/cart-admin.service';
 import { CategoryService } from '../../shared/services/category.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { WebSocketService } from '../../shared/services/web-socket.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -38,6 +40,8 @@ export class AuthLayoutComponent implements OnInit {
     private tableService: TableService,
     private cartAdminService: CartAdminService,
     private categoryService: CategoryService,
+    private notificationService: NotificationService,
+    private webSocketService: WebSocketService,
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +65,11 @@ export class AuthLayoutComponent implements OnInit {
     const apiCategories = this.categoryService.getCategories() || [];
     if (apiCategories.length === 0) {
       this.categoryService.fetchCategories();
+    }
+
+    if (this.preload.isAdmin()) {
+      this.notificationService.fetchNotifications();
+      this.webSocketService.connect();
     }
   }
 }

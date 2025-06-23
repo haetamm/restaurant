@@ -91,8 +91,6 @@ export class CustomerService {
   }): Promise<void> {
     this.updateState({ loading: true });
     try {
-      console.log('hallo');
-
       const data = await customerApi.getCustomers(params);
       this.updateState({
         customers: data.data,

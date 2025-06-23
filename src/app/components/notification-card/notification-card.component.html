@@ -1,0 +1,75 @@
+<div
+  class="mx-auto w-full bg-white rounded-xl shadow-md overflow-hidden mb-6 transition-all duration-200"
+  [ngClass]="notification.isRead ? '' : 'border-l-4 border-[#F86901]'"
+>
+  <!-- Header with unread indicator -->
+  <div class="flex items-center justify-between p-4 bg-gray-50">
+    <div class="flex items-center">
+      <!-- PrimeNG icon for notification -->
+      <i class="pi pi-bell mr-2 text-[#F86901]"></i>
+      <span class="text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >Order</span
+      >
+      <!-- Unread badge -->
+      <span
+        *ngIf="!notification.isRead"
+        class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-orange-100 text-[#F86901] rounded-full"
+        >New</span
+      >
+    </div>
+    <span class="text-xs text-gray-500">{{
+      formatDateTime(notification.createdAt)
+    }}</span>
+  </div>
+
+  <!-- Card content container -->
+  <div class="lg:flex lg:items-center lg:justify-between">
+    <!-- Content with image and details -->
+    <div class="flex items-start px-6 pt-4 lg:pb-8 lg:flex-1 lg:pr-0">
+      <!-- User avatar -->
+      <div class="flex-shrink-0 bg-orange-100 p-1 rounded-full">
+        <img
+          [src]="`https://ui-avatars.com/api/?name=${notification.customerName}&background=F86901&color=fff`"
+          alt="user"
+          class="rounded-full h-12 w-12"
+        />
+      </div>
+
+      <!-- Notification details -->
+      <div class="ml-4">
+        <h3 class="text-md md:text-lg font-semibold text-gray-800 mb-1">
+          Pesanan dari
+          <a
+            [routerLink]="[urlPage.CUSTOMER]"
+            [queryParams]="{ name: notification.customerName }"
+            class="hover:underline"
+          >
+            {{ notification.customerName }}
+          </a>
+        </h3>
+        <p class="text-gray-600 text-sm md:text-base mb-3 lg:mb-0">
+          {{ notification.message }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Action buttons - responsive layout -->
+    <div
+      class="px-6 pb-4 flex justify-end lg:justify-normal space-x-3 lg:px-6 lg:pb-0 lg:w-auto"
+    >
+      <button
+        *ngIf="!notification.isRead"
+        (click)="onHandleUpdate(notification.id)"
+        class="px-4 py-2 rounded-md text-sm font-medium italic cursor-pointer"
+      >
+        Read
+      </button>
+      <button
+        (click)="onHandleDetail(notification.billId)"
+        class="px-4 cursor-pointer py-2 bg-gray-100 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors"
+      >
+        <i class="pi pi-receipt mr-2"></i> Detail
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { formatDateTime } from './../../shared/utils/helper';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BillResponse, BillService } from '../../shared/services/bill.service';
@@ -13,6 +14,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 export class BillDetailCardComponent implements OnInit, OnDestroy {
   billDetail: BillResponse | null = null;
   loadingDetail: boolean = false;
+  formatDateTime = formatDateTime;
 
   private subscription: Subscription | null = null;
 

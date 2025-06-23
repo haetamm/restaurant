@@ -134,3 +134,8 @@ export const generateGoogleAuthUrl = () => {
 
   return `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${redirectUri}&response_type=${responseType}&client_id=${clientId}&scope=${scope}&access_type=${accessType}`;
 };
+
+export const formatDateTime = (input: string): string => {
+  const date = new Date(input.split('.')[0]); // buang mikrodetik
+  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+};

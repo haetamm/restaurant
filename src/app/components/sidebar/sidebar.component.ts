@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { urlPage } from '../../shared/utils/constans';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { AvatarComponent } from '../avatar/avatar.component';
@@ -11,12 +11,22 @@ import {
   bootstrapCalendar2Check,
   bootstrapGear,
   bootstrapBoxArrowLeft,
+  bootstrapBell,
 } from '@ng-icons/bootstrap-icons';
 import { heroUsers } from '@ng-icons/heroicons/outline';
 import { SidebarService } from '../../shared/services/sidebar.service';
 import { isActiveRoute } from '../../shared/utils/helper';
 import { ModalService } from '../../shared/services/modal.service';
 import { usePreload } from '../../shared/utils/use-preload';
+import { NotificationService } from '../../shared/services/notification.service';
+import { Subscription } from 'rxjs';
+
+interface NavItem {
+  label: string;
+  icon: string;
+  link: string;
+  showBadge?: boolean;
+}
 
 @Component({
   selector: 'app-sidebar',
@@ -32,21 +42,37 @@ import { usePreload } from '../../shared/utils/use-preload';
       heroUsers,
       bootstrapGear,
       bootstrapBoxArrowLeft,
+      bootstrapBell,
     }),
   ],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnDestroy {
   private preload = usePreload(false);
   urlPage = urlPage;
+  unReadCount: number = 0;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private modalService: ModalService,
     private sidebarService: SidebarService,
     public router: Router,
+    private notificationService: NotificationService,
   ) {}
 
-  get navItems() {
-    const baseItems = [
+  ngOnInit(): void {
+    const notifSub = this.notificationService.getState().subscribe((state) => {
+      this.unReadCount = state.unreadCount;
+    });
+
+    this.subscription.add(notifSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  get navItems(): NavItem[] {
+    const baseItems: NavItem[] = [
       { label: 'Home', icon: 'bootstrapShopWindow', link: urlPage.HOME },
       {
         label: 'Transaksi',
@@ -58,6 +84,12 @@ export class SidebarComponent {
 
     if (this.preload.isAdmin()) {
       baseItems.push(
+        {
+          label: 'Notifikasi',
+          icon: 'bootstrapBell',
+          link: urlPage.NOTIFICATION,
+          showBadge: true,
+        },
         { label: 'Menu', icon: 'bootstrapClipboard2', link: urlPage.MENU },
         {
           label: 'Admin Panel',

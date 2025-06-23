@@ -1,18 +1,31 @@
 <div
-  class="flex items-center absolute top-2 md:top-2.5 right-2 z-60 space-x-1.5 lg:top-4 md:right-1"
+  class="flex items-center absolute top-2 md:top-1.5 right-2 z-60 space-x-1.5 lg:top-4 md:right-1"
 >
   <a
     [routerLink]="urlPage.CART"
     class="lg:hidden bg-white shadow-sm rounded-md lg:rounded-lg flex justify-center items-center h-9 w-9 cursor-pointer"
   >
     <small
-      class="bg-red-600 text-white top-[-4px] rounded-full flex justify-center items-center h-6 w-6 right-[38px] md:right-[24px] absolute"
+      class="bg-red-600 text-white top-[-4px] rounded-full flex justify-center items-center h-6 w-6 right-[85px] md:right-[45px] absolute"
       *ngIf="cart$ | async as state"
     >
       {{ state.totalMenu }}
     </small>
 
     <ng-icon name="bootstrapHandbag" />
+  </a>
+  <a
+    [routerLink]="urlPage.NOTIFICATION"
+    class="lg:hidden bg-white shadow-sm rounded-md lg:rounded-lg flex justify-center items-center h-9 w-9 cursor-pointer"
+  >
+    <small
+      *ngIf="unReadCount > 0"
+      class="bg-red-600 text-white top-[-4px] rounded-full flex justify-center items-center h-6 w-6 right-[38px] md:right-[2px] absolute"
+    >
+      {{ unReadCount }}
+    </small>
+
+    <ng-icon name="bootstrapBell" />
   </a>
   <button
     (click)="toggleSidebar()"

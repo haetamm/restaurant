@@ -23,6 +23,7 @@ import { DashboardUserPageComponent } from './pages/dashboard-user-page/dashboar
 import { userGuard } from './guards/user.guard';
 import { superAdminGuard } from './guards/super-admin.guard';
 import { AuthorizeLayoutComponent } from './layouts/authorize-layout/authorize-layout.component';
+import { NotificationPageComponent } from './pages/notification-page/notification-page.component';
 
 export const routes: Routes = [
   {
@@ -83,6 +84,11 @@ export const routes: Routes = [
       {
         path: 'table',
         component: DiningTablePageComponent,
+      },
+      {
+        path: 'notification',
+        component: NotificationPageComponent,
+        canActivate: [adminGuard],
       },
       {
         path: 'settings',
