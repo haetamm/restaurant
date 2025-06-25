@@ -36,6 +36,7 @@
 
     <!-- Pagination -->
     <p-paginator
+      *ngIf="paginated.length"
       [rows]="rows"
       [totalRecords]="notifications.length"
       [first]="first"

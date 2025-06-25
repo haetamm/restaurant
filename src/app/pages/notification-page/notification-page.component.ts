@@ -54,6 +54,10 @@ export class NotificationPageComponent implements OnDestroy {
       this.paginate({ first: this.first, rows: this.rows });
     });
     this.sub.add(s);
+
+    if (this.preload.isAdmin()) {
+      this.notificationService.fetchNotifications();
+    }
   }
 
   paginate(event: { first?: number; rows?: number }) {

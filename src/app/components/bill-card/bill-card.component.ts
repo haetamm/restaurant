@@ -3,7 +3,10 @@ import { formatDate, openPopup } from './../../shared/utils/helper';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { getMenuNames } from '../../shared/utils/helper';
-import { BillService } from '../../shared/services/bill.service';
+import {
+  BillService,
+  PaymentResponse,
+} from '../../shared/services/bill.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { RouterModule } from '@angular/router';
 
@@ -28,5 +31,27 @@ export class BillCardComponent {
   selectBillDetail(id: string) {
     this.billService.fetchBillById(id);
     this.modalService.showBillDetail();
+  }
+
+  updateBill(id: string, payment: PaymentResponse) {
+    if (!this.selectPaymentDisabled(payment)) {
+      this.billService.updateBillById(id);
+    }
+  }
+
+  handleSelectPayment(url: string, payment: PaymentResponse) {
+    if (!this.selectPaymentDisabled(payment)) {
+      this.selectPayment(url);
+    }
+  }
+
+  selectPaymentDisabled(payment: PaymentResponse): boolean {
+    if (!payment || !payment.transactionStatus) {
+      return true; // Disable kalo data ga valid
+    }
+    return (
+      payment.transactionStatus === 'expire' ||
+      payment.transactionStatus === 'settlement'
+    );
   }
 }

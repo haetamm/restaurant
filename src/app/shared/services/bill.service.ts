@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { billApi } from '../api/bill.api';
 import { ModalService } from './modal.service';
@@ -9,6 +9,7 @@ import { usePreload } from '../utils/use-preload';
 import { CartAdminService } from './cart-admin.service';
 import { PaginationResponse } from '../utils/types';
 import { openPopup } from '../utils/helper';
+import { paymentApi } from '../api/payment.api';
 
 export interface BillRequest {
   menuId: string;
@@ -165,9 +166,17 @@ export class BillService {
         ? await billApi.currentUserGetBillById(id)
         : await billApi.getBillById(id);
 
-      this.updateState({
-        billDetail: data.data,
-        loadingDetail: false,
+      // Update both billDetail and the bills array
+      this.state.pipe(take(1)).subscribe((currentState) => {
+        const updatedBills = currentState.bills.map((bill) =>
+          bill.id === id ? { ...bill, ...data.data } : bill,
+        );
+
+        this.updateState({
+          billDetail: data.data,
+          bills: updatedBills,
+          loadingDetail: false,
+        });
       });
     } catch (error: any) {
       this.updateState({
@@ -175,6 +184,36 @@ export class BillService {
         billDetail: null,
       });
       this.toastService.error(error.message || 'Failed to load bill detail');
+    }
+  }
+
+  async updateBillById(id: string): Promise<void> {
+    try {
+      const data = await paymentApi.updateStatus(id);
+
+      this.state.pipe(take(1)).subscribe((currentState) => {
+        const updatedBills = currentState.bills.map((bill) => {
+          if (bill.id === id) {
+            return {
+              ...bill,
+              payment: {
+                ...bill.payment,
+                transactionStatus: data,
+              },
+            };
+          }
+          return bill;
+        });
+
+        this.updateState({
+          ...currentState,
+          bills: updatedBills,
+        });
+        this.toastService.success('status transaksi berhasil diupdate');
+      });
+    } catch (error: any) {
+      console.error('Error updating bill:', error);
+      this.toastService.error(error.message || 'Failed to update bill status');
     }
   }
 

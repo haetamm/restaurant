@@ -5,7 +5,11 @@ import {
   openPopup,
 } from './../../shared/utils/helper';
 import { Component, Input, OnInit } from '@angular/core';
-import { BillResponse, BillService } from '../../shared/services/bill.service';
+import {
+  BillResponse,
+  BillService,
+  PaymentResponse,
+} from '../../shared/services/bill.service';
 import { CommonModule } from '@angular/common';
 import { BillCardComponent } from '../bill-card/bill-card.component';
 import { ModalService } from '../../shared/services/modal.service';
@@ -53,5 +57,27 @@ export class BillTableComponent implements OnInit {
     this.clickedBillId = id;
     this.billService.fetchBillById(id);
     this.modalService.showBillDetail();
+  }
+
+  updateBill(id: string, payment: PaymentResponse) {
+    if (!this.selectPaymentDisabled(payment)) {
+      this.billService.updateBillById(id);
+    }
+  }
+
+  handleSelectPayment(url: string, payment: PaymentResponse) {
+    if (!this.selectPaymentDisabled(payment)) {
+      this.selectPayment(url);
+    }
+  }
+
+  selectPaymentDisabled(payment: PaymentResponse): boolean {
+    if (!payment || !payment.transactionStatus) {
+      return true; // Disable kalo data ga valid
+    }
+    return (
+      payment.transactionStatus === 'expire' ||
+      payment.transactionStatus === 'settlement'
+    );
   }
 }

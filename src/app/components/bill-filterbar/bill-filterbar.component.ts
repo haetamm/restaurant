@@ -62,6 +62,8 @@ export class BillFilterbarComponent implements OnInit {
       { name: 'Reset', value: '' },
       { name: 'Ordered', value: 'ordered' },
       { name: 'Pending', value: 'pending' },
+      { name: 'Settlement', value: 'settlement' },
+      { name: 'Expire', value: 'expire' },
     ];
 
     // Initialize values from URL

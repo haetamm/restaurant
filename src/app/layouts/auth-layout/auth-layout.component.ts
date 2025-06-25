@@ -68,7 +68,6 @@ export class AuthLayoutComponent implements OnInit {
     }
 
     if (this.preload.isAdmin()) {
-      this.notificationService.fetchNotifications();
       this.webSocketService.connect();
     }
   }

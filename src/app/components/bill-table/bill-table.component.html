@@ -83,26 +83,76 @@
           <td class="px-6 py-4 box-border truncate">
             Rp. {{ bill.totalPayment | number: "1.0-0" }}
           </td>
-          <td class="px-6 py-4 box-border truncate">
-            {{ bill.payment.transactionStatus }}
+          <td class="px-6 py-4 box-border">
+            <span
+              class="px-1.5 py-0.5 rounded-md text-sm"
+              [ngClass]="{
+                'bg-green-100 text-green-800':
+                  bill.payment.transactionStatus === 'settlement',
+                'bg-yellow-100 text-yellow-800':
+                  bill.payment.transactionStatus === 'pending',
+                'bg-red-100 text-red-800':
+                  bill.payment.transactionStatus === 'expire',
+              }"
+            >
+              {{ bill.payment.transactionStatus }}
+            </span>
           </td>
-          <td class="px-1 box-border truncate">
-            <div class="flex space-x-2">
+          <td class="px-3 box-border truncate">
+            <div class="flex space-x-3">
               <button
-                (click)="selectPayment(bill.payment.redirectUrl)"
-                class="font-medium p-0.5 text-blue-600 cursor-pointer"
+                (click)="updateBill(bill.id, bill.payment)"
+                class="p-0.5 cursor-pointer"
+                [pTooltip]="
+                  selectPaymentDisabled(bill.payment)
+                    ? 'Disabled'
+                    : 'Refresh Status'
+                "
+                tooltipPosition="top"
+                [disabled]="selectPaymentDisabled(bill.payment)"
               >
-                Bayar
+                <i
+                  class="pi pi-refresh"
+                  [ngClass]="
+                    selectPaymentDisabled(bill.payment)
+                      ? 'text-gray-300'
+                      : 'text-gray-600 font-medium'
+                  "
+                ></i>
+              </button>
+              <button
+                (click)="
+                  handleSelectPayment(bill.payment.redirectUrl, bill.payment)
+                "
+                class="p-0.5 cursor-pointer"
+                [pTooltip]="
+                  selectPaymentDisabled(bill.payment) ? 'Disabled' : 'Bayar'
+                "
+                tooltipPosition="top"
+                [disabled]="selectPaymentDisabled(bill.payment)"
+              >
+                <i
+                  class="pi pi-wallet"
+                  [ngClass]="
+                    selectPaymentDisabled(bill.payment)
+                      ? 'text-blue-300'
+                      : 'text-blue-600 font-medium'
+                  "
+                ></i>
               </button>
               <button
                 (click)="selectBillDetail(bill.id)"
-                class="font-medium p-0.5 cursor-pointer"
-                [ngClass]="{
-                  'text-blue-600': clickedBillId !== bill.id,
-                  'text-[#F86901]': clickedBillId === bill.id,
-                }"
+                class="p-0.5 cursor-pointer"
+                pTooltip="Detail"
+                tooltipPosition="top"
               >
-                Detail
+                <i
+                  class="pi pi-info-circle"
+                  [ngClass]="{
+                    'text-blue-600': clickedBillId !== bill.id,
+                    'text-[#F86901]': clickedBillId === bill.id,
+                  }"
+                ></i>
               </button>
             </div>
           </td>
