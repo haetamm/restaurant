@@ -4,7 +4,6 @@ import { Menu, MenuService } from '../../shared/services/menu.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { createImgUrl } from '../../shared/utils/helper';
 import { Image } from 'primeng/image';
 import { ModalService } from '../../shared/services/modal.service';
 import { Tooltip } from 'primeng/tooltip';
@@ -28,7 +27,6 @@ export class MenuTableComponent {
   coloumns: { name: string }[] = [];
   menus: Menu[] = [];
   loading: boolean = false;
-  createImgUrl = createImgUrl;
 
   constructor(
     private menuService: MenuService,

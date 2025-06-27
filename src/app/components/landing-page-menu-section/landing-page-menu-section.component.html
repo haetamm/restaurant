@@ -54,7 +54,9 @@
             <div class="card w-[290px]">
               <div class="card__image">
                 <img
-                  [src]="createImgUrl(menu?.image?.id)"
+                  [src]="
+                    menu?.image?.url ? menu.image.url : '/img/notfound-menu.jpg'
+                  "
                   alt="Salad"
                   class="w-[500px]"
                 />

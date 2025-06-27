@@ -4,7 +4,7 @@
   <!-- Left-aligned image with bottom gap -->
   <div class="w-32 h-32 relative overflow-hidden shrink-0 m-2 self-center">
     <p-image
-      [src]="createImgUrl(menu?.image?.id)"
+      [src]="menu?.image?.url || '/img/notfound-menu.jpg'"
       [alt]="menu?.name"
       [preview]="true"
       width="128"

@@ -7,7 +7,7 @@
   </ng-container>
   <ng-template #imageTemplate>
     <img
-      [src]="createImgUrl(item.image?.id)"
+      [src]="item.image?.url || '/img/notfound-menu.jpg'"
       [alt]="item.name || 'Item'"
       class="lg:hidden xl:block h-22 w-22 object-cover bg-amber-100 rounded-lg"
     />

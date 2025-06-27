@@ -1,5 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { createImgUrl } from '../../shared/utils/helper';
+import { Component, Input } from '@angular/core';
 import { Cart, CartService } from '../../shared/services/cart.service';
 import { CommonModule } from '@angular/common';
 import {
@@ -33,10 +32,6 @@ export class CartItemComponent {
     private cartService: CartService,
     private modalService: ModalService,
   ) {}
-
-  get imageUrl(): string {
-    return createImgUrl(this.item?.image);
-  }
 
   async onUpdateCart(menuId: string, qty: number) {
     this.loading = true;

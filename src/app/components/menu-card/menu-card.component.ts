@@ -1,4 +1,3 @@
-import { createImgUrl } from '../../shared/utils/helper';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Menu } from '../../shared/services/menu.service';
 import { CommonModule } from '@angular/common';
@@ -17,10 +16,6 @@ export class MenuCardComponent {
   @Input() menu!: Menu;
   @Input() loadingButton!: boolean;
   @Output() addToCart = new EventEmitter<string>();
-
-  get imageUrl(): string {
-    return createImgUrl(this.menu?.image?.id);
-  }
 
   isBlur(): boolean {
     return !this.menu.id;

@@ -1,4 +1,3 @@
-import { createImgUrl } from './../../shared/utils/helper';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Menu } from '../../shared/services/menu.service';
 import { Image } from 'primeng/image';
@@ -13,8 +12,6 @@ export class MenuTableCardComponent {
   @Input() menu: Menu | null = null;
   @Output() handleDelete = new EventEmitter<string>();
   @Output() handleUpdate = new EventEmitter<string>();
-
-  createImgUrl = createImgUrl;
 
   onHandleUpdate() {
     this.handleUpdate.emit(this.menu?.id);

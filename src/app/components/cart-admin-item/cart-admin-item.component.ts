@@ -5,7 +5,6 @@ import {
   CartAdminService,
   RequestMenu,
 } from '../../shared/services/cart-admin.service';
-import { createImgUrl } from '../../shared/utils/helper';
 import { ModalService } from '../../shared/services/modal.service';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
@@ -17,8 +16,6 @@ import { FormsModule } from '@angular/forms';
 })
 export class CartAdminItemComponent {
   @Input() item!: RequestMenu;
-
-  createImgUrl = createImgUrl;
 
   constructor(
     private cartAdminService: CartAdminService,

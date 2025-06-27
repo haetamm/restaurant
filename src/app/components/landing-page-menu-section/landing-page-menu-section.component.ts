@@ -1,4 +1,3 @@
-import { createImgUrl } from './../../shared/utils/helper';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Menu, MenuService } from '../../shared/services/menu.service';
@@ -16,7 +15,6 @@ export class LandingPageMenuSectionComponent {
   @Input() id: string = '';
   menus: Menu[] = [];
   loading: boolean = false;
-  createImgUrl = createImgUrl;
 
   skeletonCards = Array(4).fill(0);
 

@@ -8,7 +8,7 @@
   ></div>
   <ng-template #imageTemplate>
     <img
-      [src]="imageUrl"
+      [src]="item.image || '/img/notfound-menu.jpg'"
       [alt]="item.name || 'Item'"
       class="h-22 w-22 object-cover bg-amber-100 rounded-lg"
     />

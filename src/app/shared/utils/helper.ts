@@ -61,10 +61,6 @@ export const isActiveRoute = (
   return exact ? currentUrl === prefix : currentUrl.startsWith(prefix);
 };
 
-export const createImgUrl = (id: string): string => {
-  return id ? BASE_URL + '/menus/' + id + '/images' : '/img/notfound-menu.jpg';
-};
-
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString('id-ID', {

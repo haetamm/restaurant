@@ -91,7 +91,9 @@
         >
           <td class="px-6 py-1.5 box-border font-medium text-gray-900 truncate">
             <p-image
-              [src]="createImgUrl(menu.image?.id)"
+              [src]="
+                menu?.image?.url ? menu.image.url : '/img/notfound-menu.jpg'
+              "
               [alt]="menu.name"
               [preview]="true"
               width="60"
