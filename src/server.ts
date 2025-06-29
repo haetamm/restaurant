@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   'http://localhost:4200',
-  'https://warmakth.up.railway.app/',
+  'https://warmakth.up.railway.app',
 ];
 
 app.use('/api', (req: Request, res: Response, next: NextFunction) => {
