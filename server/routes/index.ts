@@ -21,7 +21,6 @@ router.use('/cart', cartRoutes);
 router.use('/bill', billRoutes);
 router.use('/table', tableRoutes);
 router.use('/customer', customerRoutes);
-router.use('/customer', customerRoutes);
 router.use('/notification', notificationRoutes);
 router.use('/payment', paymentRoutes);
 

@@ -9,6 +9,7 @@ import { ContactSectionComponent } from '../../components/contact-section/contac
 import { Subscription } from 'rxjs';
 import { ScrollService } from '../../shared/services/scroll.service';
 import { LandingPageMenuSectionComponent } from '../../components/landing-page-menu-section/landing-page-menu-section.component';
+import { MenuService } from '../../shared/services/menu.service';
 
 @Component({
   selector: 'app-welcome-page',
@@ -31,11 +32,12 @@ export class WelcomePageComponent {
     private profileService: ProfileService,
     private seoService: SeoService,
     private scrollService: ScrollService,
+    private menuService: MenuService,
   ) {
     this.scrollSubscription = new Subscription();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.seoService.setMetaTags({
       title: 'Warmakth',
       description: 'Explore our awesome app!',
@@ -56,6 +58,9 @@ export class WelcomePageComponent {
         }
       },
     );
+
+    const payload = { category: 'main' };
+    await this.menuService.fetchMenus(payload);
   }
 
   ngOnDestroy(): void {

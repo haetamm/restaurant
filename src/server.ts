@@ -4,7 +4,7 @@ import {
   isMainModule,
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import apiRoutes from '../server/routes';
@@ -17,10 +17,24 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-// Middleware untuk parsing JSON body
+// Middleware
 app.use(express.json());
-
 app.use(cookieParser());
+
+const allowedOrigins = [
+  'http://localhost:4200',
+  'https://warmakth.up.railway.app/',
+];
+
+app.use('/api', (req: Request, res: Response, next: NextFunction) => {
+  const origin = req.get('Origin') || req.get('Referer') || '';
+  if (allowedOrigins.some((allowed) => origin.startsWith(allowed))) {
+    return next();
+  }
+  res.status(403).json({ message: 'Access Denied' });
+});
+
+app.use('/api', apiRoutes);
 
 // Static assets
 app.use(
@@ -31,11 +45,8 @@ app.use(
   }),
 );
 
-// Daftarkan semua route API dengan prefiks /api
-app.use('/api', apiRoutes);
-
-// Route untuk SSR
-app.use('/**', (req, res, next) => {
+// Route SSR
+app.use('/**', (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies['token'];
   const url = req.originalUrl;
 
@@ -49,20 +60,34 @@ app.use('/**', (req, res, next) => {
     return;
   }
 
-  // Tentukan baseUrl berdasarkan VERCEL_URL atau fallback ke localhost
   const baseUrl = process.env['VERCEL_URL']
     ? `https://${process.env['VERCEL_URL']}`
     : 'http://localhost:4000';
 
   angularApp
-    .handle(req, { baseUrl }) // Kirim baseUrl ke Angular SSR
+    .handle(req, { baseUrl })
     .then((response) =>
       response ? writeResponseToNodeResponse(response, res) : next(),
     )
     .catch(next);
 });
 
-// Jalankan server hanya jika bukan di Vercel
+// Error handling CSRF
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err.code === 'EBADCSRFTOKEN') {
+    console.error('CSRF Error:', {
+      url: req.originalUrl,
+      method: req.method,
+      headers: req.headers,
+      cookies: req.cookies,
+    });
+    res.status(403).json({ message: 'Access Denied' });
+  } else {
+    next(err);
+  }
+});
+
+// Jalankan server lokal
 if (isMainModule(import.meta.url) && process.env['VERCEL'] !== '1') {
   const port = process.env['PORT'] || 4000;
   app.listen(port, () => {

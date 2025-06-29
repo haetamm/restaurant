@@ -5,7 +5,6 @@ import { LoadingComponent } from '../../components/loading/loading.component';
 import { usePreload } from '../../shared/utils/use-preload';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../components/modal/modal.component';
-import { MenuService } from '../../shared/services/menu.service';
 import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
@@ -23,11 +22,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 export class DefaultLayoutComponent implements OnInit {
   preload = usePreload(true);
 
-  constructor(private menuService: MenuService) {}
-
   async ngOnInit(): Promise<void> {
     await this.preload.initialize();
-    const payload = { category: 'main' };
-    await this.menuService.fetchMenus(payload);
   }
 }
