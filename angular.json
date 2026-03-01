@@ -39,12 +39,6 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
               "budgets": [],
               "outputHashing": "all"
             },
@@ -97,6 +91,7 @@
     }
   },
   "cli": {
-    "schematicCollections": ["angular-eslint"]
+    "schematicCollections": ["angular-eslint"],
+    "analytics": "4ebe15da-6aab-4654-909e-6b7140a9bc14"
   }
 }

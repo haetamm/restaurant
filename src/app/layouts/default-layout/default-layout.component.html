@@ -1,7 +1,13 @@
-<div class="bg-default-layout min-h-screen overflow-auto small-scrollbar">
+<div class="bg-default-layout min-h-screen flex flex-col">
   <app-loading [isLoading]="(preload.isLoading$ | async) ?? false" />
+
   <app-navbar />
-  <router-outlet />
+
+  <main class="flex-1">
+    <router-outlet />
+  </main>
+
   <app-footer />
 </div>
+
 <app-modal />

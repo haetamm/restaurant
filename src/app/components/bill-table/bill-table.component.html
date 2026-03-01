@@ -91,8 +91,10 @@
                   bill.payment.transactionStatus === 'settlement',
                 'bg-yellow-100 text-yellow-800':
                   bill.payment.transactionStatus === 'pending',
-                'bg-red-100 text-red-800':
+                'bg-orange-100 text-orange-800':
                   bill.payment.transactionStatus === 'expire',
+                'bg-red-100 text-red-800':
+                  bill.payment.transactionStatus === 'deny',
               }"
             >
               {{ bill.payment.transactionStatus }}

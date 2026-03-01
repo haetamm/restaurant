@@ -1,8 +1,8 @@
 #not {
   display: flex;
-  height: 100vh;
   justify-content: center;
   align-items: center;
+  height: calc(100vh - 212px);
   color: var(--color);
   text-shadow: 0px 0px var(--glowSize);
   font-size: 6rem;

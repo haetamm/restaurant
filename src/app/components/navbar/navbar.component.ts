@@ -1,12 +1,12 @@
-import { navigationLinks } from './../../shared/utils/helper';
-import { urlPage } from './../../shared/utils/constans';
-import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { provideIcons, NgIcon } from '@ng-icons/core';
-import { Profile, ProfileService } from '../../shared/services/profile.service';
 import { CommonModule } from '@angular/common';
-import { ScrollService } from '../../shared/services/scroll.service';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { bootstrapFilterRight, bootstrapXLg } from '@ng-icons/bootstrap-icons';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { Profile, ProfileService } from '../../shared/services/profile.service';
+import { ScrollService } from '../../shared/services/scroll.service';
+import { urlPage } from './../../shared/utils/constans';
+import { navigationLinks } from './../../shared/utils/helper';
 
 @Component({
   selector: 'app-navbar',
@@ -44,6 +44,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private scrollService: ScrollService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +54,16 @@ export class NavbarComponent implements OnInit {
   }
 
   scrollTo(section: string) {
-    this.scrollService.scrollTo(section);
+    if (this.router.url !== this.urlPage.WELCOME) {
+      this.router.navigate([this.urlPage.WELCOME]).then(() => {
+        setTimeout(() => {
+          this.scrollService.scrollTo(section);
+        }, 100);
+      });
+    } else {
+      this.scrollService.scrollTo(section);
+    }
+
     this.isDropdownOpen = false;
   }
 

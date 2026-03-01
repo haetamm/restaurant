@@ -1,7 +1,9 @@
-import { navigationLinks } from './../../shared/utils/helper';
-import { Component } from '@angular/core';
-import { ScrollService } from '../../shared/services/scroll.service';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ScrollService } from '../../shared/services/scroll.service';
+import { urlPage } from '../../shared/utils/constans';
+import { navigationLinks } from './../../shared/utils/helper';
 
 @Component({
   selector: 'app-footer',
@@ -10,9 +12,21 @@ import { CommonModule } from '@angular/common';
 })
 export class FooterComponent {
   navigationLinks = navigationLinks;
-  constructor(private scrollService: ScrollService) {}
+  urlPage = urlPage;
+  constructor(
+    private scrollService: ScrollService,
+    private router: Router,
+  ) {}
 
   scrollTo(section: string) {
-    this.scrollService.scrollTo(section);
+    if (this.router.url !== this.urlPage.WELCOME) {
+      this.router.navigate([this.urlPage.WELCOME]).then(() => {
+        setTimeout(() => {
+          this.scrollService.scrollTo(section);
+        }, 100);
+      });
+    } else {
+      this.scrollService.scrollTo(section);
+    }
   }
 }
